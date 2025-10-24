@@ -2537,12 +2537,13 @@ html.cogniread-theme-dark .cogniread-toggle-switch {
   align-items: center !important;
   justify-content: center !important;
   padding: 0 !important;
-  background: var(--bg-surface) !important;
+  background: var(--bg-primary) !important;
   border: 2px solid var(--border-color) !important;
   border-radius: 50% !important;
   cursor: pointer !important;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
   position: relative !important;
+  z-index: 1 !important;
 }
 
 .cogniread-theme-toggle:hover {
@@ -2645,12 +2646,13 @@ html.cogniread-theme-dark .cogniread-theme-toggle:hover {
   align-items: center !important;
   justify-content: center !important;
   padding: 0 !important;
-  background: var(--bg-surface) !important;
+  background: var(--bg-primary) !important;
   border: 2px solid var(--border-color) !important;
   border-radius: 50% !important;
   cursor: pointer !important;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
   position: relative !important;
+  z-index: 1 !important;
 }
 
 .cogniread-position-toggle:hover {
@@ -2712,11 +2714,13 @@ html.cogniread-theme-dark .cogniread-theme-toggle:hover {
   align-items: center !important;
   justify-content: center !important;
   padding: 0 !important;
-  background: var(--bg-surface) !important;
+  background: var(--bg-primary) !important;
   border: 2px solid var(--border-color) !important;
   border-radius: 50% !important;
   cursor: pointer !important;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  position: relative !important;
+  z-index: 1 !important;
 }
 
 .cogniread-focus-mode-quick-toggle:hover {
@@ -2780,11 +2784,13 @@ html.cogniread-theme-dark .cogniread-theme-toggle:hover {
   align-items: center !important;
   justify-content: center !important;
   padding: 0 !important;
-  background: var(--bg-surface) !important;
+  background: var(--bg-primary) !important;
   border: 2px solid var(--border-color) !important;
   border-radius: 50% !important;
   cursor: pointer !important;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  position: relative !important;
+  z-index: 1 !important;
 }
 
 .cogniread-escape-hatch:hover {
@@ -2839,12 +2845,14 @@ html.cogniread-theme-dark .cogniread-theme-toggle:hover {
   align-items: center !important;
   justify-content: center !important;
   padding: 0 !important;
-  background: var(--bg-surface) !important;
+  background: var(--bg-primary) !important;
   border: 2px solid var(--border-color) !important;
   border-radius: 50% !important;
   cursor: pointer !important;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
   font-size: 20px !important;
+  position: relative !important;
+  z-index: 1 !important;
 }
 
 .cogniread-theme-quick-toggle:hover {
