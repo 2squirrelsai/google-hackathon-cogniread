@@ -4533,19 +4533,20 @@ class DistractionFreeMode {
 
     // Update progress on scroll
     const updateProgress = () => {
-      const windowHeight = window.innerHeight;
-      const documentHeight = document.documentElement.scrollHeight;
-      const scrollTop = window.scrollY;
+      // Use readerContainer's scroll properties since it's the scrolling element
+      const containerHeight = this.readerContainer.clientHeight;
+      const contentHeight = this.readerContainer.scrollHeight;
+      const scrollTop = this.readerContainer.scrollTop;
 
       // Calculate scroll percentage, handle case where content fits on one page
       let scrollPercent = 0;
-      const scrollableHeight = documentHeight - windowHeight;
+      const scrollableHeight = contentHeight - containerHeight;
 
       if (scrollableHeight > 0) {
         scrollPercent = (scrollTop / scrollableHeight) * 100;
       } else {
-        // Content fits on one page, always show 100%
-        scrollPercent = 100;
+        // Content fits on one page, show 0% at top
+        scrollPercent = 0;
       }
 
       const progressBar = progress.querySelector('.cogniread-df-progress-bar');
@@ -4560,8 +4561,8 @@ class DistractionFreeMode {
     // Initial update
     updateProgress();
 
-    // Update on scroll
-    window.addEventListener('scroll', updateProgress);
+    // Update on scroll - listen to readerContainer, not window
+    this.readerContainer.addEventListener('scroll', updateProgress);
   }
 
   updateFontSize() {
