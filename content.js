@@ -498,6 +498,7 @@ class CogniRead {
             <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" fill="currentColor"/>
           </svg>
         </button>
+        <button class="cogniread-theme-quick-toggle" id="cogniread-distraction-free-quick-toggle" data-active="false" title="Toggle Distraction-Free Mode">📖</button>
         <button class="cogniread-theme-toggle" id="cogniread-theme-toggle" data-theme="light" title="Toggle theme">
           <svg class="cogniread-theme-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <g class="theme-sun">
@@ -1037,6 +1038,31 @@ class CogniRead {
 
         // Toggle focus mode
         await this.toggleFocusMode(isActive);
+        this.updateActiveBadge();
+      });
+    }
+
+    // Distraction-Free Mode quick toggle button
+    const distractionFreeQuickToggle = document.getElementById('cogniread-distraction-free-quick-toggle');
+    if (distractionFreeQuickToggle) {
+      distractionFreeQuickToggle.addEventListener('click', async () => {
+        const isActive = !this.state.distractionFree;
+        const distractionFreeToggle = document.getElementById('cogniread-distraction-free-toggle');
+
+        // Sync with the main toggle
+        if (distractionFreeToggle) {
+          if (isActive) {
+            distractionFreeToggle.classList.add('active');
+          } else {
+            distractionFreeToggle.classList.remove('active');
+          }
+        }
+
+        // Update quick toggle state
+        distractionFreeQuickToggle.setAttribute('data-active', isActive.toString());
+
+        // Toggle distraction-free mode
+        await this.toggleDistractionFreeMode(isActive);
         this.updateActiveBadge();
       });
     }
@@ -3270,6 +3296,12 @@ class CogniRead {
           dyslexiaMode: this.state.dyslexiaMode,
           definitionsEnabled: this.state.definitionsEnabled,
           idiomMode: this.state.idiomMode,
+          distractionFree: this.state.distractionFree,
+          activeVoice: this.state.activeVoice,
+          sentenceRestructuring: this.state.sentenceRestructuring,
+          conceptConnections: this.state.conceptConnections,
+          cognitiveHeatmap: this.state.cognitiveHeatmap,
+          toneAdjustment: this.state.toneAdjustment,
           theme: this.state.theme,
           starredFeatures: this.state.starredFeatures
         }
@@ -3372,6 +3404,71 @@ class CogniRead {
         this.state.idiomMode = true;
       }
 
+      // Distraction-Free Mode
+      if (prefs.distractionFree) {
+        const distractionFreeToggle = document.getElementById('cogniread-distraction-free-toggle');
+        if (distractionFreeToggle) {
+          distractionFreeToggle.classList.add('active');
+        }
+        await this.toggleDistractionFreeMode(true);
+      }
+
+      // Expansion Mode
+      if (prefs.expansionMode) {
+        const expansionToggle = document.getElementById('cogniread-expansion-toggle');
+        if (expansionToggle) {
+          expansionToggle.classList.add('active');
+        }
+        await this.toggleExpansionMode(true);
+      }
+
+      // Active Voice
+      if (prefs.activeVoice) {
+        const activeVoiceToggle = document.getElementById('cogniread-active-voice-toggle');
+        if (activeVoiceToggle) {
+          activeVoiceToggle.classList.add('active');
+        }
+        await this.toggleActiveVoice(true);
+      }
+
+      // Sentence Restructuring
+      if (prefs.sentenceRestructuring) {
+        const restructureToggle = document.getElementById('cogniread-restructure-toggle');
+        if (restructureToggle) {
+          restructureToggle.classList.add('active');
+        }
+        await this.toggleSentenceRestructuring(true);
+      }
+
+      // Concept Connections
+      if (prefs.conceptConnections) {
+        const conceptToggle = document.getElementById('cogniread-concept-toggle');
+        if (conceptToggle) {
+          conceptToggle.classList.add('active');
+        }
+        await this.toggleConceptConnections(true);
+      }
+
+      // Cognitive Heatmap
+      if (prefs.cognitiveHeatmap) {
+        const heatmapToggle = document.getElementById('cogniread-heatmap-toggle');
+        if (heatmapToggle) {
+          heatmapToggle.classList.add('active');
+        }
+        await this.toggleCognitiveHeatmap(true);
+      }
+
+      // Simplification Level
+      if (prefs.simplificationLevel !== undefined) {
+        const simplificationSlider = document.getElementById('cogniread-simplification-slider');
+        if (simplificationSlider) {
+          simplificationSlider.value = prefs.simplificationLevel;
+          this.state.simplificationLevel = prefs.simplificationLevel;
+          // Trigger slider change to update display and apply simplification
+          simplificationSlider.dispatchEvent(new Event('input'));
+        }
+      }
+
       // Starred Features (for quick access)
       if (prefs.starredFeatures && Array.isArray(prefs.starredFeatures)) {
         this.state.starredFeatures = prefs.starredFeatures;
@@ -3380,6 +3477,9 @@ class CogniRead {
         // Update theme selector with starred features
         this.updateThemeSelectorStarredFeatures();
       }
+
+      // Update all quick toggle button states after loading preferences
+      this.updateQuickToggleStates();
     }
     } catch (error) {
       // Extension context invalidated (extension reloaded/updated)
@@ -3490,6 +3590,12 @@ class CogniRead {
     const focusModeQuickToggle = document.getElementById('cogniread-focus-mode-quick-toggle');
     if (focusModeQuickToggle) {
       focusModeQuickToggle.setAttribute('data-active', this.state.focusMode.toString());
+    }
+
+    // Update distraction-free-quick-toggle (built-in toggle)
+    const distractionFreeQuickToggle = document.getElementById('cogniread-distraction-free-quick-toggle');
+    if (distractionFreeQuickToggle) {
+      distractionFreeQuickToggle.setAttribute('data-active', this.state.distractionFree.toString());
     }
 
     // Update all starred feature quick toggles
