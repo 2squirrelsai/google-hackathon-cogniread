@@ -164,8 +164,14 @@ class CognitiveEngine {
     console.log(`🔍 Found ${elements.length} potential elements to chunk`);
 
     elements.forEach((element, index) => {
-      // Skip if inside unwanted elements (less restrictive - allow aside which might have content)
-      if (element.closest('nav, header, footer, .ad, .advertisement, script, style')) {
+      // Skip if inside unwanted elements
+      // Note: We allow headers that are inside articles (article headers vs site headers)
+      const inHeader = element.closest('header');
+      const inArticle = element.closest('article, main, [role="main"], [role="article"]');
+      const isArticleHeader = inHeader && inArticle;
+
+      // Only filter headers that are NOT part of articles
+      if (element.closest('nav, footer, .ad, .advertisement, script, style') || (inHeader && !isArticleHeader)) {
         debugStats.filteredUnwanted++;
         return;
       }
@@ -211,12 +217,16 @@ class CognitiveEngine {
     if (chunks.length === 0 && elements.length > 0) {
       console.log('❌ No chunks created! Debugging first 5 elements:');
       Array.from(elements).slice(0, 5).forEach((el, i) => {
+        const inHeader = el.closest('header');
+        const inArticle = el.closest('article, main, [role="main"], [role="article"]');
         console.log(`Element ${i}:`, {
           tag: el.tagName,
           textLength: el.textContent.trim().length,
           text: el.textContent.trim().substring(0, 100),
           isInNav: !!el.closest('nav'),
-          isInHeader: !!el.closest('header'),
+          isInHeader: !!inHeader,
+          isInArticle: !!inArticle,
+          isArticleHeader: !!(inHeader && inArticle),
           isInFooter: !!el.closest('footer'),
           isInCogniread: !!el.closest('[id^="cogniread"], [class^="cogniread"]'),
           childBlockCount: el.querySelectorAll('p, h1, h2, h3, h4, h5, h6, div, article, section').length
