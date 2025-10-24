@@ -1989,8 +1989,8 @@ html.cogniread-theme-dark .cogniread-panel-content::-webkit-scrollbar-thumb {
   display: flex !important;
   align-items: center !important;
   gap: 8px !important;
-  min-width: 150px !important;
-  max-width: 200px !important;
+  justify-content: flex-end !important;
+  margin-left: auto !important;
 }
 
 .cogniread-feature-icon {
