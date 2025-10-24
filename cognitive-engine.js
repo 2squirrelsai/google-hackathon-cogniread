@@ -215,22 +215,35 @@ class CognitiveEngine {
 
     // If no chunks found, log sample elements for debugging
     if (chunks.length === 0 && elements.length > 0) {
-      console.log('❌ No chunks created! Debugging first 5 elements:');
-      Array.from(elements).slice(0, 5).forEach((el, i) => {
+      console.log('❌ No chunks created! Debugging first 10 elements:');
+      Array.from(elements).slice(0, 10).forEach((el, i) => {
         const inHeader = el.closest('header');
         const inArticle = el.closest('article, main, [role="main"], [role="article"]');
-        console.log(`Element ${i}:`, {
+        const cognireadParent = el.closest('[id^="cogniread"], [class^="cogniread"]');
+
+        const debugInfo = {
           tag: el.tagName,
           textLength: el.textContent.trim().length,
-          text: el.textContent.trim().substring(0, 100),
+          text: el.textContent.trim().substring(0, 80),
           isInNav: !!el.closest('nav'),
           isInHeader: !!inHeader,
           isInArticle: !!inArticle,
           isArticleHeader: !!(inHeader && inArticle),
           isInFooter: !!el.closest('footer'),
-          isInCogniread: !!el.closest('[id^="cogniread"], [class^="cogniread"]'),
+          isInCogniread: !!cognireadParent,
+          cognireadParentId: cognireadParent ? cognireadParent.id : null,
+          cognireadParentClass: cognireadParent ? cognireadParent.className : null,
           childBlockCount: el.querySelectorAll('p, h1, h2, h3, h4, h5, h6, div, article, section').length
-        });
+        };
+
+        console.log(`Element ${i}:`, debugInfo);
+
+        // If it's being filtered by CogniRead, show which parent is causing it
+        if (cognireadParent) {
+          console.log(`  ⚠️ Filtered because inside:`, cognireadParent.tagName,
+            `id="${cognireadParent.id}"`,
+            `class="${cognireadParent.className.substring(0, 50)}"`);
+        }
       });
     }
 
