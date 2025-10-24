@@ -3544,9 +3544,31 @@ html.cogniread-theme-dark .cogniread-section-title {
   word-spacing: 0.05em !important;
 }
 
+/* Text selection - Light mode (default) */
+.cogniread-distraction-free ::selection {
+  background: #667eea !important;
+  color: #ffffff !important;
+}
+
+.cogniread-distraction-free ::-moz-selection {
+  background: #667eea !important;
+  color: #ffffff !important;
+}
+
 /* Dark theme */
 .cogniread-distraction-free[data-theme="dark"] {
   background: #1a1a1a !important;
+  color: #ffffff !important;
+}
+
+/* Text selection - Dark mode */
+.cogniread-distraction-free[data-theme="dark"] ::selection {
+  background: #667eea !important;
+  color: #ffffff !important;
+}
+
+.cogniread-distraction-free[data-theme="dark"] ::-moz-selection {
+  background: #667eea !important;
   color: #ffffff !important;
 }
 
@@ -3556,10 +3578,32 @@ html.cogniread-theme-dark .cogniread-section-title {
   color: #5b4636 !important;
 }
 
+/* Text selection - Sepia mode */
+.cogniread-distraction-free[data-theme="sepia"] ::selection {
+  background: #8b7355 !important;
+  color: #ffffff !important;
+}
+
+.cogniread-distraction-free[data-theme="sepia"] ::-moz-selection {
+  background: #8b7355 !important;
+  color: #ffffff !important;
+}
+
 /* High contrast theme */
 .cogniread-distraction-free[data-theme="high-contrast"] {
   background: #000000 !important;
   color: #ffffff !important;
+}
+
+/* Text selection - High contrast mode */
+.cogniread-distraction-free[data-theme="high-contrast"] ::selection {
+  background: #ffff00 !important;
+  color: #000000 !important;
+}
+
+.cogniread-distraction-free[data-theme="high-contrast"] ::-moz-selection {
+  background: #ffff00 !important;
+  color: #000000 !important;
 }
 
 /* Font family variants */
