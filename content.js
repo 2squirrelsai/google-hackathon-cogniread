@@ -136,7 +136,7 @@ class CogniRead {
   createControlPanel() {
     // Create minimized button
     this.ui.miniPanel = document.createElement('div');
-    this.ui.miniPanel.className = 'cogniread-mini';
+    this.ui.miniPanel.className = `cogniread-mini position-${this.state.panelPosition}`;
     this.ui.miniPanel.id = 'cogniread-mini';
     this.ui.miniPanel.innerHTML = `
       <img class="cogniread-mini-icon" src="${chrome.runtime.getURL('icons/icon128.png')}" alt="CogniRead">
@@ -150,7 +150,7 @@ class CogniRead {
 
     // Create expanded panel
     this.ui.controls = document.createElement('div');
-    this.ui.controls.className = 'cogniread-panel';
+    this.ui.controls.className = `cogniread-panel position-${this.state.panelPosition}`;
     this.ui.controls.id = 'cogniread-panel';
     this.ui.controls.innerHTML = `
       <!-- Sticky Header -->
@@ -3345,7 +3345,23 @@ class CogniRead {
 
       // Panel Position
       if (prefs.panelPosition) {
-        await this.setPanelPosition(prefs.panelPosition);
+        this.state.panelPosition = prefs.panelPosition;
+        // Update position toggle button
+        const positionToggle = document.getElementById('cogniread-position-toggle');
+        if (positionToggle) {
+          positionToggle.setAttribute('data-position', prefs.panelPosition);
+        }
+        // Apply position classes to existing panels
+        const panel = this.ui.controls;
+        const miniPanel = this.ui.miniPanel;
+        if (panel) {
+          panel.classList.remove('position-top-right', 'position-top-left', 'position-bottom-right', 'position-bottom-left');
+          panel.classList.add(`position-${prefs.panelPosition}`);
+        }
+        if (miniPanel) {
+          miniPanel.classList.remove('position-top-right', 'position-top-left', 'position-bottom-right', 'position-bottom-left');
+          miniPanel.classList.add(`position-${prefs.panelPosition}`);
+        }
       }
 
       // ELI5 Mode (handled by simplification slider now)
