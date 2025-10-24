@@ -2936,6 +2936,11 @@ html.cogniread-theme-dark .cogniread-toggle-switch {
   z-index: 999999 !important;
 }
 
+/* Raise z-index of button when showing tooltip */
+.cogniread-theme-selector button[data-tooltip]:hover {
+  z-index: 999999 !important;
+}
+
 /* Show tooltip on hover */
 .cogniread-theme-selector button[data-tooltip]:hover::before,
 .cogniread-theme-selector button[data-tooltip]:hover::after {
