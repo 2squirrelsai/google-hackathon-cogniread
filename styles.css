@@ -2894,6 +2894,70 @@ html.cogniread-theme-dark .cogniread-theme-toggle:hover {
   border-color: #667eea !important;
 }
 
+/* ===== Theme Selector Tooltips ===== */
+
+/* Tooltip for theme selector buttons */
+.cogniread-theme-selector button[data-tooltip] {
+  position: relative !important;
+}
+
+.cogniread-theme-selector button[data-tooltip]::before {
+  content: attr(data-tooltip) !important;
+  position: absolute !important;
+  bottom: calc(100% + 12px) !important;
+  left: 50% !important;
+  transform: translateX(-50%) translateY(4px) !important;
+  padding: 8px 12px !important;
+  background: rgba(0, 0, 0, 0.92) !important;
+  color: #ffffff !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  line-height: 1.4 !important;
+  white-space: nowrap !important;
+  border-radius: 6px !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+  transition: all 0.2s ease !important;
+  z-index: 100 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Tooltip arrow */
+.cogniread-theme-selector button[data-tooltip]::after {
+  content: '' !important;
+  position: absolute !important;
+  bottom: calc(100% + 4px) !important;
+  left: 50% !important;
+  transform: translateX(-50%) translateY(4px) !important;
+  width: 0 !important;
+  height: 0 !important;
+  border-left: 6px solid transparent !important;
+  border-right: 6px solid transparent !important;
+  border-top: 6px solid rgba(0, 0, 0, 0.92) !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+  transition: all 0.2s ease !important;
+  z-index: 100 !important;
+}
+
+/* Show tooltip on hover */
+.cogniread-theme-selector button[data-tooltip]:hover::before,
+.cogniread-theme-selector button[data-tooltip]:hover::after {
+  opacity: 1 !important;
+  transform: translateX(-50%) translateY(0) !important;
+}
+
+/* Dark theme tooltip (lighter background) */
+html.cogniread-theme-dark .cogniread-theme-selector button[data-tooltip]::before {
+  background: rgba(255, 255, 255, 0.95) !important;
+  color: #1a1a1a !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+}
+
+html.cogniread-theme-dark .cogniread-theme-selector button[data-tooltip]::after {
+  border-top-color: rgba(255, 255, 255, 0.95) !important;
+}
+
 /* ===== Close Confirmation Modal ===== */
 
 /* Modal Overlay */

@@ -506,7 +506,7 @@ class CogniRead {
       <!-- Theme Selector Footer (Outside scrollable area) -->
       <div class="cogniread-theme-selector">
         <!-- Starred feature buttons will be dynamically inserted here -->
-        <button class="cogniread-theme-toggle" id="cogniread-theme-toggle" data-theme="light" title="Toggle theme">
+        <button class="cogniread-theme-toggle" id="cogniread-theme-toggle" data-theme="light" data-tooltip="Switch between light and dark themes">
           <svg class="cogniread-theme-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <g class="theme-sun">
               <circle cx="12" cy="12" r="4" fill="currentColor"/>
@@ -517,7 +517,7 @@ class CogniRead {
             </g>
           </svg>
         </button>
-        <button class="cogniread-position-toggle" id="cogniread-position-toggle" data-position="bottom-left" title="Change position">
+        <button class="cogniread-position-toggle" id="cogniread-position-toggle" data-position="bottom-left" data-tooltip="Move panel to a different corner">
           <svg class="cogniread-position-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <rect class="position-indicator" x="4" y="14" width="6" height="6" fill="currentColor" rx="1"/>
             <rect x="4" y="4" width="6" height="6" fill="currentColor" opacity="0.3" rx="1"/>
@@ -3539,17 +3539,17 @@ class CogniRead {
 
     // Feature metadata for display (keys must match data-feature attributes in HTML)
     const featureMetadata = {
-      'focus-mode': { icon: '🎯', label: 'Focus', toggleId: 'cogniread-focus-mode-toggle' },
-      'tldr-mode': { icon: '📝', label: 'TL;DR', toggleId: 'cogniread-tldr-toggle' },
-      'distraction-free': { icon: '📖', label: 'Reader', toggleId: 'cogniread-distraction-free-toggle' },
-      'dyslexia-mode': { icon: '👁️', label: 'Dyslexia', toggleId: 'cogniread-dyslexia-toggle' },
-      'definitions': { icon: '📚', label: 'Definitions', toggleId: 'cogniread-definitions-toggle' },
-      'literal-language': { icon: '🔤', label: 'Literal', toggleId: 'cogniread-literal-toggle' },
-      'concept-connections': { icon: '🔗', label: 'Concepts', toggleId: 'cogniread-concept-toggle' },
-      'heatmap': { icon: '📊', label: 'Heatmap', toggleId: 'cogniread-heatmap-toggle' },
-      'expansion': { icon: '🔠', label: 'Expand', toggleId: 'cogniread-expansion-toggle' },
-      'restructure': { icon: '🔄', label: 'Restructure', toggleId: 'cogniread-restructure-toggle' },
-      'active-voice': { icon: '▶️', label: 'Active', toggleId: 'cogniread-active-voice-toggle' }
+      'focus-mode': { icon: '🎯', label: 'Focus', toggleId: 'cogniread-focus-mode-toggle', description: 'Highlights one paragraph at a time' },
+      'tldr-mode': { icon: '📝', label: 'TL;DR', toggleId: 'cogniread-tldr-toggle', description: 'Shows quick summary of the page' },
+      'distraction-free': { icon: '📖', label: 'Reader', toggleId: 'cogniread-distraction-free-toggle', description: 'Clean reading view without distractions' },
+      'dyslexia-mode': { icon: '👁️', label: 'Dyslexia', toggleId: 'cogniread-dyslexia-toggle', description: 'Uses dyslexia-friendly font and styling' },
+      'definitions': { icon: '📚', label: 'Definitions', toggleId: 'cogniread-definitions-toggle', description: 'Click words for instant definitions' },
+      'literal-language': { icon: '🔤', label: 'Literal', toggleId: 'cogniread-literal-toggle', description: 'Converts idioms to literal language' },
+      'concept-connections': { icon: '🔗', label: 'Concepts', toggleId: 'cogniread-concept-toggle', description: 'Highlights related concepts' },
+      'heatmap': { icon: '📊', label: 'Heatmap', toggleId: 'cogniread-heatmap-toggle', description: 'Shows reading difficulty with colors' },
+      'expansion': { icon: '🔠', label: 'Expand', toggleId: 'cogniread-expansion-toggle', description: 'Expands abbreviations and acronyms' },
+      'restructure': { icon: '🔄', label: 'Restructure', toggleId: 'cogniread-restructure-toggle', description: 'Simplifies complex sentences' },
+      'active-voice': { icon: '▶️', label: 'Active', toggleId: 'cogniread-active-voice-toggle', description: 'Converts passive to active voice' }
     };
 
     // Add quick access buttons for each starred feature
@@ -3564,7 +3564,7 @@ class CogniRead {
       quickToggle.className = 'cogniread-theme-quick-toggle';
       quickToggle.setAttribute('data-starred-feature', featureName);
       quickToggle.setAttribute('data-active', 'false');
-      quickToggle.setAttribute('title', `Toggle ${metadata.label}`);
+      quickToggle.setAttribute('data-tooltip', metadata.description);
       quickToggle.textContent = metadata.icon;
 
       // Check if feature is currently active
