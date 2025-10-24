@@ -3974,6 +3974,12 @@ html.cogniread-theme-dark .cogniread-section-title {
   cursor: pointer !important;
   font-size: 0.875rem !important;
   transition: all 0.2s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 44px !important;
+  min-height: 36px !important;
+  line-height: 1 !important;
 }
 
 .cogniread-df-font-decrease:hover,
