@@ -99,10 +99,7 @@ class CogniRead {
     this.ui.overlay.id = 'cogniread-overlay';
     document.body.appendChild(this.ui.overlay);
 
-    // Create progress bar
-    this.ui.progress = document.createElement('div');
-    this.ui.progress.id = 'cogniread-progress';
-    document.body.appendChild(this.ui.progress);
+    // Progress bar removed - no longer needed
 
     // Create control panel
     this.createControlPanel();
