@@ -2795,7 +2795,7 @@ html.cogniread-theme-dark .cogniread-toggle-switch {
 .cogniread-escape-hatch:hover {
   background: var(--state-active-bg) !important;
   border-color: #EF4444 !important;
-  transform: scale(1.05) rotate(90deg) !important;
+  transform: scale(1.05) !important;
   box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2) !important;
 }
 
@@ -2959,15 +2959,6 @@ html.cogniread-theme-dark .cogniread-theme-selector button[data-tooltip]::before
 
 html.cogniread-theme-dark .cogniread-theme-selector button[data-tooltip]::after {
   border-top-color: rgba(255, 255, 255, 0.95) !important;
-}
-
-/* Counter-rotate escape hatch tooltip to keep it stationary while button rotates */
-.cogniread-escape-hatch:hover::before {
-  transform: translateX(-50%) translateY(0) rotate(-90deg) !important;
-}
-
-.cogniread-escape-hatch:hover::after {
-  transform: translateX(-50%) translateY(0) rotate(-90deg) !important;
 }
 
 /* ===== Close Confirmation Modal ===== */
