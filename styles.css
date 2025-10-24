@@ -633,7 +633,7 @@ html.cogniread-theme-dark .cogniread-mini:hover {
   width: 18px !important;
   height: 18px !important;
   border-radius: 50% !important;
-  display: none !important;
+  display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   font-size: 8px !important;
@@ -1847,7 +1847,7 @@ html.cogniread-theme-dark .cogniread-panel-content::-webkit-scrollbar-thumb {
   background: var(--bg-card) !important;
   border-radius: var(--radius-card) !important;
   overflow: hidden !important;
-  border-left: 3px solid var(--border-color) !important;
+  border: 3px solid var(--border-color) !important;
   padding: 0 !important;
   box-shadow: var(--shadow-card) !important;
   transition: all var(--timing-default) ease !important;
@@ -1860,27 +1860,27 @@ html.cogniread-theme-dark .cogniread-panel-content::-webkit-scrollbar-thumb {
 
 /* Section-specific border colors - Category Colors */
 .cogniread-section.reading-mode {
-  border-left-color: var(--category-reading) !important; /* Purple */
+  border-color: var(--category-reading) !important; /* Purple */
 }
 
 .cogniread-section.text-transform {
-  border-left-color: var(--category-reading) !important; /* Purple */
+  border-color: var(--category-reading) !important; /* Purple */
 }
 
 .cogniread-section.voice-features {
-  border-left-color: var(--category-reading) !important; /* Purple */
+  border-color: var(--category-reading) !important; /* Purple */
 }
 
 .cogniread-section.focus-features {
-  border-left-color: var(--category-reading) !important; /* Purple */
+  border-color: var(--category-reading) !important; /* Purple */
 }
 
 .cogniread-section.accessibility {
-  border-left-color: var(--category-reading) !important; /* Purple */
+  border-color: var(--category-reading) !important; /* Purple */
 }
 
 .cogniread-section.ai-features {
-  border-left-color: var(--category-reading) !important; /* Purple */
+  border-color: var(--category-reading) !important; /* Purple */
 }
 
 /* Section header */
