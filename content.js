@@ -148,6 +148,21 @@ class CogniRead {
     `;
     document.body.appendChild(this.ui.miniPanel);
 
+    // Force immediate visibility and positioning to prevent rendering issues
+    // This ensures the button appears correctly in viewport without needing to scroll
+    // Use double requestAnimationFrame to ensure DOM is fully rendered
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        if (this.ui.miniPanel) {
+          // Trigger reflow to force layout calculation
+          void this.ui.miniPanel.offsetHeight;
+          // Explicitly reinforce position and z-index to ensure visibility
+          // This fixes issues where fixed elements don't appear until scroll
+          this.ui.miniPanel.style.cssText += `; position: fixed !important; z-index: 2147483647 !important;`;
+        }
+      });
+    });
+
     // Create expanded panel
     this.ui.controls = document.createElement('div');
     this.ui.controls.className = `cogniread-panel position-${this.state.panelPosition}`;
