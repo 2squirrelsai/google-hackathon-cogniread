@@ -809,12 +809,12 @@ html.cogniread-theme-dark .cogniread-panel-header::after {
 
 .cogniread-logo-cogni {
   color: #9C27B0 !important;
-  font-weight: 400 !important;
+  font-weight: 900 !important;
 }
 
 .cogniread-logo-read {
   color: #00BCD4 !important;
-  font-weight: 700 !important;
+  font-weight: 900 !important;
 }
 
 .cogniread-logo-icon {
