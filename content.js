@@ -3061,7 +3061,7 @@ class CogniRead {
             margin-top: 8px;
             width: 100%;
             transition: background 0.2s;
-          " onmouseover="this.style.background='rgba(255, 255, 255, 0.3)'" onmouseout="this.style.background='rgba(255, 255, 255, 0.2)'">
+          ">
             Got it, use fallback methods
           </button>
         </div>
@@ -3080,7 +3080,7 @@ class CogniRead {
           border-radius: 50%;
           transition: background 0.2s;
           flex-shrink: 0;
-        " onmouseover="this.style.background='rgba(255, 255, 255, 0.2)'" onmouseout="this.style.background='none'">×</button>
+        ">×</button>
       </div>
     `;
 
@@ -3103,12 +3103,30 @@ class CogniRead {
     document.body.appendChild(warning);
 
     // Add event listeners
-    document.getElementById('cogniread-dismiss-warning').addEventListener('click', () => {
+    const dismissBtn = document.getElementById('cogniread-dismiss-warning');
+    const closeBtn = document.getElementById('cogniread-close-warning');
+
+    dismissBtn.addEventListener('click', () => {
       warning.remove();
     });
 
-    document.getElementById('cogniread-close-warning').addEventListener('click', () => {
+    closeBtn.addEventListener('click', () => {
       warning.remove();
+    });
+
+    // Add hover event listeners (CSP-compliant)
+    dismissBtn.addEventListener('mouseover', () => {
+      dismissBtn.style.background = 'rgba(255, 255, 255, 0.3)';
+    });
+    dismissBtn.addEventListener('mouseout', () => {
+      dismissBtn.style.background = 'rgba(255, 255, 255, 0.2)';
+    });
+
+    closeBtn.addEventListener('mouseover', () => {
+      closeBtn.style.background = 'rgba(255, 255, 255, 0.2)';
+    });
+    closeBtn.addEventListener('mouseout', () => {
+      closeBtn.style.background = 'none';
     });
 
     // Auto-dismiss after 15 seconds
