@@ -168,23 +168,7 @@ class PromptAPIService {
     return response.trim();
   }
 
-  // Feature 1: Concept Connections
-  async findConceptConnections(text, existingConcepts = []) {
-    const systemPrompt = `You are a concept mapping assistant. Identify key concepts in text and find connections to previously encountered concepts. Return ONLY valid JSON without any markdown formatting. Format: {"concepts": [{"name": "concept", "paragraph": "number", "connectedTo": ["concept1", "concept2"]}]}`;
-
-    const userPrompt = `Analyze this text and identify key concepts. Also find connections to these existing concepts: ${existingConcepts.join(', ')}.\n\nText: ${text.substring(0, 2000)}`;
-
-    try {
-      const response = await this.prompt(userPrompt, systemPrompt);
-      const jsonString = this.extractJSON(response);
-      return JSON.parse(jsonString);
-    } catch (error) {
-      console.error('Error finding concept connections:', error);
-      return { concepts: [] };
-    }
-  }
-
-  // Feature 2: Analogy Generator
+  // Feature 1: Analogy Generator
   async generateAnalogy(text, domain = 'cooking') {
     const domainExamples = {
       cooking: 'cooking, recipes, ingredients, techniques',

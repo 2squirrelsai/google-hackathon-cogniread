@@ -3557,25 +3557,6 @@ html.cogniread-theme-dark .cogniread-ai-modal-close:hover {
   font-weight: 500 !important;
 }
 
-/* Concept Connections */
-.cogniread-concept-link {
-  position: relative !important;
-  background: rgba(65, 133, 244, 0.1) !important;
-  border-bottom: 2px dotted #4185F4 !important;
-  cursor: help !important;
-  transition: all 0.2s ease !important;
-}
-
-.cogniread-concept-link:hover {
-  background: rgba(65, 133, 244, 0.2) !important;
-}
-
-.cogniread-concept-marker {
-  font-size: 10px !important;
-  color: #4185F4 !important;
-  margin-left: 2px !important;
-}
-
 /* Plain Language Translation */
 .cogniread-plain-language {
   background: rgba(156, 39, 176, 0.05) !important;

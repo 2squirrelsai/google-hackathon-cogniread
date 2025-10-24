@@ -752,7 +752,20 @@ ${text}`;
     if (this.languageModel && this.languageModel.inputUsage !== undefined) {
       const usage = this.languageModel.inputUsage;
       const quota = this.languageModel.inputQuota;
+
+      // Validate quota exists and is a positive number
+      if (!quota || quota <= 0 || !isFinite(quota)) {
+        console.log('📊 Session usage tracking not available (quota undefined or invalid)');
+        return;
+      }
+
       const percentUsed = (usage / quota) * 100;
+
+      // Validate percentUsed is a valid number
+      if (!isFinite(percentUsed)) {
+        console.warn('⚠️ Invalid session usage calculation');
+        return;
+      }
 
       console.log(`📊 Session usage: ${usage}/${quota} tokens (${percentUsed.toFixed(1)}%)`);
 

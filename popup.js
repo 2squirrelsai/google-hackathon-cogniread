@@ -87,6 +87,18 @@ document.addEventListener('DOMContentLoaded', async function() {
     });
   });
 
+  // Demo page button
+  const openDemoBtn = document.getElementById('openDemoBtn');
+  if (openDemoBtn) {
+    openDemoBtn.addEventListener('click', function() {
+      chrome.tabs.create({
+        url: chrome.runtime.getURL('demo.html')
+      });
+      // Close popup after opening demo
+      window.close();
+    });
+  }
+
   // Check activation status
   async function checkActivationStatus(tabId) {
     try {

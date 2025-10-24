@@ -506,7 +506,7 @@ class CogniRead {
       <!-- Theme Selector Footer (Outside scrollable area) -->
       <div class="cogniread-theme-selector">
         <!-- Starred feature buttons will be dynamically inserted here -->
-        <button class="cogniread-theme-toggle" id="cogniread-theme-toggle" data-theme="light" data-tooltip="Switch between light and dark themes">
+        <button class="cogniread-theme-toggle" id="cogniread-theme-toggle" data-theme="light" title="Toggle theme">
           <svg class="cogniread-theme-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <g class="theme-sun">
               <circle cx="12" cy="12" r="4" fill="currentColor"/>
@@ -517,7 +517,7 @@ class CogniRead {
             </g>
           </svg>
         </button>
-        <button class="cogniread-position-toggle" id="cogniread-position-toggle" data-position="bottom-left" data-tooltip="Move panel to a different corner">
+        <button class="cogniread-position-toggle" id="cogniread-position-toggle" data-position="bottom-left" title="Change position">
           <svg class="cogniread-position-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <rect class="position-indicator" x="4" y="14" width="6" height="6" fill="currentColor" rx="1"/>
             <rect x="4" y="4" width="6" height="6" fill="currentColor" opacity="0.3" rx="1"/>
@@ -525,13 +525,13 @@ class CogniRead {
             <rect x="14" y="14" width="6" height="6" fill="currentColor" opacity="0.3" rx="1"/>
           </svg>
         </button>
-        <button class="cogniread-escape-hatch" id="cogniread-escape-hatch" data-tooltip="Reset all active features" style="display: none;">
+        <button class="cogniread-escape-hatch" id="cogniread-escape-hatch" title="Reset All Features" style="display: none;">
           <svg class="cogniread-escape-hatch-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" fill="currentColor"/>
             <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2" opacity="0.3"/>
           </svg>
         </button>
-        <button class="cogniread-close-btn" id="cogniread-close" data-tooltip="Close CogniRead (refresh page to reopen)">×</button>
+        <button class="cogniread-close-btn" id="cogniread-close" title="Close (refresh to reopen)">×</button>
       </div>
     `;
     document.body.appendChild(this.ui.controls);
@@ -605,58 +605,26 @@ class CogniRead {
   }
 
   saveSectionState(sectionName, isCollapsed) {
-    // Check if extension context is still valid
-    if (!chrome.runtime?.id) {
-      console.log('CogniRead: Extension context invalidated, skipping state save');
-      return;
-    }
-
-    try {
-      chrome.storage.sync.get(['cogniread_sections'], (result) => {
-        if (chrome.runtime.lastError) {
-          console.log('CogniRead: Could not save section state:', chrome.runtime.lastError.message);
-          return;
-        }
-        const sections = result.cogniread_sections || {};
-        sections[sectionName] = { collapsed: isCollapsed };
-        chrome.storage.sync.set({ cogniread_sections: sections }, () => {
-          if (chrome.runtime.lastError) {
-            console.log('CogniRead: Could not save section state:', chrome.runtime.lastError.message);
-          }
-        });
-      });
-    } catch (error) {
-      console.log('CogniRead: Extension context invalidated');
-    }
+    chrome.storage.sync.get(['cogniread_sections'], (result) => {
+      const sections = result.cogniread_sections || {};
+      sections[sectionName] = { collapsed: isCollapsed };
+      chrome.storage.sync.set({ cogniread_sections: sections });
+    });
   }
 
   restoreSectionStates() {
-    // Check if extension context is still valid
-    if (!chrome.runtime?.id) {
-      console.log('CogniRead: Extension context invalidated, skipping state restore');
-      return;
-    }
+    chrome.storage.sync.get(['cogniread_sections'], (result) => {
+      const sections = result.cogniread_sections || {};
 
-    try {
-      chrome.storage.sync.get(['cogniread_sections'], (result) => {
-        if (chrome.runtime.lastError) {
-          console.log('CogniRead: Could not restore section states:', chrome.runtime.lastError.message);
-          return;
-        }
-        const sections = result.cogniread_sections || {};
-
-        Object.keys(sections).forEach(sectionName => {
+      Object.keys(sections).forEach(sectionName => {
         if (sections[sectionName].collapsed) {
           const section = this.ui.controls.querySelector(`[data-section="${sectionName}"]`);
           if (section) {
             section.classList.add('collapsed');
           }
         }
-        });
       });
-    } catch (error) {
-      console.log('CogniRead: Extension context invalidated');
-    }
+    });
   }
 
 
@@ -3295,12 +3263,6 @@ class CogniRead {
   }
 
   async savePreferences() {
-    // Check if extension context is still valid
-    if (!chrome.runtime?.id) {
-      console.log('CogniRead: Extension context invalidated, skipping preferences save');
-      return;
-    }
-
     try {
       await chrome.storage.sync.set({
         cogniread_preferences: {
@@ -3334,12 +3296,6 @@ class CogniRead {
   }
 
   async loadPreferences() {
-    // Check if extension context is still valid
-    if (!chrome.runtime?.id) {
-      console.log('CogniRead: Extension context invalidated, skipping preferences load');
-      return;
-    }
-
     try {
       const result = await chrome.storage.sync.get(['cogniread_preferences']);
       if (result.cogniread_preferences) {
@@ -3540,12 +3496,6 @@ class CogniRead {
 
   // Save only starred features (more efficient than saving all preferences)
   async saveStarredFeatures() {
-    // Check if extension context is still valid
-    if (!chrome.runtime?.id) {
-      console.log('CogniRead: Extension context invalidated, skipping starred features save');
-      return;
-    }
-
     try {
       const result = await chrome.storage.sync.get(['cogniread_preferences']);
       const prefs = result.cogniread_preferences || {};
@@ -3576,12 +3526,7 @@ class CogniRead {
   // Update theme selector to show starred features as quick access buttons
   updateThemeSelectorStarredFeatures() {
     const themeSelector = document.querySelector('.cogniread-theme-selector');
-    if (!themeSelector) {
-      console.warn('Theme selector not found, cannot update starred features');
-      return;
-    }
-
-    console.log('Updating starred features in theme selector:', this.state.starredFeatures);
+    if (!themeSelector) return;
 
     // Remove existing starred feature buttons (except theme and position toggles)
     const existingStarredBtns = themeSelector.querySelectorAll('[data-starred-feature]');
@@ -3589,54 +3534,42 @@ class CogniRead {
 
     // Feature metadata for display (keys must match data-feature attributes in HTML)
     const featureMetadata = {
-      'focus-mode': { icon: '🎯', label: 'Focus', toggleId: 'cogniread-focus-mode-toggle', description: 'Highlights one paragraph at a time' },
-      'tldr-mode': { icon: '📝', label: 'TL;DR', toggleId: 'cogniread-tldr-toggle', description: 'Shows quick summary of the page' },
-      'distraction-free': { icon: '📖', label: 'Reader', toggleId: 'cogniread-distraction-free-toggle', description: 'Clean reading view without distractions' },
-      'dyslexia-mode': { icon: '👁️', label: 'Dyslexia', toggleId: 'cogniread-dyslexia-toggle', description: 'Uses dyslexia-friendly font and styling' },
-      'definitions': { icon: '📚', label: 'Definitions', toggleId: 'cogniread-definitions-toggle', description: 'Click words for instant definitions' },
-      'literal-language': { icon: '🔤', label: 'Literal', toggleId: 'cogniread-literal-toggle', description: 'Converts idioms to literal language' },
-      'concept-connections': { icon: '🔗', label: 'Concepts', toggleId: 'cogniread-concept-toggle', description: 'Highlights related concepts' },
-      'heatmap': { icon: '📊', label: 'Heatmap', toggleId: 'cogniread-heatmap-toggle', description: 'Shows reading difficulty with colors' },
-      'expansion': { icon: '🔠', label: 'Expand', toggleId: 'cogniread-expansion-toggle', description: 'Expands abbreviations and acronyms' },
-      'restructure': { icon: '🔄', label: 'Restructure', toggleId: 'cogniread-restructure-toggle', description: 'Simplifies complex sentences' },
-      'active-voice': { icon: '▶️', label: 'Active', toggleId: 'cogniread-active-voice-toggle', description: 'Converts passive to active voice' }
+      'focus-mode': { icon: '🎯', label: 'Focus', toggleId: 'cogniread-focus-mode-toggle' },
+      'tldr-mode': { icon: '📝', label: 'TL;DR', toggleId: 'cogniread-tldr-toggle' },
+      'distraction-free': { icon: '📖', label: 'Reader', toggleId: 'cogniread-distraction-free-toggle' },
+      'dyslexia-mode': { icon: '👁️', label: 'Dyslexia', toggleId: 'cogniread-dyslexia-toggle' },
+      'definitions': { icon: '📚', label: 'Definitions', toggleId: 'cogniread-definitions-toggle' },
+      'literal-language': { icon: '🔤', label: 'Literal', toggleId: 'cogniread-literal-toggle' },
+      'concept-connections': { icon: '🔗', label: 'Concepts', toggleId: 'cogniread-concept-toggle' },
+      'heatmap': { icon: '📊', label: 'Heatmap', toggleId: 'cogniread-heatmap-toggle' },
+      'expansion': { icon: '🔠', label: 'Expand', toggleId: 'cogniread-expansion-toggle' },
+      'restructure': { icon: '🔄', label: 'Restructure', toggleId: 'cogniread-restructure-toggle' },
+      'active-voice': { icon: '▶️', label: 'Active', toggleId: 'cogniread-active-voice-toggle' }
     };
 
     // Add quick access buttons for each starred feature
     this.state.starredFeatures.forEach(featureName => {
       const metadata = featureMetadata[featureName];
-      if (!metadata) {
-        console.warn(`No metadata found for starred feature: ${featureName}`);
-        return;
-      }
+      if (!metadata) return;
 
       const quickToggle = document.createElement('button');
       quickToggle.className = 'cogniread-theme-quick-toggle';
       quickToggle.setAttribute('data-starred-feature', featureName);
       quickToggle.setAttribute('data-active', 'false');
-      quickToggle.setAttribute('data-tooltip', metadata.description);
+      quickToggle.setAttribute('title', `Toggle ${metadata.label}`);
       quickToggle.textContent = metadata.icon;
 
       // Check if feature is currently active
       const mainToggle = document.getElementById(metadata.toggleId);
-      if (!mainToggle) {
-        console.warn(`Main toggle not found for feature ${featureName} with ID: ${metadata.toggleId}`);
-      } else if (mainToggle.classList.contains('active')) {
+      if (mainToggle && mainToggle.classList.contains('active')) {
         quickToggle.setAttribute('data-active', 'true');
       }
 
       // Add click handler to toggle the feature
       quickToggle.addEventListener('click', () => {
-        console.log(`Quick toggle clicked for feature: ${featureName}`);
-        console.log(`Looking for toggle with ID: ${metadata.toggleId}`);
-        console.log(`mainToggle element:`, mainToggle);
-
         if (mainToggle) {
-          console.log(`Clicking main toggle for ${featureName}`);
           mainToggle.click();
           // Quick toggle state will be updated automatically by updateQuickToggleStates()
-        } else {
-          console.error(`No main toggle found for feature: ${featureName}, ID: ${metadata.toggleId}`);
         }
       });
 
@@ -3702,9 +3635,7 @@ class CogniRead {
       return;
     }
 
-    // Store loading reference so it can be hidden if disabled
-    this.conceptConnectionsLoading = this.showLoading('Analyzing concepts...');
-    const loading = this.conceptConnectionsLoading;
+    const loading = this.showLoading('Analyzing concepts...');
 
     try {
       // Get all paragraphs
@@ -3746,7 +3677,6 @@ class CogniRead {
       alert('Failed to analyze concepts. Please try again.');
     } finally {
       this.hideLoading(loading);
-      this.conceptConnectionsLoading = null;
     }
   }
 
@@ -3771,12 +3701,6 @@ class CogniRead {
 
   disableConceptConnections() {
     console.log('🔗 Disabling Concept Connections...');
-
-    // Hide loading indicator if still active
-    if (this.conceptConnectionsLoading) {
-      this.hideLoading(this.conceptConnectionsLoading);
-      this.conceptConnectionsLoading = null;
-    }
 
     // Remove all concept links
     document.querySelectorAll('.cogniread-concept-link').forEach(link => {
@@ -4366,18 +4290,9 @@ class DistractionFreeMode {
     const distractionFreeToggle = document.getElementById('cogniread-distraction-free-toggle');
     if (distractionFreeToggle && distractionFreeToggle.classList.contains('active')) {
       distractionFreeToggle.classList.remove('active');
-      // Trigger update of active badge and quick toggle states if CogniRead instance exists
-      if (window.cogniread) {
-        // Update the state to keep it in sync
-        if (window.cogniread.state) {
-          window.cogniread.state.distractionFree = false;
-        }
-        if (window.cogniread.updateActiveBadge) {
-          window.cogniread.updateActiveBadge();
-        }
-        if (window.cogniread.updateQuickToggleStates) {
-          window.cogniread.updateQuickToggleStates();
-        }
+      // Trigger update of active badge if CogniRead instance exists
+      if (window.cogniread && window.cogniread.updateActiveBadge) {
+        window.cogniread.updateActiveBadge();
       }
     }
   }
@@ -4618,20 +4533,19 @@ class DistractionFreeMode {
 
     // Update progress on scroll
     const updateProgress = () => {
-      // Use readerContainer's scroll properties since it's the scrolling element
-      const containerHeight = this.readerContainer.clientHeight;
-      const contentHeight = this.readerContainer.scrollHeight;
-      const scrollTop = this.readerContainer.scrollTop;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      const scrollTop = window.scrollY;
 
       // Calculate scroll percentage, handle case where content fits on one page
       let scrollPercent = 0;
-      const scrollableHeight = contentHeight - containerHeight;
+      const scrollableHeight = documentHeight - windowHeight;
 
       if (scrollableHeight > 0) {
         scrollPercent = (scrollTop / scrollableHeight) * 100;
       } else {
-        // Content fits on one page, show 0% at top
-        scrollPercent = 0;
+        // Content fits on one page, always show 100%
+        scrollPercent = 100;
       }
 
       const progressBar = progress.querySelector('.cogniread-df-progress-bar');
@@ -4646,8 +4560,8 @@ class DistractionFreeMode {
     // Initial update
     updateProgress();
 
-    // Update on scroll - listen to readerContainer, not window
-    this.readerContainer.addEventListener('scroll', updateProgress);
+    // Update on scroll
+    window.addEventListener('scroll', updateProgress);
   }
 
   updateFontSize() {

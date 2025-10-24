@@ -3,8 +3,8 @@
   "name": "CogniRead - Adaptive Reading Assistant",
   "version": "1.0.0",
   "description": "Transform any web content into cognitively accessible formats for users with ADHD, dyslexia, autism, or learning disabilities",
-  "author": "Your Name/Organization",
-  "homepage_url": "https://github.com/yourusername/cogniread",
+  "author": "Anthony Turner/2 Squirrels AI",
+  "homepage_url": "https://github.com/2squirrelsai/google-hackathon-cogniread",
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
@@ -32,7 +32,17 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["icons/*"],
+      "resources": [
+        "icons/*",
+        "demo.html",
+        "demo-activation.js",
+        "styles.css",
+        "idioms-dictionary.js",
+        "ai-service.js",
+        "cognitive-engine.js",
+        "prompt-api-service.js",
+        "content.js"
+      ],
       "matches": ["<all_urls>"]
     }
   ],

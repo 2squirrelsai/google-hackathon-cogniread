@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CogniRead Demo - Test All Features</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+
+        .feature-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin: 5px;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        main {
+            padding: 40px;
+        }
+
+        article {
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        h3 {
+            color: #764ba2;
+            font-size: 1.4em;
+            margin: 25px 0 15px;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 15px;
+            font-size: 1.05em;
+        }
+
+        .complex-paragraph {
+            background: #f8f9fa;
+            padding: 20px;
+            border-left: 4px solid #667eea;
+            margin: 20px 0;
+        }
+
+        .legal-text {
+            background: #fff3cd;
+            padding: 20px;
+            border-left: 4px solid #ffc107;
+            margin: 20px 0;
+            font-size: 0.95em;
+        }
+
+        .medical-text {
+            background: #d1ecf1;
+            padding: 20px;
+            border-left: 4px solid #17a2b8;
+            margin: 20px 0;
+        }
+
+        .technical-text {
+            background: #e7f3ff;
+            padding: 20px;
+            border-left: 4px solid #0366d6;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+        }
+
+        .idiom-section {
+            background: #f0f9ff;
+            padding: 20px;
+            border-left: 4px solid #0ea5e9;
+            margin: 20px 0;
+        }
+
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        blockquote {
+            border-left: 4px solid #764ba2;
+            padding-left: 20px;
+            margin: 20px 0;
+            font-style: italic;
+            color: #555;
+        }
+
+        .demo-section {
+            margin: 30px 0;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+
+        .feature-card h4 {
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            padding: 30px 40px;
+            text-align: center;
+        }
+
+        .instruction-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .instruction-box h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .instruction-box ul {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .instruction-box li:before {
+            content: "✓ ";
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        .abbreviation {
+            border-bottom: 1px dotted #667eea;
+            cursor: help;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧠 CogniRead Demo Page</h1>
+            <p>Test all features of the AI-Powered Reading Assistant</p>
+            <div style="margin-top: 20px;">
+                <span class="feature-badge">📊 Cognitive Load</span>
+                <span class="feature-badge">📖 Distraction-Free</span>
+                <span class="feature-badge">🎯 Focus Mode</span>
+                <span class="feature-badge">👁️ Dyslexia Support</span>
+                <span class="feature-badge">🌐 Plain Language</span>
+            </div>
+        </header>
+
+        <main>
+            <div class="instruction-box">
+                <h3>🚀 Interactive CogniRead Demo</h3>
+                <p style="margin-bottom: 12px; line-height: 1.6;">CogniRead is now active on this page! The floating control panel should appear in the bottom-right corner within a few seconds.</p>
+                <p style="margin-bottom: 12px; font-weight: 600;">Try these features:</p>
+                <ul style="margin-bottom: 16px;">
+                    <li><strong>Focus Mode</strong> - Highlight paragraphs one at a time for distraction-free reading</li>
+                    <li><strong>Cognitive Heatmap</strong> - See difficulty visualization with color-coded paragraphs</li>
+                    <li><strong>Distraction-Free Mode</strong> - Full-screen reader view with progress tracking</li>
+                    <li><strong>TL;DR</strong> - AI-powered summaries of complex sections</li>
+                    <li><strong>Plain Language Translation</strong> - Simplify legal, medical, and technical text</li>
+                    <li><strong>Literal Language</strong> - Explain idioms and figures of speech</li>
+                    <li><strong>Context Menu</strong> - Highlight text and right-click for analogies, descriptions, and more</li>
+                </ul>
+                <div style="padding: 14px; background: rgba(40, 167, 69, 0.12); border-left: 4px solid rgb(40, 167, 69); border-radius: 6px; margin-top: 12px;">
+                    <p style="margin: 0; font-size: 14px; line-height: 1.6;"><strong style="color: rgb(40, 167, 69);">✨ Fully Functional!</strong> This demo page includes all CogniRead features. Test Focus Mode on the paragraphs below, try the cognitive heatmap on complex sections, or use plain language translation on the legal/medical text.</p>
+                </div>
+            </div>
+
+            <article>
+                <h2>Understanding Artificial Intelligence: A Comprehensive Overview</h2>
+
+                <p>Artificial Intelligence (AI) represents one of the most transformative technological paradigms of the contemporary era, fundamentally altering the operational dynamics of numerous industries and reshaping societal interactions with computational systems. The field encompasses a multiplicity of methodologies, ranging from machine learning algorithms to neural network architectures, each contributing to the overarching objective of creating systems capable of performing tasks that traditionally necessitated human cognitive capabilities.</p>
+
+                <div class="complex-paragraph">
+                    <h3>Complex Technical Description</h3>
+                    <p>The implementation of deep learning architectures, particularly convolutional neural networks (CNNs) and recurrent neural networks (RNNs), has precipitated unprecedented advancements in pattern recognition capabilities. These sophisticated algorithms leverage hierarchical feature extraction mechanisms, wherein lower-level features are progressively combined to form increasingly abstract representations. The backpropagation algorithm, coupled with stochastic gradient descent optimization techniques, facilitates the iterative refinement of network parameters, thereby enabling the model to minimize the discrepancy between predicted and actual outputs.</p>
+                </div>
+
+                <h3>The Evolution of Machine Learning</h3>
+                <p>Machine learning has come a long way since its inception in the mid-20th century. Initially, researchers focused on rule-based systems that could follow explicit instructions. However, it quickly became apparent that hitting the nail on the head with rule-based approaches was difficult for complex tasks. This realization led to a paradigm shift toward statistical learning methods.</p>
+
+                <div class="idiom-section">
+                    <h3>📝 Idiom-Rich Content (Test Literal Language Feature)</h3>
+                    <p>When it comes to artificial intelligence, developers often find themselves barking up the wrong tree if they don't understand the fundamentals. It's crucial to get your ducks in a row before diving into complex neural network implementations. Many beginners bite off more than they can chew by attempting advanced projects without mastering the basics first.</p>
+
+                    <p>The field of AI isn't just a flash in the pan – it's here to stay. Companies that jumped on the bandwagon early are now reaping the benefits. However, those who were sitting on the fence about AI adoption are now playing catch-up. It's a dog-eat-dog world in tech, and AI capabilities can make or break a company's competitive advantage.</p>
+
+                    <p>Don't put all your eggs in one basket when it comes to AI strategies. The best approach is to keep your cards close to your chest while experimenting with different techniques. Remember, Rome wasn't built in a day, and neither is AI expertise. You need to bite the bullet and invest time in continuous learning.</p>
+                </div>
+
+                <h3>Prerequisites and Foundational Concepts</h3>
+                <p>To fully comprehend the intricacies of artificial intelligence, one must possess a robust understanding of several prerequisite domains. Linear algebra provides the mathematical framework for representing and manipulating high-dimensional data structures. Calculus, particularly differential calculus, is indispensable for understanding optimization algorithms. Probability theory and statistics form the bedrock of machine learning, enabling practitioners to quantify uncertainty and make principled decisions under conditions of incomplete information.</p>
+
+                <div class="medical-text">
+                    <h3>⚕️ Medical Context (Test Plain Language Translation)</h3>
+                    <p>The utilization of AI in diagnostic radiology has demonstrated significant efficacy in detecting pathological abnormalities. Convolutional neural networks trained on large datasets of radiographic images exhibit diagnostic accuracy comparable to, and in some instances surpassing, that of board-certified radiologists. The algorithm's capacity to identify subtle morphological deviations in tissue architecture enables early detection of neoplastic processes, potentially improving patient prognosis through timely therapeutic intervention.</p>
+
+                    <p>Furthermore, the integration of AI-assisted diagnostic systems into clinical workflows presents opportunities for enhanced operational efficiency. However, clinicians must maintain vigilance regarding the potential for algorithmic bias and the necessity for continuous model validation against diverse patient populations. The deployment of such systems necessitates rigorous adherence to regulatory frameworks and ethical guidelines to ensure patient safety and data privacy.</p>
+                </div>
+
+                <div class="legal-text">
+                    <h3>⚖️ Legal Language (Test Plain Language Translation)</h3>
+                    <p>Notwithstanding any provision to the contrary herein, the parties hereby acknowledge and agree that the intellectual property rights, including but not limited to patents, copyrights, trademarks, and trade secrets, subsisting in and to the AI algorithms and associated documentation shall remain the exclusive property of the Licensor. The Licensee shall not, either directly or indirectly, reverse engineer, decompile, disassemble, or otherwise attempt to derive the source code of the proprietary software.</p>
+
+                    <p>In the event of a breach of this Agreement, the non-breaching party shall be entitled to seek equitable relief, including but not limited to injunctive relief and specific performance, in addition to any other remedies available at law or in equity. The prevailing party in any litigation arising out of or relating to this Agreement shall be entitled to recover its reasonable attorneys' fees and costs incurred in connection therewith.</p>
+                </div>
+
+                <h3>Real-World Applications and Impact</h3>
+                <p>AI applications permeate numerous aspects of modern life, often operating transparently in the background. Natural language processing enables virtual assistants to comprehend and respond to user queries. Computer vision systems facilitate autonomous vehicle navigation and facial recognition technologies. Recommendation algorithms curate personalized content across streaming platforms and e-commerce websites.</p>
+
+                <p>In healthcare, AI algorithms analyze medical imaging data to detect diseases at earlier stages than traditional methods. Financial institutions leverage machine learning for fraud detection and risk assessment. Manufacturing processes benefit from predictive maintenance systems that anticipate equipment failures before they occur, thereby minimizing downtime and optimizing operational efficiency.</p>
+
+                <div class="technical-text">
+                    <h3>💻 Technical Implementation Details</h3>
+                    <p>The transformer architecture, introduced in the seminal paper "Attention Is All You Need," revolutionized sequence-to-sequence modeling by eliminating recurrent connections in favor of self-attention mechanisms. This architectural innovation enables parallel processing of sequential data, dramatically reducing training time while improving model performance on long-range dependencies.</p>
+
+                    <p>Implementation typically involves initializing embedding matrices, computing multi-head attention through scaled dot-product attention operations, and applying position-wise feed-forward networks. The model's ability to capture contextual relationships through attention weights facilitates superior performance across <span class="abbreviation" title="Natural Language Processing">NLP</span> tasks, including machine translation, text summarization, and question answering.</p>
+                </div>
+
+                <h3>Ethical Considerations and Challenges</h3>
+                <p>The proliferation of AI systems engenders substantial ethical considerations that warrant careful deliberation. Algorithmic bias, arising from skewed training data or flawed model architectures, can perpetuate and amplify existing societal inequities. The opacity of complex neural networks, often characterized as "black boxes," complicates efforts to ensure transparency and accountability in automated decision-making processes.</p>
+
+                <p>Privacy concerns emerge as AI systems increasingly rely on vast quantities of personal data for training and operation. The potential for surveillance, data breaches, and unauthorized information disclosure necessitates robust data protection frameworks and governance mechanisms. Additionally, the displacement of human labor by automation raises questions about economic inequality and the future of work.</p>
+
+                <blockquote>
+                    "The question of whether a computer can think is no more interesting than the question of whether a submarine can swim." - Edsger W. Dijkstra
+                </blockquote>
+
+                <h3>Future Trajectories and Emerging Paradigms</h3>
+                <p>The trajectory of AI development suggests continued advancement toward more sophisticated and capable systems. Emerging paradigms such as few-shot learning and zero-shot learning aim to reduce the data requirements for model training, enabling AI systems to generalize from limited examples. Transfer learning techniques facilitate the application of knowledge acquired in one domain to related but distinct tasks.</p>
+
+                <p>Neuromorphic computing, which emulates the structure and function of biological neural networks, represents a promising avenue for developing more energy-efficient AI hardware. Quantum machine learning explores the intersection of quantum computing and artificial intelligence, potentially unlocking computational capabilities that transcend classical computing limitations.</p>
+
+                <div class="demo-section">
+                    <h3>🎯 Feature Testing Checklist</h3>
+                    <div class="feature-list">
+                        <div class="feature-card">
+                            <h4>📊 Cognitive Heatmap</h4>
+                            <p>Highlights difficult paragraphs with color coding</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4>🎯 Focus Mode</h4>
+                            <p>Highlights one paragraph at a time</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4>📖 Reader Mode</h4>
+                            <p>Clean, distraction-free reading experience</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4>📝 TL;DR</h4>
+                            <p>Generates quick summaries of content</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4>🌐 Plain Language</h4>
+                            <p>Translates legal, medical, and academic text</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4>🔤 Literal Language</h4>
+                            <p>Converts idioms to literal meanings</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4>👁️ Dyslexia Mode</h4>
+                            <p>Uses dyslexia-friendly fonts and spacing</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4>📚 Prerequisites</h4>
+                            <p>Identifies required background knowledge</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4>🎯 Reading Goals</h4>
+                            <p>Analyzes what you should learn</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4>🔠 Expand Abbreviations</h4>
+                            <p>Expands acronyms like <span class="abbreviation">AI</span>, <span class="abbreviation">ML</span>, <span class="abbreviation">NLP</span></p>
+                        </div>
+                        <div class="feature-card">
+                            <h4>🔄 Sentence Restructuring</h4>
+                            <p>Simplifies complex sentence structures</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Conclusion</h3>
+                <p>Artificial intelligence stands at the nexus of technological innovation and societal transformation. As systems become increasingly sophisticated and ubiquitous, the imperative for responsible development and deployment intensifies. Balancing the tremendous potential benefits with legitimate concerns regarding ethics, privacy, and societal impact will define the successful integration of AI into the fabric of modern civilization.</p>
+
+                <p>The journey toward artificial general intelligence – systems possessing human-like cognitive flexibility across diverse domains – remains uncertain. Nevertheless, continued progress in narrow AI applications demonstrates the profound impact these technologies can exert on solving complex problems and enhancing human capabilities. The future of AI will be shaped not only by technological breakthroughs but also by thoughtful governance, ethical frameworks, and inclusive stakeholder engagement.</p>
+            </article>
+
+            <article>
+                <h2>Quick Reading Test Section</h2>
+                <p>This section contains shorter paragraphs ideal for testing Focus Mode and other interactive features.</p>
+
+                <h3>Paragraph 1: Simple Introduction</h3>
+                <p>Technology has changed our lives in many ways. We use smartphones every day to communicate with friends and family. The internet gives us access to unlimited information at our fingertips.</p>
+
+                <h3>Paragraph 2: Moderate Complexity</h3>
+                <p>The democratization of technology has facilitated unprecedented connectivity, enabling individuals across geographical boundaries to engage in real-time communication and collaborative endeavors. This transformation has profound implications for education, commerce, and social interaction.</p>
+
+                <h3>Paragraph 3: High Complexity</h3>
+                <p>The epistemological ramifications of ubiquitous information access necessitate a reconceptualization of pedagogical methodologies, as traditional knowledge transmission paradigms prove increasingly inadequate in addressing the exigencies of contemporary educational contexts characterized by information overload and rapidly evolving disciplinary boundaries.</p>
+
+                <h3>Paragraph 4: Technical Jargon</h3>
+                <p>The implementation of <span class="abbreviation" title="Application Programming Interface">API</span>-driven microservices architectures, leveraging <span class="abbreviation" title="Representational State Transfer">REST</span>ful endpoints and <span class="abbreviation" title="JavaScript Object Notation">JSON</span> serialization, facilitates scalable, loosely-coupled system designs that align with contemporary cloud-native development paradigms and <span class="abbreviation" title="Continuous Integration/Continuous Deployment">CI/CD</span> best practices.</p>
+
+                <h3>Paragraph 5: Idiomatic Language</h3>
+                <p>When push comes to shove, developers need to think outside the box and go the extra mile to deliver quality software. It's not rocket science, but cutting corners will eventually come back to bite you. The proof is in the pudding – well-tested code speaks for itself.</p>
+            </article>
+        </main>
+
+        <footer>
+            <h3>About CogniRead</h3>
+            <p>CogniRead is an AI-powered Chrome extension designed to make web content more accessible and easier to understand. Built with Chrome's Built-in AI APIs for the Google AI Hackathon.</p>
+            <p style="margin-top: 15px; opacity: 0.8;">© 2025 CogniRead | Built with ❤️ using Chrome AI</p>
+        </footer>
+    </div>
+
+    <!-- Load CogniRead directly into demo page -->
+    <link rel="stylesheet" href="styles.css">
+    <script src="idioms-dictionary.js"></script>
+    <script src="ai-service.js"></script>
+    <script src="cognitive-engine.js"></script>
+    <script src="prompt-api-service.js"></script>
+    <script src="content.js"></script>
+
+    <script>
+        // Wait for all scripts to load, then initialize CogniRead
+        window.addEventListener('load', function() {
+            console.log('🎯 Demo page loaded with CogniRead scripts');
+
+            // CogniRead content.js will auto-initialize when it loads
+            // Check if it initialized successfully
+            setTimeout(() => {
+                const panel = document.getElementById('cogniread-panel') ||
+                              document.getElementById('cogniread-mini');
+
+                if (panel) {
+                    console.log('✅ CogniRead loaded successfully on demo page!');
+                } else {
+                    console.log('⚠️ CogniRead panel not found - checking initialization...');
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

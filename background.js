@@ -81,16 +81,55 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     const tabId = request.tabId;
     sendResponse({ isActivated: activeTabs.has(tabId) });
   }
+
+  // Handle activation request from demo page (no tabId provided, use sender's tab)
+  if (request.action === 'activateOnCurrentTab') {
+    // Get the tab ID from the sender
+    const tabId = sender.tab ? sender.tab.id : null;
+
+    if (!tabId) {
+      sendResponse({ success: false, message: 'Could not determine tab ID' });
+      return;
+    }
+
+    if (activeTabs.has(tabId)) {
+      sendResponse({ success: true, message: 'Already activated on this tab' });
+      return;
+    }
+
+    // Inject content scripts
+    injectContentScripts(tabId)
+      .then(() => {
+        activeTabs.add(tabId);
+        updateBadge(tabId, true);
+
+        // Update stats
+        chrome.storage.sync.get(['cogniread_stats'], (result) => {
+          const stats = result.cogniread_stats || {};
+          stats.activationCount = (stats.activationCount || 0) + 1;
+          stats.lastUsed = new Date().toISOString();
+          chrome.storage.sync.set({ cogniread_stats: stats });
+        });
+
+        sendResponse({ success: true, message: 'CogniRead activated!' });
+      })
+      .catch((error) => {
+        console.error('Failed to inject scripts:', error);
+        sendResponse({ success: false, message: 'Failed to activate', error: error.message });
+      });
+
+    return true; // Keep message channel open for async response
+  }
 });
 
 // Inject content scripts into a tab
 async function injectContentScripts(tabId) {
   try {
     // Inject loading indicator first
-    await chrome.scripting.executeScript({
+    /*await chrome.scripting.executeScript({
       target: { tabId: tabId },
       func: showLoadingIndicator
-    });
+    });*/
 
     // Inject CSS first
     await chrome.scripting.insertCSS({
@@ -287,75 +326,80 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   }
 });
 
-// Context menu for quick activation
-chrome.contextMenus.create({
-  id: 'cogniread-activate',
-  title: 'Activate CogniRead on this page',
-  contexts: ['page']
-});
+// Create context menus (remove all first to prevent duplicates on service worker restart)
+chrome.contextMenus.removeAll(() => {
+  // Context menu for quick activation
+  chrome.contextMenus.create({
+    id: 'cogniread-activate',
+    title: 'Activate CogniRead on this page',
+    contexts: ['page']
+  });
 
-// Context menu for alternative phrasing
-chrome.contextMenus.create({
-  id: 'cogniread-alternative-phrasing',
-  title: 'See Alternative Phrasings',
-  contexts: ['selection']
-});
+  // Context menu for alternative phrasing
+  chrome.contextMenus.create({
+    id: 'cogniread-alternative-phrasing',
+    title: 'See Alternative Phrasings',
+    contexts: ['selection']
+  });
 
-// Context menu for describing highlighted selection
-chrome.contextMenus.create({
-  id: 'cogniread-describe-selection',
-  title: 'Describe Highlighted Selection',
-  contexts: ['selection']
-});
+  // Context menu for describing highlighted selection
+  chrome.contextMenus.create({
+    id: 'cogniread-describe-selection',
+    title: 'Describe Highlighted Selection',
+    contexts: ['selection']
+  });
 
-// Context menu for using highlighted text in a sentence
-chrome.contextMenus.create({
-  id: 'cogniread-use-in-sentence',
-  title: 'Use "%s" in a sentence',
-  contexts: ['selection']
-});
+  // Context menu for using highlighted text in a sentence
+  chrome.contextMenus.create({
+    id: 'cogniread-use-in-sentence',
+    title: 'Use "%s" in a sentence',
+    contexts: ['selection']
+  });
 
-// Context menu for AI Analogy Generator
-chrome.contextMenus.create({
-  id: 'cogniread-analogy-parent',
-  title: 'Explain with Analogy',
-  contexts: ['selection']
-});
+  // Context menu for AI Analogy Generator
+  chrome.contextMenus.create({
+    id: 'cogniread-analogy-parent',
+    title: 'Explain with Analogy',
+    contexts: ['selection']
+  });
 
-// Analogy submenu items
-chrome.contextMenus.create({
-  id: 'cogniread-analogy-cooking',
-  parentId: 'cogniread-analogy-parent',
-  title: 'Cooking Analogy',
-  contexts: ['selection']
-});
+  // Analogy submenu items
+  chrome.contextMenus.create({
+    id: 'cogniread-analogy-cooking',
+    parentId: 'cogniread-analogy-parent',
+    title: 'Cooking Analogy',
+    contexts: ['selection']
+  });
 
-chrome.contextMenus.create({
-  id: 'cogniread-analogy-sports',
-  parentId: 'cogniread-analogy-parent',
-  title: 'Sports Analogy',
-  contexts: ['selection']
-});
+  chrome.contextMenus.create({
+    id: 'cogniread-analogy-sports',
+    parentId: 'cogniread-analogy-parent',
+    title: 'Sports Analogy',
+    contexts: ['selection']
+  });
 
-chrome.contextMenus.create({
-  id: 'cogniread-analogy-music',
-  parentId: 'cogniread-analogy-parent',
-  title: 'Music Analogy',
-  contexts: ['selection']
-});
+  chrome.contextMenus.create({
+    id: 'cogniread-analogy-music',
+    parentId: 'cogniread-analogy-parent',
+    title: 'Music Analogy',
+    contexts: ['selection']
+  });
 
-chrome.contextMenus.create({
-  id: 'cogniread-analogy-nature',
-  parentId: 'cogniread-analogy-parent',
-  title: 'Nature Analogy',
-  contexts: ['selection']
-});
+  chrome.contextMenus.create({
+    id: 'cogniread-analogy-nature',
+    parentId: 'cogniread-analogy-parent',
+    title: 'Nature Analogy',
+    contexts: ['selection']
+  });
 
-chrome.contextMenus.create({
-  id: 'cogniread-analogy-travel',
-  parentId: 'cogniread-analogy-parent',
-  title: 'Travel Analogy',
-  contexts: ['selection']
+  chrome.contextMenus.create({
+    id: 'cogniread-analogy-travel',
+    parentId: 'cogniread-analogy-parent',
+    title: 'Travel Analogy',
+    contexts: ['selection']
+  });
+
+  console.log('CogniRead context menus created');
 });
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
