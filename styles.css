@@ -585,6 +585,32 @@ html.cogniread-theme-dark .cogniread-mini:hover {
   outline-offset: 2px !important;
 }
 
+/* Bounce animation when control loads */
+.cogniread-mini.bounce-in {
+  animation: miniPanelBounce 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
+}
+
+@keyframes miniPanelBounce {
+  0% {
+    transform: scale(0) translateY(-50px) !important;
+    opacity: 0 !important;
+  }
+  50% {
+    transform: scale(1.15) translateY(0) !important;
+    opacity: 1 !important;
+  }
+  65% {
+    transform: scale(0.95) !important;
+  }
+  80% {
+    transform: scale(1.05) !important;
+  }
+  100% {
+    transform: scale(1) !important;
+    opacity: 1 !important;
+  }
+}
+
 .cogniread-mini-icon {
   width: 32px !important;
   height: 32px !important;

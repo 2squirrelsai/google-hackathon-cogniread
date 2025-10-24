@@ -80,6 +80,15 @@ class CogniRead {
     this.initialized = true;
     console.log('CogniRead initialized successfully');
 
+    // Trigger bounce animation on mini panel
+    if (this.ui.miniPanel) {
+      this.ui.miniPanel.classList.add('bounce-in');
+      // Remove animation class after it completes
+      setTimeout(() => {
+        this.ui.miniPanel.classList.remove('bounce-in');
+      }, 800); // Match animation duration
+    }
+
     // Notify that control panel is ready
     window.postMessage({ type: 'COGNIREAD_READY' }, '*');
   }
