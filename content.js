@@ -525,13 +525,13 @@ class CogniRead {
             <rect x="14" y="14" width="6" height="6" fill="currentColor" opacity="0.3" rx="1"/>
           </svg>
         </button>
-        <button class="cogniread-escape-hatch" id="cogniread-escape-hatch" title="Reset All Features" style="display: none;">
+        <button class="cogniread-escape-hatch" id="cogniread-escape-hatch" data-tooltip="Reset all active features" style="display: none;">
           <svg class="cogniread-escape-hatch-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" fill="currentColor"/>
             <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2" opacity="0.3"/>
           </svg>
         </button>
-        <button class="cogniread-close-btn" id="cogniread-close" title="Close (refresh to reopen)">×</button>
+        <button class="cogniread-close-btn" id="cogniread-close" data-tooltip="Close CogniRead (refresh page to reopen)">×</button>
       </div>
     `;
     document.body.appendChild(this.ui.controls);
