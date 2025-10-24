@@ -2887,7 +2887,7 @@ html.cogniread-theme-dark .cogniread-toggle-switch {
 
 .cogniread-theme-quick-toggle[data-active="false"]:hover {
   opacity: 1 !important;
-  border-color: #667eea !important;
+  border-color: rgb(156, 39, 176) !important;
 }
 
 /* ===== Theme Selector Tooltips ===== */
