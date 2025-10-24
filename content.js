@@ -4307,9 +4307,18 @@ class DistractionFreeMode {
     const distractionFreeToggle = document.getElementById('cogniread-distraction-free-toggle');
     if (distractionFreeToggle && distractionFreeToggle.classList.contains('active')) {
       distractionFreeToggle.classList.remove('active');
-      // Trigger update of active badge if CogniRead instance exists
-      if (window.cogniread && window.cogniread.updateActiveBadge) {
-        window.cogniread.updateActiveBadge();
+      // Trigger update of active badge and quick toggle states if CogniRead instance exists
+      if (window.cogniread) {
+        // Update the state to keep it in sync
+        if (window.cogniread.state) {
+          window.cogniread.state.distractionFree = false;
+        }
+        if (window.cogniread.updateActiveBadge) {
+          window.cogniread.updateActiveBadge();
+        }
+        if (window.cogniread.updateQuickToggleStates) {
+          window.cogniread.updateQuickToggleStates();
+        }
       }
     }
   }
