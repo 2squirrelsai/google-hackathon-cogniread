@@ -176,8 +176,17 @@ class CognitiveEngine {
         return;
       }
 
-      // Skip CogniRead's own elements
-      if (element.closest('[id^="cogniread"], [class^="cogniread"]')) {
+      // Skip CogniRead's own UI elements (but not the theme class on HTML)
+      // Check for specific CogniRead containers by ID or specific classes
+      const cognireadContainer = element.closest(
+        '#cogniread-panel, #cogniread-mini, ' +
+        '#cogniread-focus-overlay, #cogniread-focus-content, ' +
+        '.cogniread-panel, .cogniread-mini, ' +
+        '.cogniread-focus-overlay, .cogniread-focus-content, ' +
+        '.cogniread-distraction-free'
+      );
+
+      if (cognireadContainer) {
         debugStats.filteredCogniread++;
         return;
       }
@@ -219,7 +228,13 @@ class CognitiveEngine {
       Array.from(elements).slice(0, 10).forEach((el, i) => {
         const inHeader = el.closest('header');
         const inArticle = el.closest('article, main, [role="main"], [role="article"]');
-        const cognireadParent = el.closest('[id^="cogniread"], [class^="cogniread"]');
+        const cognireadParent = el.closest(
+          '#cogniread-panel, #cogniread-mini, ' +
+          '#cogniread-focus-overlay, #cogniread-focus-content, ' +
+          '.cogniread-panel, .cogniread-mini, ' +
+          '.cogniread-focus-overlay, .cogniread-focus-content, ' +
+          '.cogniread-distraction-free'
+        );
 
         const debugInfo = {
           tag: el.tagName,
