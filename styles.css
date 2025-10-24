@@ -947,10 +947,10 @@ html.cogniread-theme-dark .cogniread-active-count {
 }
 
 .cogniread-close-btn:hover {
-  border-color: var(--btn-destructive-bg) !important;
-  background: rgba(244, 67, 54, 0.1) !important;
+  border-color: #F44336 !important;
+  background: #ffffff !important;
   opacity: 1 !important;
-  color: var(--btn-destructive-bg) !important;
+  color: #F44336 !important;
   transform: scale(1.1) !important;
 }
 
@@ -969,8 +969,9 @@ html.cogniread-theme-dark .cogniread-minimize-btn:hover {
 }
 
 html.cogniread-theme-dark .cogniread-close-btn:hover {
-  color: var(--btn-destructive-bg) !important;
-  background: rgba(244, 67, 54, 0.2) !important;
+  color: #F44336 !important;
+  background: #ffffff !important;
+  border-color: #F44336 !important;
 }
 
 .cogniread-minimize-btn:focus-visible,
