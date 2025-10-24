@@ -3532,15 +3532,15 @@ class CogniRead {
     const existingStarredBtns = themeSelector.querySelectorAll('[data-starred-feature]');
     existingStarredBtns.forEach(btn => btn.remove());
 
-    // Feature metadata for display
+    // Feature metadata for display (keys must match data-feature attributes in HTML)
     const featureMetadata = {
       'focus-mode': { icon: '🎯', label: 'Focus', toggleId: 'cogniread-focus-mode-toggle' },
-      'tldr': { icon: '📝', label: 'TL;DR', toggleId: 'cogniread-tldr-toggle' },
+      'tldr-mode': { icon: '📝', label: 'TL;DR', toggleId: 'cogniread-tldr-toggle' },
       'distraction-free': { icon: '📖', label: 'Reader', toggleId: 'cogniread-distraction-free-toggle' },
-      'dyslexia': { icon: '👁️', label: 'Dyslexia', toggleId: 'cogniread-dyslexia-toggle' },
+      'dyslexia-mode': { icon: '👁️', label: 'Dyslexia', toggleId: 'cogniread-dyslexia-toggle' },
       'definitions': { icon: '📚', label: 'Definitions', toggleId: 'cogniread-definitions-toggle' },
-      'literal': { icon: '🔤', label: 'Literal', toggleId: 'cogniread-literal-toggle' },
-      'concept': { icon: '🔗', label: 'Concepts', toggleId: 'cogniread-concept-toggle' },
+      'literal-language': { icon: '🔤', label: 'Literal', toggleId: 'cogniread-literal-toggle' },
+      'concept-connections': { icon: '🔗', label: 'Concepts', toggleId: 'cogniread-concept-toggle' },
       'heatmap': { icon: '📊', label: 'Heatmap', toggleId: 'cogniread-heatmap-toggle' },
       'expansion': { icon: '🔠', label: 'Expand', toggleId: 'cogniread-expansion-toggle' },
       'restructure': { icon: '🔄', label: 'Restructure', toggleId: 'cogniread-restructure-toggle' },
@@ -3589,12 +3589,12 @@ class CogniRead {
     const starredQuickToggles = document.querySelectorAll('[data-starred-feature]');
     const featureStateMap = {
       'focus-mode': this.state.focusMode,
-      'tldr': this.state.tldrMode,
+      'tldr-mode': this.state.tldrMode,
       'distraction-free': this.state.distractionFree,
-      'dyslexia': this.state.dyslexiaMode,
+      'dyslexia-mode': this.state.dyslexiaMode,
       'definitions': this.state.definitionsEnabled,
-      'literal': this.state.idiomMode,
-      'concept': this.state.conceptConnections,
+      'literal-language': this.state.idiomMode,
+      'concept-connections': this.state.conceptConnections,
       'heatmap': this.state.cognitiveHeatmap,
       'expansion': this.state.expansionMode,
       'restructure': this.state.sentenceRestructuring,
