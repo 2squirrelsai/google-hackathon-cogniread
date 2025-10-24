@@ -1221,6 +1221,7 @@ class CogniRead {
   async toggleExpansionMode(enabled) {
     console.log('📝 Text Expansion Mode toggle:', enabled);
     this.state.expansionMode = enabled;
+    this.updateQuickToggleStates();
 
     if (enabled) {
       // Disable simplification when expansion is enabled
@@ -1592,6 +1593,7 @@ class CogniRead {
   async toggleActiveVoice(enabled) {
     console.log('📣 Active Voice toggle:', enabled);
     this.state.activeVoice = enabled;
+    this.updateQuickToggleStates();
 
     if (enabled) {
       await this.applyActiveVoiceConversion();
@@ -1660,6 +1662,7 @@ class CogniRead {
   async toggleSentenceRestructuring(enabled) {
     console.log('✂️ Sentence Restructuring toggle:', enabled);
     this.state.sentenceRestructuring = enabled;
+    this.updateQuickToggleStates();
 
     if (enabled) {
       await this.applySentenceRestructuring();
@@ -1747,11 +1750,8 @@ class CogniRead {
   async toggleFocusMode(enabled) {
     this.state.focusMode = enabled;
 
-    // Update quick toggle button state
-    const focusModeQuickToggle = document.getElementById('cogniread-focus-mode-quick-toggle');
-    if (focusModeQuickToggle) {
-      focusModeQuickToggle.setAttribute('data-active', enabled.toString());
-    }
+    // Update all quick toggle button states
+    this.updateQuickToggleStates();
 
     // Manage TL;DR toggle state based on Focus Mode
     const tldrToggle = document.getElementById('cogniread-tldr-toggle');
@@ -1990,6 +1990,7 @@ class CogniRead {
 
   async toggleTLDRMode(enabled) {
     this.state.tldrMode = enabled;
+    this.updateQuickToggleStates();
 
     if (enabled) {
       await this.showTLDR();
@@ -2119,6 +2120,7 @@ class CogniRead {
 
   async toggleDyslexiaMode(enabled) {
     this.state.dyslexiaMode = enabled;
+    this.updateQuickToggleStates();
 
     if (enabled) {
       document.body.classList.add('cogniread-dyslexia-mode');
@@ -2218,6 +2220,7 @@ class CogniRead {
   async toggleDefinitions(enabled) {
     console.log('📚 Definitions toggle:', enabled);
     this.state.definitionsEnabled = enabled;
+    this.updateQuickToggleStates();
 
     if (enabled) {
       await this.enableDefinitions();
@@ -2510,6 +2513,7 @@ class CogniRead {
   async toggleIdiomMode(enabled) {
     console.log('💬 Idiom mode toggle:', enabled);
     this.state.idiomMode = enabled;
+    this.updateQuickToggleStates();
 
     if (enabled) {
       await this.convertIdiomsToLiteral();
@@ -2528,6 +2532,7 @@ class CogniRead {
   toggleDistractionFreeMode(enabled) {
     console.log('📄 Distraction-free mode toggle:', enabled);
     this.state.distractionFree = enabled;
+    this.updateQuickToggleStates();
 
     if (enabled) {
       this.distractionFreeMode.activate();
@@ -3465,9 +3470,7 @@ class CogniRead {
       quickToggle.addEventListener('click', () => {
         if (mainToggle) {
           mainToggle.click();
-          // Update quick toggle state
-          const isActive = mainToggle.classList.contains('active');
-          quickToggle.setAttribute('data-active', isActive.toString());
+          // Quick toggle state will be updated automatically by updateQuickToggleStates()
         }
       });
 
@@ -3481,12 +3484,44 @@ class CogniRead {
     });
   }
 
+  // Update all quick toggle button states to match their feature states
+  updateQuickToggleStates() {
+    // Update focus-mode-quick-toggle (original built-in toggle)
+    const focusModeQuickToggle = document.getElementById('cogniread-focus-mode-quick-toggle');
+    if (focusModeQuickToggle) {
+      focusModeQuickToggle.setAttribute('data-active', this.state.focusMode.toString());
+    }
+
+    // Update all starred feature quick toggles
+    const starredQuickToggles = document.querySelectorAll('[data-starred-feature]');
+    const featureStateMap = {
+      'focus-mode': this.state.focusMode,
+      'tldr': this.state.tldrMode,
+      'distraction-free': this.state.distractionFree,
+      'dyslexia': this.state.dyslexiaMode,
+      'definitions': this.state.definitionsEnabled,
+      'literal': this.state.idiomMode,
+      'concept': this.state.conceptConnections,
+      'heatmap': this.state.cognitiveHeatmap,
+      'expansion': this.state.expansionMode,
+      'restructure': this.state.sentenceRestructuring,
+      'active-voice': this.state.activeVoice
+    };
+
+    starredQuickToggles.forEach(quickToggle => {
+      const featureName = quickToggle.getAttribute('data-starred-feature');
+      const isActive = featureStateMap[featureName] || false;
+      quickToggle.setAttribute('data-active', isActive.toString());
+    });
+  }
+
   // ===== AI-Powered Features Implementation =====
 
   // Feature 1: Concept Connections
   async toggleConceptConnections(enabled) {
     console.log('🔗 Concept Connections toggle:', enabled);
     this.state.conceptConnections = enabled;
+    this.updateQuickToggleStates();
 
     if (enabled) {
       await this.enableConceptConnections();
@@ -3791,6 +3826,7 @@ class CogniRead {
   async toggleCognitiveHeatmap(enabled) {
     console.log('📊 Cognitive Heatmap toggle:', enabled);
     this.state.cognitiveHeatmap = enabled;
+    this.updateQuickToggleStates();
 
     if (enabled) {
       await this.showCognitiveHeatmap();
