@@ -121,6 +121,14 @@ class CognitiveEngine {
   // Works directly with live DOM elements
   chunkContent() {
     const chunks = [];
+    const debugStats = {
+      total: 0,
+      filteredUnwanted: 0,
+      filteredCogniread: 0,
+      filteredTooShort: 0,
+      filteredDivContainer: 0,
+      added: 0
+    };
 
     // Find main content container in the actual DOM
     const selectors = [
@@ -138,30 +146,33 @@ class CognitiveEngine {
     for (const selector of selectors) {
       container = document.querySelector(selector);
       if (container) {
-        console.log(`Found content container: ${selector}`);
+        console.log(`✅ Found content container: ${selector}`);
         break;
       }
     }
 
     // Fallback to body if no main content found
     if (!container) {
-      console.log('No specific content container found, using document.body');
+      console.log('⚠️ No specific content container found, using document.body');
       container = document.body;
     }
 
     // Find all paragraphs and headings in the actual DOM
     const elements = container.querySelectorAll('p, h1, h2, h3, h4, h5, h6, li, blockquote, div');
 
-    console.log(`Found ${elements.length} potential elements to chunk`);
+    debugStats.total = elements.length;
+    console.log(`🔍 Found ${elements.length} potential elements to chunk`);
 
-    elements.forEach(element => {
+    elements.forEach((element, index) => {
       // Skip if inside unwanted elements (less restrictive - allow aside which might have content)
       if (element.closest('nav, header, footer, .ad, .advertisement, script, style')) {
+        debugStats.filteredUnwanted++;
         return;
       }
 
       // Skip CogniRead's own elements
       if (element.closest('[id^="cogniread"], [class^="cogniread"]')) {
+        debugStats.filteredCogniread++;
         return;
       }
 
@@ -171,24 +182,47 @@ class CognitiveEngine {
       // For divs, require more text (50 chars) to avoid empty containers
       const minLength = element.tagName.toLowerCase() === 'div' ? 50 : 10;
 
-      if (text.length >= minLength) {
-        // For divs, make sure they don't have too many child block elements (likely a container)
-        if (element.tagName.toLowerCase() === 'div') {
-          const childBlocks = element.querySelectorAll('p, h1, h2, h3, h4, h5, h6, div, article, section');
-          if (childBlocks.length > 2) {
-            return; // This is likely a container, not content
-          }
-        }
-
-        chunks.push({
-          element: element, // Actual DOM element
-          text: text,
-          type: element.tagName.toLowerCase()
-        });
+      if (text.length < minLength) {
+        debugStats.filteredTooShort++;
+        return;
       }
+
+      // For divs, make sure they don't have too many child block elements (likely a container)
+      if (element.tagName.toLowerCase() === 'div') {
+        const childBlocks = element.querySelectorAll('p, h1, h2, h3, h4, h5, h6, div, article, section');
+        if (childBlocks.length > 2) {
+          debugStats.filteredDivContainer++;
+          return; // This is likely a container, not content
+        }
+      }
+
+      chunks.push({
+        element: element, // Actual DOM element
+        text: text,
+        type: element.tagName.toLowerCase()
+      });
+      debugStats.added++;
     });
 
-    console.log(`Created ${chunks.length} content chunks for focus mode`);
+    console.log(`📊 Chunking Stats:`, debugStats);
+    console.log(`✅ Created ${chunks.length} content chunks for focus mode`);
+
+    // If no chunks found, log sample elements for debugging
+    if (chunks.length === 0 && elements.length > 0) {
+      console.log('❌ No chunks created! Debugging first 5 elements:');
+      Array.from(elements).slice(0, 5).forEach((el, i) => {
+        console.log(`Element ${i}:`, {
+          tag: el.tagName,
+          textLength: el.textContent.trim().length,
+          text: el.textContent.trim().substring(0, 100),
+          isInNav: !!el.closest('nav'),
+          isInHeader: !!el.closest('header'),
+          isInFooter: !!el.closest('footer'),
+          isInCogniread: !!el.closest('[id^="cogniread"], [class^="cogniread"]'),
+          childBlockCount: el.querySelectorAll('p, h1, h2, h3, h4, h5, h6, div, article, section').length
+        });
+      });
+    }
 
     return chunks;
   }
