@@ -2000,7 +2000,7 @@ html.cogniread-theme-dark .cogniread-panel-content::-webkit-scrollbar-thumb {
   width: 22px !important;
   text-align: center !important;
   position: relative !important;
-  z-index: 2147483646 !important;
+  z-index: 1 !important;
 }
 
 .cogniread-feature-label {
