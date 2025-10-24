@@ -2490,7 +2490,7 @@ html.cogniread-theme-dark .cogniread-panel {
     rgba(40, 41, 44, 0.88) 100%) !important;
   -webkit-backdrop-filter: blur(24px) saturate(200%) !important;
   backdrop-filter: blur(24px) saturate(200%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border: 2px solid var(--category-reading) !important;
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.5),
     0 2px 8px rgba(0, 0, 0, 0.3),
