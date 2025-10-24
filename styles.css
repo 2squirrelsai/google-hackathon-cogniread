@@ -698,7 +698,7 @@ html.cogniread-theme-dark .cogniread-mini:hover {
     0 8px 32px rgba(0, 0, 0, 0.12),
     0 2px 8px rgba(0, 0, 0, 0.08),
     0 0 0 1px rgba(255, 255, 255, 0.3) inset !important;
-  overflow: hidden !important;
+  overflow: visible !important;
   z-index: 2147483647 !important;
   display: none !important;
   pointer-events: auto !important;
@@ -2914,7 +2914,7 @@ html.cogniread-theme-dark .cogniread-toggle-switch {
   pointer-events: none !important;
   opacity: 0 !important;
   transition: all 0.2s ease !important;
-  z-index: 100 !important;
+  z-index: 999999 !important;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
 }
 
@@ -2933,7 +2933,7 @@ html.cogniread-theme-dark .cogniread-toggle-switch {
   pointer-events: none !important;
   opacity: 0 !important;
   transition: all 0.2s ease !important;
-  z-index: 100 !important;
+  z-index: 999999 !important;
 }
 
 /* Show tooltip on hover */
