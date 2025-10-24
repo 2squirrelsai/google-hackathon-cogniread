@@ -605,26 +605,58 @@ class CogniRead {
   }
 
   saveSectionState(sectionName, isCollapsed) {
-    chrome.storage.sync.get(['cogniread_sections'], (result) => {
-      const sections = result.cogniread_sections || {};
-      sections[sectionName] = { collapsed: isCollapsed };
-      chrome.storage.sync.set({ cogniread_sections: sections });
-    });
+    // Check if extension context is still valid
+    if (!chrome.runtime?.id) {
+      console.log('CogniRead: Extension context invalidated, skipping state save');
+      return;
+    }
+
+    try {
+      chrome.storage.sync.get(['cogniread_sections'], (result) => {
+        if (chrome.runtime.lastError) {
+          console.log('CogniRead: Could not save section state:', chrome.runtime.lastError.message);
+          return;
+        }
+        const sections = result.cogniread_sections || {};
+        sections[sectionName] = { collapsed: isCollapsed };
+        chrome.storage.sync.set({ cogniread_sections: sections }, () => {
+          if (chrome.runtime.lastError) {
+            console.log('CogniRead: Could not save section state:', chrome.runtime.lastError.message);
+          }
+        });
+      });
+    } catch (error) {
+      console.log('CogniRead: Extension context invalidated');
+    }
   }
 
   restoreSectionStates() {
-    chrome.storage.sync.get(['cogniread_sections'], (result) => {
-      const sections = result.cogniread_sections || {};
+    // Check if extension context is still valid
+    if (!chrome.runtime?.id) {
+      console.log('CogniRead: Extension context invalidated, skipping state restore');
+      return;
+    }
 
-      Object.keys(sections).forEach(sectionName => {
+    try {
+      chrome.storage.sync.get(['cogniread_sections'], (result) => {
+        if (chrome.runtime.lastError) {
+          console.log('CogniRead: Could not restore section states:', chrome.runtime.lastError.message);
+          return;
+        }
+        const sections = result.cogniread_sections || {};
+
+        Object.keys(sections).forEach(sectionName => {
         if (sections[sectionName].collapsed) {
           const section = this.ui.controls.querySelector(`[data-section="${sectionName}"]`);
           if (section) {
             section.classList.add('collapsed');
           }
         }
+        });
       });
-    });
+    } catch (error) {
+      console.log('CogniRead: Extension context invalidated');
+    }
   }
 
 
@@ -3263,6 +3295,12 @@ class CogniRead {
   }
 
   async savePreferences() {
+    // Check if extension context is still valid
+    if (!chrome.runtime?.id) {
+      console.log('CogniRead: Extension context invalidated, skipping preferences save');
+      return;
+    }
+
     try {
       await chrome.storage.sync.set({
         cogniread_preferences: {
@@ -3296,6 +3334,12 @@ class CogniRead {
   }
 
   async loadPreferences() {
+    // Check if extension context is still valid
+    if (!chrome.runtime?.id) {
+      console.log('CogniRead: Extension context invalidated, skipping preferences load');
+      return;
+    }
+
     try {
       const result = await chrome.storage.sync.get(['cogniread_preferences']);
       if (result.cogniread_preferences) {
@@ -3496,6 +3540,12 @@ class CogniRead {
 
   // Save only starred features (more efficient than saving all preferences)
   async saveStarredFeatures() {
+    // Check if extension context is still valid
+    if (!chrome.runtime?.id) {
+      console.log('CogniRead: Extension context invalidated, skipping starred features save');
+      return;
+    }
+
     try {
       const result = await chrome.storage.sync.get(['cogniread_preferences']);
       const prefs = result.cogniread_preferences || {};
