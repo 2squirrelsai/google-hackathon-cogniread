@@ -23,7 +23,7 @@ class CogniRead {
       theme: 'light', // 'light' or 'dark'
       panelCollapsed: false,
       panelPinned: false,
-      panelPosition: 'top-right', // 'top-right', 'top-left', 'bottom-right', 'bottom-left'
+      panelPosition: 'bottom-left', // 'top-right', 'top-left', 'bottom-right', 'bottom-left'
       distractionFree: false,
       starredFeatures: ['focus-mode', 'distraction-free'] // Default starred features for quick access
     };
@@ -510,11 +510,11 @@ class CogniRead {
             </g>
           </svg>
         </button>
-        <button class="cogniread-position-toggle" id="cogniread-position-toggle" data-position="top-right" title="Change position">
+        <button class="cogniread-position-toggle" id="cogniread-position-toggle" data-position="bottom-left" title="Change position">
           <svg class="cogniread-position-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <rect class="position-indicator" x="14" y="4" width="6" height="6" fill="currentColor" rx="1"/>
+            <rect class="position-indicator" x="4" y="14" width="6" height="6" fill="currentColor" rx="1"/>
             <rect x="4" y="4" width="6" height="6" fill="currentColor" opacity="0.3" rx="1"/>
-            <rect x="4" y="14" width="6" height="6" fill="currentColor" opacity="0.3" rx="1"/>
+            <rect x="14" y="4" width="6" height="6" fill="currentColor" opacity="0.3" rx="1"/>
             <rect x="14" y="14" width="6" height="6" fill="currentColor" opacity="0.3" rx="1"/>
           </svg>
         </button>
@@ -3303,6 +3303,7 @@ class CogniRead {
           cognitiveHeatmap: this.state.cognitiveHeatmap,
           toneAdjustment: this.state.toneAdjustment,
           theme: this.state.theme,
+          panelPosition: this.state.panelPosition,
           starredFeatures: this.state.starredFeatures
         }
       });
@@ -3340,6 +3341,11 @@ class CogniRead {
         }
 
         this.applyTheme(prefs.theme);
+      }
+
+      // Panel Position
+      if (prefs.panelPosition) {
+        await this.setPanelPosition(prefs.panelPosition);
       }
 
       // ELI5 Mode (handled by simplification slider now)
