@@ -768,6 +768,7 @@ html.cogniread-theme-dark .cogniread-mini:hover {
   align-items: center !important;
   justify-content: space-between !important;
   position: relative !important;
+  border-radius: 16px 16px 0 0 !important;
 }
 
 .cogniread-panel-header::after {
