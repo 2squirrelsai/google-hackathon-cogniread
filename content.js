@@ -3702,7 +3702,9 @@ class CogniRead {
       return;
     }
 
-    const loading = this.showLoading('Analyzing concepts...');
+    // Store loading reference so it can be hidden if disabled
+    this.conceptConnectionsLoading = this.showLoading('Analyzing concepts...');
+    const loading = this.conceptConnectionsLoading;
 
     try {
       // Get all paragraphs
@@ -3744,6 +3746,7 @@ class CogniRead {
       alert('Failed to analyze concepts. Please try again.');
     } finally {
       this.hideLoading(loading);
+      this.conceptConnectionsLoading = null;
     }
   }
 
@@ -3768,6 +3771,12 @@ class CogniRead {
 
   disableConceptConnections() {
     console.log('🔗 Disabling Concept Connections...');
+
+    // Hide loading indicator if still active
+    if (this.conceptConnectionsLoading) {
+      this.hideLoading(this.conceptConnectionsLoading);
+      this.conceptConnectionsLoading = null;
+    }
 
     // Remove all concept links
     document.querySelectorAll('.cogniread-concept-link').forEach(link => {
