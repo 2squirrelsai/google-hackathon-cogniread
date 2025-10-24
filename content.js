@@ -24,7 +24,8 @@ class CogniRead {
       panelCollapsed: false,
       panelPinned: false,
       panelPosition: 'top-right', // 'top-right', 'top-left', 'bottom-right', 'bottom-left'
-      distractionFree: false
+      distractionFree: false,
+      starredFeatures: ['focus-mode', 'distraction-free'] // Default starred features for quick access
     };
     this.ui = {
       overlay: null,
@@ -212,7 +213,14 @@ class CogniRead {
                 <span class="cogniread-feature-icon" data-tooltip="Applies OpenDyslexic font and spacing for easier reading">📖</span>
                 <span class="cogniread-feature-label">Dyslexia-Friendly</span>
               </div>
-              <div class="cogniread-toggle" id="cogniread-dyslexia-toggle"></div>
+              <div class="cogniread-feature-right">
+                <button class="cogniread-star-btn" data-feature="dyslexia-mode" data-starred="false" title="Pin to quick access">
+                  <svg class="star-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="currentColor"/>
+                  </svg>
+                </button>
+                <div class="cogniread-toggle" id="cogniread-dyslexia-toggle"></div>
+              </div>
             </div>
             <!-- Show Definitions -->
             <div class="cogniread-feature-item">
@@ -220,7 +228,14 @@ class CogniRead {
                 <span class="cogniread-feature-icon" data-tooltip="Highlights difficult words and shows AI-powered definitions on hover">📚</span>
                 <span class="cogniread-feature-label">Show Definitions</span>
               </div>
-              <div class="cogniread-toggle" id="cogniread-definitions-toggle"></div>
+              <div class="cogniread-feature-right">
+                <button class="cogniread-star-btn" data-feature="definitions" data-starred="false" title="Pin to quick access">
+                  <svg class="star-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="currentColor"/>
+                  </svg>
+                </button>
+                <div class="cogniread-toggle" id="cogniread-definitions-toggle"></div>
+              </div>
             </div>
             <!-- Literal Language -->
             <div class="cogniread-feature-item">
@@ -228,7 +243,14 @@ class CogniRead {
                 <span class="cogniread-feature-icon" data-tooltip="Detects idioms and shows their literal meanings">💬</span>
                 <span class="cogniread-feature-label">Literal Language</span>
               </div>
-              <div class="cogniread-toggle" id="cogniread-literal-toggle"></div>
+              <div class="cogniread-feature-right">
+                <button class="cogniread-star-btn" data-feature="literal-language" data-starred="false" title="Pin to quick access">
+                  <svg class="star-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="currentColor"/>
+                  </svg>
+                </button>
+                <div class="cogniread-toggle" id="cogniread-literal-toggle"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -251,7 +273,14 @@ class CogniRead {
                 <span class="cogniread-feature-icon" data-tooltip="Links related concepts together for better understanding">🔗</span>
                 <span class="cogniread-feature-label">Concept Connections</span>
               </div>
-              <div class="cogniread-toggle" id="cogniread-concept-toggle"></div>
+              <div class="cogniread-feature-right">
+                <button class="cogniread-star-btn" data-feature="concept-connections" data-starred="false" title="Pin to quick access">
+                  <svg class="star-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="currentColor"/>
+                  </svg>
+                </button>
+                <div class="cogniread-toggle" id="cogniread-concept-toggle"></div>
+              </div>
             </div>
             <!-- Plain Language Translation -->
             <div class="cogniread-feature-item">
@@ -291,7 +320,14 @@ class CogniRead {
                 <span class="cogniread-feature-icon" data-tooltip="Color-codes text by difficulty level for easy navigation">📊</span>
                 <span class="cogniread-feature-label">Difficulty Heatmap</span>
               </div>
-              <div class="cogniread-toggle" id="cogniread-heatmap-toggle"></div>
+              <div class="cogniread-feature-right">
+                <button class="cogniread-star-btn" data-feature="heatmap" data-starred="false" title="Pin to quick access">
+                  <svg class="star-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="currentColor"/>
+                  </svg>
+                </button>
+                <div class="cogniread-toggle" id="cogniread-heatmap-toggle"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -314,7 +350,14 @@ class CogniRead {
                 <span class="cogniread-feature-icon" data-tooltip="Highlights one paragraph at a time, dimming everything else">🔆</span>
                 <span class="cogniread-feature-label">Focus Mode</span>
               </div>
-              <div class="cogniread-toggle" id="cogniread-focus-mode-toggle"></div>
+              <div class="cogniread-feature-right">
+                <button class="cogniread-star-btn" data-feature="focus-mode" data-starred="true" title="Pin to quick access">
+                  <svg class="star-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="currentColor"/>
+                  </svg>
+                </button>
+                <div class="cogniread-toggle" id="cogniread-focus-mode-toggle"></div>
+              </div>
             </div>
             <!-- TL;DR Mode -->
             <div class="cogniread-feature-item" id="tldr-toggle-item">
@@ -322,7 +365,14 @@ class CogniRead {
                 <span class="cogniread-feature-icon" data-tooltip="Generates AI-powered bullet-point summary of the page">📝</span>
                 <span class="cogniread-feature-label">TL;DR Mode</span>
               </div>
-              <div class="cogniread-toggle" id="cogniread-tldr-toggle"></div>
+              <div class="cogniread-feature-right">
+                <button class="cogniread-star-btn" data-feature="tldr-mode" data-starred="false" title="Pin to quick access">
+                  <svg class="star-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="currentColor"/>
+                  </svg>
+                </button>
+                <div class="cogniread-toggle" id="cogniread-tldr-toggle"></div>
+              </div>
             </div>
             <!-- Distraction-Free Mode -->
             <div class="cogniread-feature-item">
@@ -330,7 +380,14 @@ class CogniRead {
                 <span class="cogniread-feature-icon" data-tooltip="Clean reader view that removes ads, sidebars, and distractions">📄</span>
                 <span class="cogniread-feature-label">Distraction-Free</span>
               </div>
-              <div class="cogniread-toggle" id="cogniread-distraction-free-toggle"></div>
+              <div class="cogniread-feature-right">
+                <button class="cogniread-star-btn" data-feature="distraction-free" data-starred="true" title="Pin to quick access">
+                  <svg class="star-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="currentColor"/>
+                  </svg>
+                </button>
+                <div class="cogniread-toggle" id="cogniread-distraction-free-toggle"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -353,7 +410,14 @@ class CogniRead {
                 <span class="cogniread-feature-icon" data-tooltip="Expands abbreviations and contractions for clarity">🔠</span>
                 <span class="cogniread-feature-label">Text Expansion</span>
               </div>
-              <div class="cogniread-toggle" id="cogniread-expansion-toggle"></div>
+              <div class="cogniread-feature-right">
+                <button class="cogniread-star-btn" data-feature="expansion" data-starred="false" title="Pin to quick access">
+                  <svg class="star-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="currentColor"/>
+                  </svg>
+                </button>
+                <div class="cogniread-toggle" id="cogniread-expansion-toggle"></div>
+              </div>
             </div>
             <!-- Sentence Restructuring -->
             <div class="cogniread-feature-item">
@@ -361,7 +425,14 @@ class CogniRead {
                 <span class="cogniread-feature-icon" data-tooltip="Restructures complex sentences for easier comprehension">🔄</span>
                 <span class="cogniread-feature-label">Sentence Restructuring</span>
               </div>
-              <div class="cogniread-toggle" id="cogniread-restructure-toggle"></div>
+              <div class="cogniread-feature-right">
+                <button class="cogniread-star-btn" data-feature="restructure" data-starred="false" title="Pin to quick access">
+                  <svg class="star-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="currentColor"/>
+                  </svg>
+                </button>
+                <div class="cogniread-toggle" id="cogniread-restructure-toggle"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -384,7 +455,14 @@ class CogniRead {
                 <span class="cogniread-feature-icon" data-tooltip="Converts passive voice to active voice for clarity">▶️</span>
                 <span class="cogniread-feature-label">Active Voice</span>
               </div>
-              <div class="cogniread-toggle" id="cogniread-active-voice-toggle"></div>
+              <div class="cogniread-feature-right">
+                <button class="cogniread-star-btn" data-feature="active-voice" data-starred="false" title="Pin to quick access">
+                  <svg class="star-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="currentColor"/>
+                  </svg>
+                </button>
+                <div class="cogniread-toggle" id="cogniread-active-voice-toggle"></div>
+              </div>
             </div>
             <!-- Tone Adjustment -->
             <div class="cogniread-feature-item">
@@ -1052,6 +1130,41 @@ class CogniRead {
           }
         }
       }
+    });
+
+    // ===== Star Button Event Listeners =====
+    // Handle star toggle for all features
+    const starButtons = document.querySelectorAll('.cogniread-star-btn');
+    starButtons.forEach(starBtn => {
+      starBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent triggering parent element events
+
+        const featureName = starBtn.getAttribute('data-feature');
+        const isStarred = starBtn.getAttribute('data-starred') === 'true';
+        const newStarredState = !isStarred;
+
+        // Update star button state
+        starBtn.setAttribute('data-starred', newStarredState.toString());
+
+        // Update starred features array
+        if (newStarredState) {
+          // Add to starred features
+          if (!this.state.starredFeatures.includes(featureName)) {
+            this.state.starredFeatures.push(featureName);
+          }
+        } else {
+          // Remove from starred features
+          this.state.starredFeatures = this.state.starredFeatures.filter(f => f !== featureName);
+        }
+
+        // Save to localStorage
+        this.saveStarredFeatures();
+
+        // Update theme selector
+        this.updateThemeSelectorStarredFeatures();
+
+        console.log(`⭐ ${newStarredState ? 'Starred' : 'Unstarred'} feature: ${featureName}`);
+      });
     });
   }
 
@@ -3143,7 +3256,8 @@ class CogniRead {
           dyslexiaMode: this.state.dyslexiaMode,
           definitionsEnabled: this.state.definitionsEnabled,
           idiomMode: this.state.idiomMode,
-          theme: this.state.theme
+          theme: this.state.theme,
+          starredFeatures: this.state.starredFeatures
         }
       });
     } catch (error) {
@@ -3243,6 +3357,15 @@ class CogniRead {
         await this.convertIdiomsToLiteral();
         this.state.idiomMode = true;
       }
+
+      // Starred Features (for quick access)
+      if (prefs.starredFeatures && Array.isArray(prefs.starredFeatures)) {
+        this.state.starredFeatures = prefs.starredFeatures;
+        // Update star button states
+        this.updateStarButtonStates();
+        // Update theme selector with starred features
+        this.updateThemeSelectorStarredFeatures();
+      }
     }
     } catch (error) {
       // Extension context invalidated (extension reloaded/updated)
@@ -3256,6 +3379,97 @@ class CogniRead {
 
     // Update badge to reflect active features
     this.updateActiveBadge();
+  }
+
+  // Save only starred features (more efficient than saving all preferences)
+  async saveStarredFeatures() {
+    try {
+      const result = await chrome.storage.sync.get(['cogniread_preferences']);
+      const prefs = result.cogniread_preferences || {};
+      prefs.starredFeatures = this.state.starredFeatures;
+
+      await chrome.storage.sync.set({
+        cogniread_preferences: prefs
+      });
+    } catch (error) {
+      if (error.message.includes('Extension context invalidated')) {
+        console.warn('⚠️ CogniRead: Extension was reloaded. Starred features not saved.');
+      } else {
+        console.error('Error saving starred features:', error);
+      }
+    }
+  }
+
+  // Update star button states based on stored starred features
+  updateStarButtonStates() {
+    const starButtons = document.querySelectorAll('.cogniread-star-btn');
+    starButtons.forEach(starBtn => {
+      const featureName = starBtn.getAttribute('data-feature');
+      const isStarred = this.state.starredFeatures.includes(featureName);
+      starBtn.setAttribute('data-starred', isStarred.toString());
+    });
+  }
+
+  // Update theme selector to show starred features as quick access buttons
+  updateThemeSelectorStarredFeatures() {
+    const themeSelector = document.querySelector('.cogniread-theme-selector');
+    if (!themeSelector) return;
+
+    // Remove existing starred feature buttons (except theme and position toggles)
+    const existingStarredBtns = themeSelector.querySelectorAll('[data-starred-feature]');
+    existingStarredBtns.forEach(btn => btn.remove());
+
+    // Feature metadata for display
+    const featureMetadata = {
+      'focus-mode': { icon: '🎯', label: 'Focus', toggleId: 'cogniread-focus-mode-toggle' },
+      'tldr': { icon: '📝', label: 'TL;DR', toggleId: 'cogniread-tldr-toggle' },
+      'distraction-free': { icon: '📖', label: 'Reader', toggleId: 'cogniread-distraction-free-toggle' },
+      'dyslexia': { icon: '👁️', label: 'Dyslexia', toggleId: 'cogniread-dyslexia-toggle' },
+      'definitions': { icon: '📚', label: 'Definitions', toggleId: 'cogniread-definitions-toggle' },
+      'literal': { icon: '🔤', label: 'Literal', toggleId: 'cogniread-literal-toggle' },
+      'concept': { icon: '🔗', label: 'Concepts', toggleId: 'cogniread-concept-toggle' },
+      'heatmap': { icon: '📊', label: 'Heatmap', toggleId: 'cogniread-heatmap-toggle' },
+      'expansion': { icon: '🔠', label: 'Expand', toggleId: 'cogniread-expansion-toggle' },
+      'restructure': { icon: '🔄', label: 'Restructure', toggleId: 'cogniread-restructure-toggle' },
+      'active-voice': { icon: '▶️', label: 'Active', toggleId: 'cogniread-active-voice-toggle' }
+    };
+
+    // Add quick access buttons for each starred feature
+    this.state.starredFeatures.forEach(featureName => {
+      const metadata = featureMetadata[featureName];
+      if (!metadata) return;
+
+      const quickToggle = document.createElement('button');
+      quickToggle.className = 'cogniread-theme-quick-toggle';
+      quickToggle.setAttribute('data-starred-feature', featureName);
+      quickToggle.setAttribute('data-active', 'false');
+      quickToggle.setAttribute('title', `Toggle ${metadata.label}`);
+      quickToggle.textContent = metadata.icon;
+
+      // Check if feature is currently active
+      const mainToggle = document.getElementById(metadata.toggleId);
+      if (mainToggle && mainToggle.classList.contains('active')) {
+        quickToggle.setAttribute('data-active', 'true');
+      }
+
+      // Add click handler to toggle the feature
+      quickToggle.addEventListener('click', () => {
+        if (mainToggle) {
+          mainToggle.click();
+          // Update quick toggle state
+          const isActive = mainToggle.classList.contains('active');
+          quickToggle.setAttribute('data-active', isActive.toString());
+        }
+      });
+
+      // Insert before the theme toggle button
+      const themeToggle = themeSelector.querySelector('#cogniread-theme-toggle');
+      if (themeToggle) {
+        themeSelector.insertBefore(quickToggle, themeToggle);
+      } else {
+        themeSelector.appendChild(quickToggle);
+      }
+    });
   }
 
   // ===== AI-Powered Features Implementation =====
