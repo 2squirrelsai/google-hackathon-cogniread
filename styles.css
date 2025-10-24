@@ -627,9 +627,8 @@ html.cogniread-theme-dark .cogniread-mini:hover {
   position: absolute !important;
   top: -4px !important;
   right: -4px !important;
-  /*background: var(--btn-destructive-bg) !important;*/
-  background: #11b7cc !important;
-  color: var(--btn-destructive-text) !important;
+  background: rgb(156, 39, 176) !important;
+  color: white !important;
   width: 18px !important;
   height: 18px !important;
   border-radius: 50% !important;
@@ -638,7 +637,7 @@ html.cogniread-theme-dark .cogniread-mini:hover {
   justify-content: center !important;
   font-size: 8px !important;
   font-weight: 600 !important;
-  border: 1px solid var(--bg-primary) !important;
+  border: 1px solid rgb(156, 39, 176) !important;
   box-shadow: var(--shadow-sm) !important;
 }
 
