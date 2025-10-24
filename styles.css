@@ -1864,23 +1864,23 @@ html.cogniread-theme-dark .cogniread-panel-content::-webkit-scrollbar-thumb {
 }
 
 .cogniread-section.text-transform {
-  border-left-color: var(--category-transform) !important; /* Blue */
+  border-left-color: var(--category-reading) !important; /* Purple */
 }
 
 .cogniread-section.voice-features {
-  border-left-color: var(--category-voice) !important; /* Cyan */
+  border-left-color: var(--category-reading) !important; /* Purple */
 }
 
 .cogniread-section.focus-features {
-  border-left-color: var(--category-focus) !important; /* Pink */
+  border-left-color: var(--category-reading) !important; /* Purple */
 }
 
 .cogniread-section.accessibility {
-  border-left-color: var(--category-accessibility) !important; /* Green */
+  border-left-color: var(--category-reading) !important; /* Purple */
 }
 
 .cogniread-section.ai-features {
-  border-left-color: var(--category-ai) !important; /* Amber */
+  border-left-color: var(--category-reading) !important; /* Purple */
 }
 
 /* Section header */
