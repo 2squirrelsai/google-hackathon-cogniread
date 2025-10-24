@@ -130,35 +130,65 @@ class CognitiveEngine {
       '.content',
       '#content',
       '.post-content',
-      '.article-content'
+      '.article-content',
+      '[role="article"]'
     ];
 
     let container = null;
     for (const selector of selectors) {
       container = document.querySelector(selector);
-      if (container) break;
+      if (container) {
+        console.log(`Found content container: ${selector}`);
+        break;
+      }
     }
 
     // Fallback to body if no main content found
-    if (!container) container = document.body;
+    if (!container) {
+      console.log('No specific content container found, using document.body');
+      container = document.body;
+    }
 
     // Find all paragraphs and headings in the actual DOM
-    const elements = container.querySelectorAll('p, h1, h2, h3, h4, h5, h6, li, blockquote');
+    const elements = container.querySelectorAll('p, h1, h2, h3, h4, h5, h6, li, blockquote, div');
+
+    console.log(`Found ${elements.length} potential elements to chunk`);
 
     elements.forEach(element => {
-      // Skip if inside unwanted elements
-      if (element.closest('nav, header, footer, aside, .ad, .advertisement')) {
+      // Skip if inside unwanted elements (less restrictive - allow aside which might have content)
+      if (element.closest('nav, header, footer, .ad, .advertisement, script, style')) {
         return;
       }
 
-      if (element.textContent.trim().length > 20) { // At least 20 chars
+      // Skip CogniRead's own elements
+      if (element.closest('[id^="cogniread"], [class^="cogniread"]')) {
+        return;
+      }
+
+      const text = element.textContent.trim();
+
+      // More lenient content check - at least 10 chars
+      // For divs, require more text (50 chars) to avoid empty containers
+      const minLength = element.tagName.toLowerCase() === 'div' ? 50 : 10;
+
+      if (text.length >= minLength) {
+        // For divs, make sure they don't have too many child block elements (likely a container)
+        if (element.tagName.toLowerCase() === 'div') {
+          const childBlocks = element.querySelectorAll('p, h1, h2, h3, h4, h5, h6, div, article, section');
+          if (childBlocks.length > 2) {
+            return; // This is likely a container, not content
+          }
+        }
+
         chunks.push({
           element: element, // Actual DOM element
-          text: element.textContent.trim(),
+          text: text,
           type: element.tagName.toLowerCase()
         });
       }
     });
+
+    console.log(`Created ${chunks.length} content chunks for focus mode`);
 
     return chunks;
   }
