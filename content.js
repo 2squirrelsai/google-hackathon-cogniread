@@ -372,7 +372,7 @@ class CogniRead {
                 <span class="cogniread-feature-label">Focus Mode</span>
               </div>
               <div class="cogniread-feature-right">
-                <button class="cogniread-star-btn" data-feature="focus-mode" data-starred="true" title="Pin to quick access">
+                <button class="cogniread-star-btn" data-feature="focus-mode" data-starred="false" title="Pin to quick access">
                   <svg class="star-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="currentColor"/>
                   </svg>
@@ -402,7 +402,7 @@ class CogniRead {
                 <span class="cogniread-feature-label">Distraction-Free</span>
               </div>
               <div class="cogniread-feature-right">
-                <button class="cogniread-star-btn" data-feature="distraction-free" data-starred="true" title="Pin to quick access">
+                <button class="cogniread-star-btn" data-feature="distraction-free" data-starred="false" title="Pin to quick access">
                   <svg class="star-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="currentColor"/>
                   </svg>
