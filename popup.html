@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CogniRead - Adaptive Reading Assistant</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-primary: #ffffff;
+      --bg-secondary: #f8f9fa;
+      --bg-gradient-start: #667eea;
+      --bg-gradient-end: #764ba2;
+      --text-primary: #212529;
+      --text-secondary: #6c757d;
+      --text-muted: #999999;
+      --border-color: #e0e0e0;
+      --card-border: #667eea;
+      --shadow-sm: rgba(0, 0, 0, 0.05);
+      --accent-green: #28a745;
+      --accent-blue: #4185F4;
+      --accent-purple: #764ba2;
+    }
+
+    /* Dark theme variables */
+    body.dark-theme {
+      --bg-primary: #1e1e1e;
+      --bg-secondary: #2a2a2a;
+      --text-primary: #e0e0e0;
+      --text-secondary: #b0b0b0;
+      --text-muted: #808080;
+      --border-color: #404040;
+      --shadow-sm: rgba(0, 0, 0, 0.3);
+    }
+
+    body {
+      width: 420px;
+      max-height: 600px;
+      padding: 0;
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: var(--bg-primary);
+      transition: background 0.3s ease;
+      overflow-y: auto;
+    }
+
+    .header {
+      background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+      color: white;
+      padding: 24px 20px;
+      text-align: center;
+      position: relative;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .logo-icon {
+      width: 24px;
+      height: 24px;
+      fill: currentColor;
+    }
+
+    .tagline {
+      color: rgba(255, 255, 255, 0.95);
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .theme-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s ease;
+      font-size: 16px;
+    }
+
+    .theme-toggle:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .content {
+      background: var(--bg-primary);
+      padding: 20px;
+      transition: background 0.3s ease;
+    }
+
+    .activation-card {
+      background: var(--bg-secondary);
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 18px;
+      border-left: 4px solid var(--accent-blue);
+      box-shadow: 0 2px 4px var(--shadow-sm);
+      transition: all 0.3s ease;
+    }
+
+    .activation-card.active {
+      border-left-color: var(--accent-green);
+    }
+
+    .activation-status {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--text-muted);
+      transition: all 0.3s ease;
+    }
+
+    .activation-card.active .status-dot {
+      background: var(--accent-green);
+      box-shadow: 0 0 8px rgba(40, 167, 69, 0.4);
+    }
+
+    .status-text {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+      transition: color 0.3s ease;
+    }
+
+    .activate-btn {
+      background: var(--accent-blue);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    .activate-btn:hover {
+      background: #3367D6;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(65, 133, 244, 0.3);
+    }
+
+    .activate-btn:active {
+      transform: translateY(0);
+    }
+
+    .activate-btn:disabled {
+      background: var(--border-color);
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .activation-card.active .activate-btn {
+      background: var(--accent-green);
+    }
+
+    .activation-card.active .activate-btn:hover {
+      background: #218838;
+    }
+
+    .activation-hint {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-align: center;
+      transition: color 0.3s ease;
+    }
+
+    .intro-card {
+      background: var(--bg-secondary);
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 18px;
+      border-left: 4px solid var(--accent-blue);
+      box-shadow: 0 2px 4px var(--shadow-sm);
+      transition: all 0.3s ease;
+    }
+
+    .intro-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.3s ease;
+    }
+
+    .intro-text {
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      transition: color 0.3s ease;
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      transition: color 0.3s ease;
+    }
+
+    .feature-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .feature-card {
+      background: var(--bg-secondary);
+      border-radius: 10px;
+      padding: 14px;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+    }
+
+    .feature-card:hover {
+      border-color: var(--card-border);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px var(--shadow-sm);
+    }
+
+    .feature-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+
+    .feature-icon {
+      font-size: 20px;
+      width: 24px;
+      text-align: center;
+    }
+
+    .feature-name {
+      font-weight: 700;
+      color: var(--text-primary);
+      font-size: 13px;
+      flex: 1;
+      transition: color 0.3s ease;
+    }
+
+    .feature-badge {
+      font-family: 'Courier New', monospace;
+      background: var(--bg-primary);
+      padding: 3px 7px;
+      border-radius: 4px;
+      font-size: 9px;
+      color: var(--text-secondary);
+      font-weight: 600;
+      border: 1px solid var(--border-color);
+      transition: all 0.3s ease;
+    }
+
+    .feature-desc {
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-left: 34px;
+      transition: color 0.3s ease;
+    }
+
+    .how-to-card {
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 18px;
+      border: 2px solid var(--card-border);
+      transition: all 0.3s ease;
+    }
+
+    .how-to-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.3s ease;
+    }
+
+    .how-to-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .how-to-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      transition: color 0.3s ease;
+    }
+
+    .step-number {
+      background: var(--card-border);
+      color: white;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .shortcuts-section {
+      margin-top: 18px;
+    }
+
+    .shortcut-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .shortcut-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--text-primary);
+      padding: 8px 12px;
+      background: var(--bg-secondary);
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .shortcut-label {
+      color: var(--text-secondary);
+      transition: color 0.3s ease;
+    }
+
+    .keyboard-hint {
+      font-family: 'Courier New', monospace;
+      background: var(--bg-primary);
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      color: var(--text-primary);
+      font-weight: 600;
+      border: 1px solid var(--border-color);
+      transition: all 0.3s ease;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border-color);
+      margin: 18px 0;
+      transition: background 0.3s ease;
+    }
+
+    .tips-section {
+      background: var(--bg-secondary);
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 18px;
+      transition: background 0.3s ease;
+    }
+
+    .tips-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.3s ease;
+    }
+
+    .tip-item {
+      font-size: 11px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 8px;
+      padding-left: 16px;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    .tip-item:before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--card-border);
+      font-weight: bold;
+    }
+
+    .tip-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .footer {
+      padding: 16px 20px;
+      background: var(--bg-secondary);
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      transition: all 0.3s ease;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .footer-links {
+      margin-top: 8px;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .footer a {
+      color: var(--card-border);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s ease;
+    }
+
+    .footer a:hover {
+      color: var(--bg-gradient-end);
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .status-active {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    body.dark-theme .status-active {
+      background: #1e4620;
+      color: #90ee90;
+    }
+
+    .status-inactive {
+      background: #f8d7da;
+      color: #721c24;
+    }
+
+    body.dark-theme .status-inactive {
+      background: #4a1e1e;
+      color: #ffb3b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <button class="theme-toggle" id="themeToggle" title="Toggle theme">🌙</button>
+    <div class="logo">
+      <span>Cogni</span>
+      <svg class="logo-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2L15 8L21 9L16 14L18 21L12 17L6 21L8 14L3 9L9 8L12 2Z" fill="currentColor"/>
+      </svg>
+      <span>Read</span>
+    </div>
+    <div class="tagline">Adaptive Reading Assistant</div>
+    <div class="subtitle">AI-Powered Web Accessibility for Everyone</div>
+  </div>
+
+  <div class="content">
+    <!-- Activation Status Card -->
+    <div class="activation-card" id="activationCard">
+      <div class="activation-status">
+        <div class="status-indicator" id="statusIndicator">
+          <span class="status-dot"></span>
+          <span class="status-text" id="statusText">Not Active</span>
+        </div>
+        <button class="activate-btn" id="activateBtn">
+          <span id="activateBtnText">Activate on this Page</span>
+        </button>
+      </div>
+      <div class="activation-hint" id="activationHint">
+        Click to enable CogniRead features on this page
+      </div>
+    </div>
+
+    <div class="intro-card">
+      <div class="intro-title">
+        <span>👋</span>
+        <span>Welcome to CogniRead!</span>
+      </div>
+      <div class="intro-text">
+        CogniRead transforms how you read on the web by adapting content to your unique needs. Whether you have dyslexia, ADHD, or simply want to read more efficiently, CogniRead provides AI-powered tools to make every webpage more accessible.
+      </div>
+    </div>
+
+    <div class="how-to-card">
+      <div class="how-to-title">
+        <span>🚀</span>
+        <span>Getting Started</span>
+      </div>
+      <div class="how-to-steps">
+        <div class="how-to-step">
+          <div class="step-number">1</div>
+          <div>Visit any webpage with text content (articles, blogs, documentation)</div>
+        </div>
+        <div class="how-to-step">
+          <div class="step-number">2</div>
+          <div>Click the CogniRead icon and press "Activate on this Page"</div>
+        </div>
+        <div class="how-to-step">
+          <div class="step-number">3</div>
+          <div>Look for the floating control panel (⭐ icon) on the page</div>
+        </div>
+        <div class="how-to-step">
+          <div class="step-number">4</div>
+          <div>Enable features that help you read better using the toggles</div>
+        </div>
+        <div class="how-to-step">
+          <div class="step-number">5</div>
+          <div>Use keyboard shortcuts for quick access to Focus and TL;DR modes</div>
+        </div>
+      </div>
+    </div>
+
+    <section-title class="section-title">✨ Available Features</section-title>
+
+    <div class="feature-grid">
+      <!-- Reading Modes Section -->
+      <div class="feature-card">
+        <div class="feature-header">
+          <span class="feature-icon">💡</span>
+          <span class="feature-name">Simplification Levels</span>
+        </div>
+        <div class="feature-desc">
+          Adjust text complexity with 5 levels: Off, ELI5, ELI10, ELI15, and College. Explains complex concepts in age-appropriate language for better comprehension.
+        </div>
+      </div>
+
+      <!-- Text Transformation Section -->
+      <div class="feature-card">
+        <div class="feature-header">
+          <span class="feature-icon">🔠</span>
+          <span class="feature-name">Text Expansion</span>
+        </div>
+        <div class="feature-desc">
+          Expands abbreviations and acronyms automatically. Helps readers understand technical documents without constantly looking up terms.
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-header">
+          <span class="feature-icon">🔄</span>
+          <span class="feature-name">Sentence Restructuring</span>
+        </div>
+        <div class="feature-desc">
+          Breaks down complex sentences into simpler structures. Improves readability by reducing cognitive load and clarifying meaning.
+        </div>
+      </div>
+
+      <!-- Voice & Tone Section -->
+      <div class="feature-card">
+        <div class="feature-header">
+          <span class="feature-icon">▶️</span>
+          <span class="feature-name">Active Voice</span>
+        </div>
+        <div class="feature-desc">
+          Converts passive voice to active voice for clearer, more direct communication. Makes text more engaging and easier to follow.
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-header">
+          <span class="feature-icon">🎵</span>
+          <span class="feature-name">Tone Adjustment</span>
+        </div>
+        <div class="feature-desc">
+          Change content tone to Casual, Formal, Encouraging, or Neutral. Adapts writing style to match your reading preferences and context.
+        </div>
+      </div>
+
+      <!-- Focus Features Section -->
+      <div class="feature-card">
+        <div class="feature-header">
+          <span class="feature-icon">🔆</span>
+          <span class="feature-name">Focus Mode</span>
+          <span class="feature-badge">Ctrl+Shift+F</span>
+        </div>
+        <div class="feature-desc">
+          Shows one section at a time to eliminate distractions. Navigate with arrow keys. Ideal for readers with ADHD or attention difficulties.
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-header">
+          <span class="feature-icon">📝</span>
+          <span class="feature-name">TL;DR Mode</span>
+          <span class="feature-badge">Ctrl+Shift+T</span>
+        </div>
+        <div class="feature-desc">
+          Generates bullet-point summaries of long paragraphs using Chrome's AI. Save time and get the key points quickly without reading everything.
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-header">
+          <span class="feature-icon">📄</span>
+          <span class="feature-name">Distraction-Free Mode</span>
+          <span class="feature-badge">Ctrl+Shift+D</span>
+        </div>
+        <div class="feature-desc">
+          Transforms pages into clean reader view by removing ads, sidebars, and navigation. Safari Reader Mode for any website with customizable fonts and themes.
+        </div>
+      </div>
+
+      <!-- Accessibility Section -->
+      <div class="feature-card">
+        <div class="feature-header">
+          <span class="feature-icon">📖</span>
+          <span class="feature-name">Dyslexia-Friendly</span>
+        </div>
+        <div class="feature-desc">
+          Applies OpenDyslexic font, increased letter spacing, and improved line height. Reduces visual stress for dyslexic readers.
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-header">
+          <span class="feature-icon">📚</span>
+          <span class="feature-name">Word Definitions</span>
+        </div>
+        <div class="feature-desc">
+          Hover over difficult words to see instant definitions and pronunciations. Expand your vocabulary while reading naturally.
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-header">
+          <span class="feature-icon">💬</span>
+          <span class="feature-name">Literal Language</span>
+        </div>
+        <div class="feature-desc">
+          Detects and explains idioms, metaphors, and figures of speech. Essential for neurodivergent readers and non-native speakers.
+        </div>
+      </div>
+
+      <!-- AI-Powered Features Section -->
+      <div class="feature-card">
+        <div class="feature-header">
+          <span class="feature-icon">🔗</span>
+          <span class="feature-name">Concept Connections</span>
+          <span class="feature-badge">AI</span>
+        </div>
+        <div class="feature-desc">
+          Identifies key concepts and shows connections between ideas. Builds knowledge graphs to help you understand how topics relate to each other.
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-header">
+          <span class="feature-icon">🌐</span>
+          <span class="feature-name">Plain Language Translation</span>
+          <span class="feature-badge">AI</span>
+        </div>
+        <div class="feature-desc">
+          Converts legal, medical, or academic jargon into plain English. Choose specific domain or use auto-detect to simplify complex terminology.
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-header">
+          <span class="feature-icon">📋</span>
+          <span class="feature-name">Prerequisites Check</span>
+          <span class="feature-badge">AI</span>
+        </div>
+        <div class="feature-desc">
+          Analyzes articles to identify prerequisite knowledge needed. Shows what concepts you should understand first before diving into the content.
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-header">
+          <span class="feature-icon">🎯</span>
+          <span class="feature-name">Reading Goals</span>
+          <span class="feature-badge">AI</span>
+        </div>
+        <div class="feature-desc">
+          Determines learning objectives, key topics, difficulty level, and estimated reading time. Helps you decide if content matches your goals.
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-header">
+          <span class="feature-icon">📊</span>
+          <span class="feature-name">Difficulty Heatmap</span>
+          <span class="feature-badge">AI</span>
+        </div>
+        <div class="feature-desc">
+          Visualizes cognitive load with color-coded difficulty ratings. Highlights complex sections so you can pace yourself through challenging content.
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="shortcuts-section">
+      <div class="section-title">⌨️ Keyboard Shortcuts</div>
+      <div class="shortcut-list">
+        <div class="shortcut-item">
+          <span class="shortcut-label">Toggle Focus Mode</span>
+          <span class="keyboard-hint">Ctrl+Shift+F</span>
+        </div>
+        <div class="shortcut-item">
+          <span class="shortcut-label">Toggle TL;DR Mode</span>
+          <span class="keyboard-hint">Ctrl+Shift+T</span>
+        </div>
+        <div class="shortcut-item">
+          <span class="shortcut-label">Toggle Distraction-Free Mode</span>
+          <span class="keyboard-hint">Ctrl+Shift+D</span>
+        </div>
+        <div class="shortcut-item">
+          <span class="shortcut-label">Navigate in Focus Mode</span>
+          <span class="keyboard-hint">← →</span>
+        </div>
+        <div class="shortcut-item">
+          <span class="shortcut-label">Exit Focus Mode</span>
+          <span class="keyboard-hint">Esc</span>
+        </div>
+        <div class="shortcut-item">
+          <span class="shortcut-label">Exit Distraction-Free Mode</span>
+          <span class="keyboard-hint">Esc</span>
+        </div>
+        <div class="shortcut-item">
+          <span class="shortcut-label">Adjust Font in Reader Mode</span>
+          <span class="keyboard-hint">+ / -</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="tips-section">
+      <div class="tips-title">
+        <span>💡</span>
+        <span>Pro Tips</span>
+      </div>
+      <div class="tip-item">Activate CogniRead only when you need it - it won't auto-inject on pages</div>
+      <div class="tip-item">Combine multiple features for a personalized reading experience that suits your needs</div>
+      <div class="tip-item">Use Focus Mode with TL;DR to quickly scan long articles one section at a time</div>
+      <div class="tip-item">Try Simplification Levels from ELI5 to College to find your optimal reading complexity</div>
+      <div class="tip-item">Enable Literal Language if you're learning English or are neurodivergent</div>
+      <div class="tip-item">Use Prerequisites Check before starting technical articles to see what you need to know</div>
+      <div class="tip-item">Plain Language Translation works great for legal, medical, and academic documents</div>
+      <div class="tip-item">Difficulty Heatmap shows you where to slow down in complex articles</div>
+      <div class="tip-item">The control panel can be minimized - just click the ⭐ icon or drag it to a new position</div>
+      <div class="tip-item">Right-click on any page and select "Activate CogniRead" for quick access</div>
+      <div class="tip-item">Right-click selected text for "Alternative Phrasings" or "Explain with Analogy"</div>
+      <div class="tip-item">All AI features run locally in your browser using Chrome's built-in AI - no data is sent to external servers</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <strong>Making the web accessible for everyone</strong><br>
+    Powered by Chrome Built-in AI
+    <div class="footer-links">
+      <a href="#" id="feedbackLink">Send Feedback</a>
+      <a href="https://github.com/cogniread/feedback" target="_blank">Report Issue</a>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

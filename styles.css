@@ -1,0 +1,3876 @@
+/* CogniRead - Cognitive Accessibility Styles */
+/* Material Design Color Scheme */
+
+/* OpenDyslexic font import (dyslexia-friendly) */
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap');
+
+/* Lexend font import (accessible typeface for logo) */
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@400;700&display=swap');
+
+/* CSS Custom Properties - Design System */
+:root {
+  /* Light Mode Colors */
+  --bg-primary: #F8F9FA;
+  --bg-surface: #FFFFFF;
+  --bg-card: #FFFFFF;
+
+  /* Text Colors - Light Mode */
+  --text-primary: #1A1A1A;
+  --text-secondary: #5A5A5A;
+  --text-tertiary: #8A8A8A;
+
+  /* Toggle Colors - Light Mode */
+  --toggle-active: #00B894;
+  --toggle-inactive: #E0E0E0;
+  --toggle-thumb: #FFFFFF;
+
+  /* Slider Colors - Light Mode */
+  --slider-track: #E0E0E0;
+  --slider-thumb: #00B894;
+  --slider-tick: #B0B0B0;
+
+  /* Border Colors - Light Mode */
+  --border-color: #ECECEC;
+  --border-subtle: #ECECEC;
+
+  /* Category Colors (Accent Borders) */
+  --category-reading: #8B5CF6;      /* Purple - Reading Modes */
+  --category-transform: #3B82F6;    /* Blue - Text Transformation */
+  --category-voice: #06B6D4;        /* Cyan - Voice & Tone */
+  --category-focus: #EC4899;        /* Pink - Focus Features */
+  --category-accessibility: #10B981; /* Green - Accessibility */
+  --category-ai: #F59E0B;           /* Amber - AI-Powered Features */
+
+  /* Interactive States - Light Mode */
+  --state-hover-bg: #F5F5F5;
+  --state-active-bg: rgba(0, 184, 148, 0.1);
+  --state-disabled-opacity: 0.5;
+
+  /* Shadows - Light Mode */
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.12);
+  --shadow-bottom-nav: 0 -2px 12px rgba(0, 0, 0, 0.1);
+
+  /* Button Colors */
+  --btn-primary-bg: #00B894;
+  --btn-primary-hover: #00A083;
+
+  /* Spacing System */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 24px;
+  --space-2xl: 32px;
+
+  /* Border Radius */
+  --radius-card: 16px;
+  --radius-toggle: 14px;
+  --radius-button: 50%;
+  --radius-badge: 12px;
+
+  /* Animation Timing */
+  --timing-fast: 0.1s;
+  --timing-default: 0.2s;
+  --timing-slow: 0.3s;
+}
+
+/* Dark Mode Colors */
+html.cogniread-theme-dark {
+  /* Dark Mode Colors */
+  --bg-primary: #1A1A1A;
+  --bg-surface: #2D2D2D;
+  --bg-card: #2D2D2D;
+
+  /* Text Colors - Dark Mode */
+  --text-primary: #FFFFFF;
+  --text-secondary: #A0A0A0;
+  --text-tertiary: #6B6B6B;
+
+  /* Toggle Colors - Dark Mode */
+  --toggle-active: #00D4AA;
+  --toggle-inactive: #4A4A4A;
+  --toggle-thumb: #FFFFFF;
+
+  /* Slider Colors - Dark Mode */
+  --slider-track: #4A4A4A;
+  --slider-thumb: #00D4AA;
+  --slider-tick: #6B6B6B;
+
+  /* Border Colors - Dark Mode */
+  --border-color: #3A3A3A;
+  --border-subtle: #3A3A3A;
+
+  /* Interactive States - Dark Mode */
+  --state-hover-bg: #3A3A3A;
+  --state-active-bg: rgba(0, 212, 170, 0.1);
+
+  /* Shadows - Dark Mode (no shadows in dark mode) */
+  --shadow-card: none;
+  --shadow-hover: none;
+  --shadow-bottom-nav: 0 -2px 12px rgba(0, 0, 0, 0.3);
+
+  /* Button Colors */
+  --btn-primary-bg: #00D4AA;
+  --btn-primary-hover: #00C299;
+}
+
+/* System Theme Detection */
+@media (prefers-color-scheme: dark) {
+  :root:not(.cogniread-theme-light) {
+    --bg-primary: #1A1A1A;
+    --bg-surface: #2D2D2D;
+    --bg-card: #2D2D2D;
+    --text-primary: #FFFFFF;
+    --text-secondary: #A0A0A0;
+    --text-tertiary: #6B6B6B;
+    --toggle-active: #00D4AA;
+    --toggle-inactive: #4A4A4A;
+    --slider-track: #4A4A4A;
+    --slider-thumb: #00D4AA;
+    --slider-tick: #6B6B6B;
+    --border-color: #3A3A3A;
+    --border-subtle: #3A3A3A;
+    --state-hover-bg: #3A3A3A;
+    --state-active-bg: rgba(0, 212, 170, 0.1);
+    --shadow-card: none;
+    --shadow-hover: none;
+    --btn-primary-bg: #00D4AA;
+    --btn-primary-hover: #00C299;
+  }
+}
+
+/* CogniRead overlay container */
+#cogniread-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999999;
+  pointer-events: none;
+}
+
+/* Focus mode overlay */
+.cogniread-focus-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: rgba(0, 0, 0, 0.85) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  backdrop-filter: blur(8px) !important;
+  z-index: 2147483646 !important; /* Max z-index minus 1 */
+  pointer-events: auto !important;
+  transition: none !important;
+}
+
+.cogniread-focus-overlay.hidden {
+  display: none !important;
+}
+
+/* Focus mode content container */
+#cogniread-focus-content {
+  position: fixed !important;
+  z-index: 2147483647 !important;
+  background: var(--bg-primary) !important;
+  padding: 40px !important;
+  border-radius: var(--border-radius-lg) !important;
+  box-shadow: var(--shadow-lg), 0 0 0 3px rgba(66, 133, 244, 0.1) !important;
+  border: 2px solid #4185F4 !important;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: 800px !important;
+  max-width: 90vw !important;
+  max-height: 80vh !important;
+  overflow-y: auto !important;
+  font-size: 18px !important;
+  line-height: 1.8 !important;
+  color: var(--text-primary) !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  animation: cogniread-breathingBorder 3s ease-in-out infinite, cogniread-focusFadeIn 0.4s ease !important;
+}
+
+/* Breathing border animation for focus guidance */
+@keyframes cogniread-breathingBorder {
+  0%, 100% {
+    box-shadow: var(--shadow-lg), 0 0 0 3px rgba(66, 133, 244, 0.1), 0 0 20px rgba(66, 133, 244, 0.2) !important;
+  }
+  50% {
+    box-shadow: var(--shadow-lg), 0 0 0 4px rgba(66, 133, 244, 0.2), 0 0 40px rgba(66, 133, 244, 0.4) !important;
+  }
+}
+
+/* Fade-in and zoom animation for Focus Mode entry */
+@keyframes cogniread-focusFadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+#cogniread-focus-content.hidden {
+  display: none !important;
+}
+
+/* Focused content highlight - for marking original element */
+.cogniread-focused {
+  /* This is just for reference, not displayed */
+  outline: 2px solid var(--state-focus-outline) !important;
+  outline-offset: 2px !important;
+}
+
+/* Dimmed content */
+.cogniread-dimmed {
+  opacity: 0.3;
+  transition: opacity 0.3s ease;
+}
+
+/* Progress bar - enhanced for better visibility */
+#cogniread-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 6px;
+  background: linear-gradient(to right, #4185F4, #5E9BFF) !important;
+  z-index: 2147483647;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  box-shadow: 0 2px 8px rgba(66, 133, 244, 0.5), 0 0 12px rgba(66, 133, 244, 0.3) !important;
+}
+
+#cogniread-progress::after {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
+  width: 100px !important;
+  height: 100% !important;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.4)) !important;
+  animation: cogniread-progressShimmer 1.5s ease-in-out infinite !important;
+}
+
+@keyframes cogniread-progressShimmer {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.8; }
+}
+
+/* Focus mode counter - enhanced with visual indicators */
+#cogniread-focus-counter {
+  position: fixed !important;
+  bottom: 30px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  background: rgba(0, 0, 0, 0.85) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  backdrop-filter: blur(10px) !important;
+  color: white !important;
+  padding: 14px 20px !important;
+  border-radius: 28px !important;
+  font-size: 19px !important;
+  font-weight: 600 !important;
+  z-index: 2147483647 !important;
+  pointer-events: auto !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 1px rgba(255, 255, 255, 0.1) inset !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 20px !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Visual indicators for previous/next sections */
+#cogniread-focus-counter::before,
+#cogniread-focus-counter::after {
+  content: '' !important;
+  width: 8px !important;
+  height: 8px !important;
+  border-radius: 50% !important;
+  background: rgba(255, 255, 255, 0.3) !important;
+  transition: all 0.3s ease !important;
+}
+
+#cogniread-focus-counter::before {
+  margin-left: -4px !important;
+}
+
+#cogniread-focus-counter::after {
+  margin-right: -4px !important;
+}
+
+/* Highlight indicators when sections are available */
+#cogniread-focus-counter.has-prev::before {
+  background: #4185F4 !important;
+  box-shadow: 0 0 8px rgba(66, 133, 244, 0.6) !important;
+  animation: cogniread-pulse 2s ease-in-out infinite !important;
+}
+
+#cogniread-focus-counter.has-next::after {
+  background: #4185F4 !important;
+  box-shadow: 0 0 8px rgba(66, 133, 244, 0.6) !important;
+  animation: cogniread-pulse 2s ease-in-out infinite 1s !important;
+}
+
+@keyframes cogniread-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 0.7;
+  }
+}
+
+#cogniread-focus-counter.hidden {
+  display: none !important;
+}
+
+/* Focus mode close button */
+.cogniread-focus-close-btn {
+  position: relative !important;
+  width: 28px !important;
+  height: 28px !important;
+  min-width: 28px !important;
+  min-height: 28px !important;
+  max-width: 28px !important;
+  max-height: 28px !important;
+  aspect-ratio: 1 / 1 !important;
+  background: rgba(255, 255, 255, 0.15) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  border-radius: 50% !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.2s ease !important;
+  padding: 0 !important;
+  flex-shrink: 0 !important;
+  box-sizing: border-box !important;
+  box-shadow: none !important;
+}
+
+.cogniread-focus-close-btn:hover {
+  background: rgba(234, 67, 53, 0.2) !important;
+  color: #EA4335 !important;
+  border-color: rgba(234, 67, 53, 0.5) !important;
+  box-shadow: 0 2px 8px rgba(234, 67, 53, 0.3) !important;
+}
+
+.cogniread-focus-close-btn:active {
+  transform: scale(0.95) !important;
+}
+
+.cogniread-focus-close-btn:focus-visible {
+  outline: 2px solid white !important;
+  outline-offset: 2px !important;
+}
+
+.cogniread-focus-close-btn svg {
+  width: 14px !important;
+  height: 14px !important;
+}
+
+/* Focus mode navigation container */
+.cogniread-focus-navigation {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 20px !important;
+  width: 100% !important;
+}
+
+/* Focus mode content wrapper (between arrows) */
+.cogniread-focus-content-wrapper {
+  flex: 1 !important;
+  overflow-y: auto !important;
+  max-height: calc(80vh - 140px) !important; /* Account for padding and tips */
+  color: var(--text-primary) !important; /* Theme-aware text color */
+}
+
+/* Ensure all text elements in focus mode use theme colors */
+.cogniread-focus-content-wrapper * {
+  color: var(--text-primary) !important;
+}
+
+/* Focus mode navigation buttons */
+.cogniread-focus-nav-btn {
+  background: var(--bg-surface) !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-secondary) !important;
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 50% !important;
+  cursor: pointer !important;
+  font-size: 20px !important;
+  font-weight: 400 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.2s ease !important;
+  box-shadow: none !important;
+  flex-shrink: 0 !important;
+  line-height: 1 !important;
+  padding: 0 !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  opacity: 0.6 !important;
+}
+
+.cogniread-focus-nav-btn:hover {
+  background: var(--state-active-bg) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--btn-primary-bg) !important;
+  opacity: 1 !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+
+.cogniread-focus-nav-btn:active {
+  transform: scale(0.95) !important;
+}
+
+.cogniread-focus-nav-btn:disabled {
+  background: var(--bg-surface) !important;
+  color: var(--text-secondary) !important;
+  opacity: 0.3 !important;
+  cursor: not-allowed !important;
+  box-shadow: none !important;
+  transform: none !important;
+  border-color: var(--border-color) !important;
+}
+
+.cogniread-focus-nav-btn:focus-visible {
+  outline: 2px solid var(--state-focus-outline) !important;
+  outline-offset: 2px !important;
+}
+
+/* Specific button styles - inheriting default navigation button styles */
+
+/* Focus mode keyboard tips */
+.cogniread-focus-tips {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 20px !important;
+  margin-top: 24px !important;
+  padding-top: 20px !important;
+  border-top: 1px solid var(--border-color) !important;
+  font-size: 14px !important;
+  color: var(--text-secondary) !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
+.cogniread-focus-tips span {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+
+.cogniread-focus-tips span:first-child {
+  font-weight: 600 !important;
+  color: var(--text-primary) !important;
+  margin-right: 8px !important;
+  font-size: 15px !important;
+}
+
+/* Keyboard key graphics - visual keyboard keys */
+.cogniread-focus-tips span:not(:first-child) {
+  background: linear-gradient(to bottom, var(--bg-primary), var(--bg-surface)) !important;
+  padding: 6px 12px !important;
+  border-radius: 6px !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-color) !important;
+  box-shadow: 0 2px 0 var(--border-color), 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.15s ease !important;
+  cursor: pointer !important;
+  position: relative !important;
+  top: 0 !important;
+}
+
+.cogniread-focus-tips span:not(:first-child):hover {
+  transform: translateY(-2px) scale(1.05) !important;
+  box-shadow: 0 4px 0 var(--btn-primary-bg), 0 4px 16px rgba(66, 133, 244, 0.3) !important;
+  border-color: var(--btn-primary-bg) !important;
+  color: var(--btn-primary-bg) !important;
+  z-index: 10 !important;
+}
+
+.cogniread-focus-tips span:not(:first-child):active {
+  transform: translateY(1px) scale(1.02) !important;
+  box-shadow: 0 1px 0 var(--border-color), 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Responsive adjustments for focus navigation */
+@media (max-width: 768px) {
+  .cogniread-focus-navigation {
+    gap: 12px !important;
+  }
+
+  .cogniread-focus-nav-btn {
+    width: 40px !important;
+    height: 40px !important;
+    font-size: 20px !important;
+  }
+
+  .cogniread-focus-tips {
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    font-size: 11px !important;
+  }
+
+  .cogniread-focus-tips span:not(:first-child) {
+    padding: 3px 6px !important;
+    font-size: 10px !important;
+  }
+}
+
+/* Minimized State - Corner Pill */
+.cogniread-mini {
+  position: fixed !important;
+  top: 20px !important;
+  right: 20px !important;
+  width: 56px !important;
+  height: 56px !important;
+  background: rgb(255, 255, 255) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 50% !important;
+  box-shadow: var(--shadow-md) !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.3s ease !important;
+  z-index: 2147483647 !important;
+  pointer-events: auto !important;
+}
+
+.cogniread-mini:hover {
+  transform: scale(1.05) !important;
+  background: rgb(255, 255, 255) !important;
+  box-shadow: var(--shadow-lg) !important;
+}
+
+/* Dark theme mini button */
+html.cogniread-theme-dark .cogniread-mini {
+  /* background: rgba(32, 33, 36, 0.6) !important; */
+  background: rgb(0, 0, 0) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  /* border: 2px solid rgba(255, 255, 255, 0.71) !important; */
+  border: 2px solid rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+}
+
+html.cogniread-theme-dark .cogniread-mini:hover {
+  background: rgb(0, 0, 0) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+.cogniread-mini:focus-visible {
+  outline: 2px solid var(--state-focus-outline) !important;
+  outline-offset: 2px !important;
+}
+
+.cogniread-mini-icon {
+  width: 32px !important;
+  height: 32px !important;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)) !important;
+}
+
+.cogniread-mini-badge {
+  position: absolute !important;
+  top: -4px !important;
+  right: -4px !important;
+  /*background: var(--btn-destructive-bg) !important;*/
+  background: #11b7cc !important;
+  color: var(--btn-destructive-text) !important;
+  width: 18px !important;
+  height: 18px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 8px !important;
+  font-weight: 600 !important;
+  border: 1px solid var(--bg-primary) !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+
+/* Hide mini badge when panel is expanded */
+.cogniread-panel-expanded .cogniread-mini-badge {
+  display: none !important;
+}
+
+/* Mini tooltip on hover */
+.cogniread-mini-tooltip {
+  position: absolute !important;
+  right: 70px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  background: rgba(0, 0, 0, 0.9) !important;
+  color: white !important;
+  padding: 8px 12px !important;
+  border-radius: 6px !important;
+  font-size: 12px !important;
+  white-space: nowrap !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity 0.2s ease !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
+.cogniread-mini:hover .cogniread-mini-tooltip {
+  opacity: 1 !important;
+}
+
+.cogniread-mini-tooltip::after {
+  content: '' !important;
+  position: absolute !important;
+  right: -6px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  border-left: 6px solid rgba(0, 0, 0, 0.9) !important;
+  border-top: 6px solid transparent !important;
+  border-bottom: 6px solid transparent !important;
+}
+
+/* Expanded State - Full Panel with enhanced glassmorphism */
+.cogniread-panel {
+  position: fixed !important;
+  top: 20px !important;
+  right: 20px !important;
+  width: 240px !important;
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.85) 0%,
+    rgba(255, 255, 255, 0.75) 50%,
+    rgba(255, 255, 255, 0.8) 100%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(200%) !important;
+  backdrop-filter: blur(24px) saturate(200%) !important;
+  border: 1px solid rgb(156, 39, 176) !important;
+  border-radius: 16px !important;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.12),
+    0 2px 8px rgba(0, 0, 0, 0.08),
+    0 0 0 1px rgba(255, 255, 255, 0.3) inset !important;
+  overflow: hidden !important;
+  z-index: 2147483647 !important;
+  display: none !important;
+  pointer-events: auto !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
+.cogniread-panel-expanded {
+  display: block !important;
+  animation: cogniread-slideIn 0.3s ease !important;
+}
+
+@keyframes cogniread-slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Panel Position Classes */
+.cogniread-panel.position-top-left,
+.cogniread-mini.position-top-left {
+  top: 20px !important;
+  left: 20px !important;
+  right: auto !important;
+  bottom: auto !important;
+}
+
+.cogniread-panel.position-top-right,
+.cogniread-mini.position-top-right {
+  top: 20px !important;
+  right: 20px !important;
+  left: auto !important;
+  bottom: auto !important;
+}
+
+.cogniread-panel.position-bottom-left,
+.cogniread-mini.position-bottom-left {
+  bottom: 20px !important;
+  left: 20px !important;
+  top: auto !important;
+  right: auto !important;
+}
+
+.cogniread-panel.position-bottom-right,
+.cogniread-mini.position-bottom-right {
+  bottom: 20px !important;
+  right: 20px !important;
+  top: auto !important;
+  left: auto !important;
+}
+
+/* Panel Header with enhanced glassmorphism */
+.cogniread-panel-header {
+  background: linear-gradient(to bottom,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(255, 255, 255, 0.25) 100%) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  backdrop-filter: blur(12px) !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+  color: var(--text-primary) !important;
+  padding: 14px 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  position: relative !important;
+}
+
+.cogniread-panel-header::after {
+  content: '' !important;
+  position: absolute !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 1px !important;
+  background: linear-gradient(to right,
+    transparent,
+    rgba(66, 133, 244, 0.3) 50%,
+    transparent) !important;
+}
+
+/* Dark theme panel header */
+html.cogniread-theme-dark .cogniread-panel-header {
+  background: linear-gradient(to bottom,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.04) 100%) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+html.cogniread-theme-dark .cogniread-panel-header::after {
+  background: linear-gradient(to right,
+    transparent,
+    rgba(66, 133, 244, 0.4) 50%,
+    transparent) !important;
+}
+
+.cogniread-panel-logo {
+  display: flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  font-family: 'Lexend', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-size: 16px !important;
+  letter-spacing: 0.05em !important;
+}
+
+.cogniread-logo-cogni {
+  color: #9C27B0 !important;
+  font-weight: 400 !important;
+}
+
+.cogniread-logo-read {
+  color: #00BCD4 !important;
+  font-weight: 700 !important;
+}
+
+.cogniread-logo-icon {
+  width: 14px !important;
+  height: 14px !important;
+  color: #FBBC04 !important;
+  margin: 0 2px !important;
+}
+
+/* Dark theme logo colors - neon purple for better visibility */
+html.cogniread-theme-dark .cogniread-logo-cogni {
+  color: #E040FB !important; /* Neon purple for dark mode */
+}
+
+/* ===== Collapsible Panel Styles ===== */
+
+/* Collapsed panel state - hide content */
+.cogniread-panel.cogniread-panel-collapsed .cogniread-panel-content {
+  display: none !important;
+}
+
+/* Clickable header cursor */
+.cogniread-panel-header {
+  cursor: pointer !important;
+  transition: background 0.2s ease !important;
+}
+
+.cogniread-panel-header:hover {
+  background: rgba(255, 255, 255, 0.4) !important;
+}
+
+html.cogniread-theme-dark .cogniread-panel-header:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+
+/* Header status and active count */
+.cogniread-header-status {
+  display: none !important;
+  align-items: center !important;
+  margin-left: auto !important;
+  margin-right: 8px !important;
+}
+
+.cogniread-active-count {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: white !important;
+  opacity: 0.9 !important;
+  background: rgba(66, 133, 244, 0.8) !important;
+  padding: 4px 10px !important;
+  border-radius: 12px !important;
+  letter-spacing: 0.5px !important;
+}
+
+html.cogniread-theme-dark .cogniread-active-count {
+  background: rgba(66, 133, 244, 0.9) !important;
+}
+
+/* Header buttons container */
+.cogniread-header-buttons {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 6px !important;
+  margin-left: auto !important;
+}
+
+
+/* Transition for collapse/expand */
+.cogniread-panel-content {
+  transition: all 0.3s ease !important;
+  overflow: hidden !important;
+}
+
+/* ===== End Collapsible Panel Styles ===== */
+
+/* Minimalistic header buttons - small white icons with blue circle on hover */
+.cogniread-minimize-btn {
+  background: transparent !important;
+  border: 2px solid transparent !important;
+  color: #5F6368 !important;
+  width: 24px !important;
+  height: 24px !important;
+  min-width: 24px !important;
+  min-height: 24px !important;
+  max-width: 24px !important;
+  max-height: 24px !important;
+  border-radius: 50% !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.2s ease !important;
+}
+
+/* Close button - positioned in theme selector bottom right */
+.cogniread-close-btn {
+  position: relative !important;
+  background: transparent !important;
+  border: 2px solid transparent !important;
+  color: #5F6368 !important;
+  width: 32px !important;
+  height: 32px !important;
+  min-width: 32px !important;
+  min-height: 32px !important;
+  max-width: 32px !important;
+  max-height: 32px !important;
+  border-radius: 50% !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.2s ease !important;
+  z-index: 10 !important;
+  font-size: 18px !important;
+  line-height: 1 !important;
+  padding: 0 !important;
+  font-weight: 400 !important;
+  opacity: 0.7 !important;
+  flex-shrink: 0 !important;
+  margin-left: auto !important;
+}
+
+.cogniread-minimize-btn:hover {
+  border-color: #4185F4 !important;
+  opacity: 1 !important;
+  background: transparent !important;
+  color: #202124 !important;
+}
+
+.cogniread-close-btn:hover {
+  border-color: var(--btn-destructive-bg) !important;
+  background: rgba(244, 67, 54, 0.1) !important;
+  opacity: 1 !important;
+  color: var(--btn-destructive-bg) !important;
+  transform: scale(1.1) !important;
+}
+
+/* Dark theme - keep white buttons */
+html.cogniread-theme-dark .cogniread-minimize-btn {
+  color: white !important;
+}
+
+html.cogniread-theme-dark .cogniread-close-btn {
+  color: white !important;
+  background: rgba(0, 0, 0, 0.4) !important;
+}
+
+html.cogniread-theme-dark .cogniread-minimize-btn:hover {
+  color: #4185F4 !important;
+}
+
+html.cogniread-theme-dark .cogniread-close-btn:hover {
+  color: var(--btn-destructive-bg) !important;
+  background: rgba(244, 67, 54, 0.2) !important;
+}
+
+.cogniread-minimize-btn:focus-visible,
+.cogniread-close-btn:focus-visible {
+  outline: 2px solid #4185F4 !important;
+  outline-offset: 2px !important;
+}
+
+.cogniread-minimize-btn {
+  font-size: 14px !important;
+}
+
+.cogniread-close-btn {
+  font-size: 18px !important;
+}
+
+.cogniread-close-btn svg {
+  width: 14px !important;
+  height: 14px !important;
+}
+
+
+/* Panel Content */
+.cogniread-panel-content {
+  padding: 16px !important;
+}
+
+/* Reading Level Slider */
+.cogniread-slider-section {
+  margin-bottom: 16px !important;
+}
+
+.cogniread-slider-label {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: var(--text-primary) !important;
+  margin-bottom: 8px !important;
+  display: block !important;
+}
+
+.cogniread-slider-value {
+  font-size: 12px !important;
+  color: var(--btn-primary-bg) !important;
+  font-weight: 500 !important;
+  margin-top: 6px !important;
+  display: block !important;
+}
+
+.cogniread-slider {
+  width: 100% !important;
+  height: 6px !important;
+  border-radius: 3px !important;
+  background: var(--border-color) !important;
+  outline: none !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+}
+
+.cogniread-slider::-webkit-slider-thumb {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  width: 16px !important;
+  height: 16px !important;
+  border-radius: 50% !important;
+  background: var(--btn-primary-bg) !important;
+  cursor: pointer !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+
+.cogniread-slider::-moz-range-thumb {
+  width: 16px !important;
+  height: 16px !important;
+  border-radius: 50% !important;
+  background: var(--btn-primary-bg) !important;
+  cursor: pointer !important;
+  border: none !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+
+.cogniread-slider:focus-visible {
+  outline: 2px solid var(--state-focus-outline) !important;
+  outline-offset: 2px !important;
+}
+
+/* Slider Item Container (for simplification slider) */
+.cogniread-slider-item {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  margin-bottom: 16px !important;
+}
+
+/* Slider Marks - Labels below slider */
+.cogniread-slider-marks {
+  display: flex !important;
+  justify-content: space-between !important;
+  padding: 0 8px !important;
+  margin-top: 4px !important;
+}
+
+.cogniread-slider-marks span {
+  font-size: 10px !important;
+  color: var(--text-secondary) !important;
+  font-weight: 500 !important;
+  text-align: center !important;
+  flex: 1 !important;
+  transition: color 0.2s ease, transform 0.2s ease !important;
+  cursor: pointer !important;
+}
+
+.cogniread-slider-marks span:hover {
+  color: var(--btn-primary-bg) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Divider */
+.cogniread-divider {
+  height: 1px !important;
+  background: var(--border-color) !important;
+  margin: 12px 0 !important;
+}
+
+/* Toggle List */
+.cogniread-toggle-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+}
+
+/* Section Labels - Reading Modes & Accessibility Headers */
+.cogniread-section-label {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.8px !important;
+  color: var(--text-secondary) !important;
+  margin-top: 12px !important;
+  margin-bottom: 6px !important;
+  padding-left: 2px !important;
+  opacity: 0.9 !important;
+}
+
+.cogniread-section-label:first-child {
+  margin-top: 0 !important;
+}
+
+/* Section Divider - Between Feature Groups */
+.cogniread-section-divider {
+  height: 1px !important;
+  background: var(--border-color) !important;
+  margin: 12px 0 !important;
+  opacity: 0.5 !important;
+}
+
+.cogniread-toggle-item {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 10px 12px !important;
+  position: relative !important;
+  border-radius: 8px !important;
+  transition: all 0.2s ease !important;
+  margin: 0 -12px !important;
+}
+
+.cogniread-toggle-item:hover {
+  background: rgba(66, 133, 244, 0.08) !important;
+  transform: translateX(2px) !important;
+}
+
+.cogniread-toggle-label {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  font-size: 13px !important;
+  color: var(--text-primary) !important;
+  cursor: help !important;
+  flex: 1 !important;
+}
+
+/* Feature Icons - SVG icons next to toggle labels */
+.cogniread-feature-icon {
+  width: 16px !important;
+  height: 16px !important;
+  flex-shrink: 0 !important;
+  color: var(--text-secondary) !important;
+  transition: color 0.2s ease !important;
+  cursor: help !important;
+  position: relative !important;
+}
+
+.cogniread-toggle-label:hover .cogniread-feature-icon {
+  color: var(--btn-primary-bg) !important;
+}
+
+/* Feature icon tooltip */
+.cogniread-feature-icon::after {
+  content: attr(data-tooltip) !important;
+  position: absolute !important;
+  left: calc(100% + 12px) !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  background: rgba(0, 0, 0, 0.95) !important;
+  color: white !important;
+  padding: 8px 12px !important;
+  border-radius: 8px !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  white-space: nowrap !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity 0.2s ease, transform 0.2s ease !important;
+  z-index: 2147483647 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+  line-height: 1.4 !important;
+}
+
+.cogniread-feature-icon:hover::after {
+  opacity: 1 !important;
+  transform: translateY(-50%) translateX(4px) !important;
+}
+
+/* Dark theme tooltip adjustments */
+html.cogniread-theme-dark .cogniread-feature-icon::after {
+  background: rgba(255, 255, 255, 0.95) !important;
+  color: #1a1a1a !important;
+}
+
+.cogniread-info-icon {
+  color: var(--text-secondary) !important;
+  font-size: 14px !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  cursor: help !important;
+  position: relative !important;
+}
+
+.cogniread-toggle-label:hover .cogniread-info-icon {
+  color: var(--btn-primary-bg) !important;
+  transform: scale(1.2) rotate(12deg) !important;
+}
+
+/* Tooltip expansion on hover */
+.cogniread-toggle-item:hover .cogniread-toggle-label {
+  transform: translateX(4px) !important;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.cogniread-toggle-item:hover .cogniread-feature-icon {
+  transform: scale(1.15) !important;
+  filter: brightness(1.2) !important;
+}
+
+/* Custom Toggle Switch with smooth animations */
+.cogniread-toggle-switch {
+  position: relative !important;
+  width: 40px !important;
+  height: 22px !important;
+  background: var(--border-color) !important;
+  border-radius: 11px !important;
+  cursor: pointer !important;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.cogniread-toggle-switch::before {
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  border-radius: 11px !important;
+  opacity: 0 !important;
+  background: linear-gradient(135deg, rgba(66, 133, 244, 0.2), rgba(66, 133, 244, 0.4)) !important;
+  transition: opacity 0.3s ease !important;
+}
+
+.cogniread-toggle-switch::after {
+  content: '' !important;
+  position: absolute !important;
+  top: 3px !important;
+  left: 3px !important;
+  width: 16px !important;
+  height: 16px !important;
+  background: var(--bg-primary) !important;
+  border-radius: 50% !important;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+
+.cogniread-toggle-item input[type="checkbox"] {
+  display: none !important;
+}
+
+.cogniread-toggle-item input[type="checkbox"]:checked + .cogniread-toggle-switch {
+  background: var(--btn-primary-bg) !important;
+  box-shadow: 0 2px 8px rgba(66, 133, 244, 0.3) !important;
+  transform: scale(1.02) !important;
+}
+
+.cogniread-toggle-item input[type="checkbox"]:checked + .cogniread-toggle-switch::before {
+  opacity: 1 !important;
+}
+
+.cogniread-toggle-item input[type="checkbox"]:checked + .cogniread-toggle-switch::after {
+  transform: translateX(18px) !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Category-specific toggle colors */
+.cogniread-toggle-item[data-category="cognitive"] input[type="checkbox"]:checked + .cogniread-toggle-switch {
+  background: var(--accent-cognitive) !important;
+  box-shadow: 0 2px 8px rgba(156, 39, 176, 0.3) !important;
+}
+
+.cogniread-toggle-item[data-category="accessibility"] input[type="checkbox"]:checked + .cogniread-toggle-switch {
+  background: var(--accent-accessibility) !important;
+  box-shadow: 0 2px 8px rgba(52, 168, 83, 0.3) !important;
+}
+
+.cogniread-toggle-item[data-category="focus"] input[type="checkbox"]:checked + .cogniread-toggle-switch {
+  background: var(--accent-focus) !important;
+  box-shadow: 0 2px 8px rgba(66, 133, 244, 0.3) !important;
+}
+
+.cogniread-toggle-item[data-category="language"] input[type="checkbox"]:checked + .cogniread-toggle-switch {
+  background: var(--accent-language) !important;
+  box-shadow: 0 2px 8px rgba(255, 111, 0, 0.3) !important;
+}
+
+/* Category-specific hover effects */
+.cogniread-toggle-item[data-category="cognitive"]:hover {
+  background: rgba(156, 39, 176, 0.08) !important;
+}
+
+.cogniread-toggle-item[data-category="accessibility"]:hover {
+  background: rgba(52, 168, 83, 0.08) !important;
+}
+
+.cogniread-toggle-item[data-category="focus"]:hover {
+  background: rgba(66, 133, 244, 0.08) !important;
+}
+
+.cogniread-toggle-item[data-category="language"]:hover {
+  background: rgba(255, 111, 0, 0.08) !important;
+}
+
+.cogniread-toggle-switch:focus-visible {
+  outline: 2px solid var(--state-focus-outline) !important;
+  outline-offset: 2px !important;
+}
+
+/* Disabled toggle state - Enhanced for better visual distinction */
+.cogniread-toggle-disabled {
+  opacity: 0.4 !important;
+  pointer-events: none !important;
+  filter: grayscale(50%) !important;
+  position: relative !important;
+}
+
+.cogniread-toggle-disabled .cogniread-toggle-label {
+  cursor: not-allowed !important;
+  color: var(--text-secondary) !important;
+}
+
+.cogniread-toggle-disabled .cogniread-feature-icon {
+  opacity: 0.5 !important;
+}
+
+.cogniread-toggle-disabled input[type="checkbox"]:disabled + .cogniread-toggle-switch {
+  background: var(--border-color) !important;
+  cursor: not-allowed !important;
+  opacity: 0.5 !important;
+}
+
+.cogniread-toggle-disabled input[type="checkbox"]:disabled + .cogniread-toggle-switch::after {
+  opacity: 0.6 !important;
+}
+
+/* Optional: Add a subtle "locked" indicator for disabled items */
+.cogniread-toggle-disabled::after {
+  content: '' !important;
+  position: absolute !important;
+  right: 48px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: 12px !important;
+  height: 12px !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%235F6368'%3E%3Cpath d='M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z'/%3E%3C/svg%3E") !important;
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  opacity: 0.4 !important;
+  pointer-events: none !important;
+}
+
+/* Definition bubble */
+.cogniread-definition {
+  position: absolute !important;
+  background: var(--text-primary) !important;
+  color: var(--bg-primary) !important;
+  padding: 12px 16px !important;
+  border-radius: var(--border-radius-lg) !important;
+  font-size: 14px !important;
+  max-width: 300px !important;
+  z-index: 2147483647 !important;
+  box-shadow: var(--shadow-lg) !important;
+  pointer-events: none !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  line-height: 1.4 !important;
+}
+
+.cogniread-definition::after {
+  content: '' !important;
+  position: absolute !important;
+  bottom: -6px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: 0 !important;
+  height: 0 !important;
+  border-left: 6px solid transparent !important;
+  border-right: 6px solid transparent !important;
+  border-top: 6px solid var(--text-primary) !important;
+}
+
+/* Definition loading spinner */
+.cogniread-definition-loader {
+  display: inline-block !important;
+  width: 12px !important;
+  height: 12px !important;
+  margin-right: 8px !important;
+  border: 2px solid rgba(255, 255, 255, 0.3) !important;
+  border-top-color: var(--bg-primary) !important;
+  border-radius: 50% !important;
+  animation: cogniread-definition-spin 0.8s linear infinite !important;
+  vertical-align: middle !important;
+  margin-top: -2px !important;
+}
+
+@keyframes cogniread-definition-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Idiom tooltip (shows original text) */
+.cogniread-idiom-tooltip {
+  position: absolute;
+  background: #9c27b0;
+  color: white;
+  padding: 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  max-width: 500px;
+  z-index: 2147483647;
+  box-shadow: 0 8px 20px rgba(156, 39, 176, 0.4);
+  pointer-events: none;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.cogniread-idiom-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid #9c27b0;
+}
+
+.cogniread-idiom-tooltip-header {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: white;
+  line-height: 1.3;
+}
+
+.cogniread-idiom-tooltip-content {
+  font-size: 13px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.95);
+  font-weight: 400;
+}
+
+/* Difficult word highlighting */
+.cogniread-difficult-word {
+  background: rgba(255, 235, 59, 0.3);
+  border-bottom: 2px dotted #f9a825;
+  cursor: help;
+  padding: 2px 4px;
+  border-radius: 2px;
+}
+
+/* TL;DR mode */
+.cogniread-tldr-container {
+  background: var(--bg-surface);
+  border-left: 4px solid var(--btn-primary-bg);
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: var(--border-radius-lg);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.cogniread-tldr-container h3 {
+  margin: 0 0 12px 0;
+  font-size: 18px;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cogniread-tldr-container ul {
+  margin: 0;
+  padding-left: 24px;
+  list-style: none;
+}
+
+.cogniread-tldr-container li {
+  margin: 8px 0;
+  padding-left: 8px;
+  position: relative;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.cogniread-tldr-container li::before {
+  content: '→';
+  position: absolute;
+  left: -16px;
+  color: var(--btn-primary-bg);
+  font-weight: bold;
+}
+
+/* Dyslexia-friendly mode */
+body.cogniread-dyslexia-mode {
+  font-family: 'Comic Neue', 'Comic Sans MS', cursive !important;
+  line-height: 1.8 !important;
+  letter-spacing: 0.12em !important;
+  word-spacing: 0.16em !important;
+}
+
+body.cogniread-dyslexia-mode p {
+  margin-bottom: 1.5em !important;
+}
+
+/* Simplified text styles */
+.cogniread-simplified {
+  font-size: 18px !important;
+  line-height: 1.8 !important;
+  max-width: 800px !important;
+  margin: 0 auto !important;
+}
+
+.cogniread-simplified p {
+  margin-bottom: 1.5em !important;
+}
+
+.cogniread-simplified h1,
+.cogniread-simplified h2,
+.cogniread-simplified h3 {
+  color: var(--text-primary) !important;
+  margin-top: 1.5em !important;
+  margin-bottom: 0.5em !important;
+}
+
+/* ELI5 text indicator */
+.cogniread-eli5-text {
+  background: rgba(52, 168, 83, 0.05) !important;
+  border-left: 3px solid var(--status-success-bg) !important;
+  padding-left: 12px !important;
+  position: relative !important;
+}
+
+.cogniread-eli5-text::before {
+  content: '🧒 ELI5' !important;
+  position: absolute !important;
+  top: -20px !important;
+  left: 0 !important;
+  font-size: 11px !important;
+  color: var(--status-success-bg) !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+/* Simplified text indicator (deprecated - kept for backward compatibility) */
+.cogniread-simplified-text {
+  background: rgba(66, 133, 244, 0.05) !important;
+  border-left: 3px solid var(--btn-primary-bg) !important;
+  padding-left: 12px !important;
+  position: relative !important;
+}
+
+.cogniread-simplified-text::before {
+  content: '✨ Simplified' !important;
+  position: absolute !important;
+  top: -20px !important;
+  left: 0 !important;
+  font-size: 11px !important;
+  color: var(--btn-primary-bg) !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+/* Text Expansion indicator */
+.cogniread-expanded-text {
+  background: rgba(255, 152, 0, 0.05) !important;
+  border-left: 3px solid #FF9800 !important;
+  padding-left: 12px !important;
+  position: relative !important;
+}
+
+.cogniread-expanded-text::before {
+  content: '📖 Expanded' !important;
+  position: absolute !important;
+  top: -20px !important;
+  left: 0 !important;
+  font-size: 11px !important;
+  color: #FF9800 !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+/* Literal text indicator (idioms converted) */
+.cogniread-literal-text {
+  background: rgba(156, 39, 176, 0.05) !important;
+  border-left: 3px solid #9c27b0 !important;
+  padding-left: 12px !important;
+  position: relative !important;
+}
+
+.cogniread-literal-text::before {
+  content: '💬 Literal' !important;
+  position: absolute !important;
+  top: -20px !important;
+  left: 0 !important;
+  font-size: 11px !important;
+  color: #9c27b0 !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+/* Idiom phrase spans (converted idioms inline) */
+.cogniread-idiom-phrase {
+  background: rgba(156, 39, 176, 0.15) !important;
+  border-bottom: 2px solid #9c27b0 !important;
+  padding: 2px 4px !important;
+  border-radius: 3px !important;
+  cursor: help !important;
+  transition: background 0.2s ease !important;
+}
+
+.cogniread-idiom-phrase:hover {
+  background: rgba(156, 39, 176, 0.25) !important;
+}
+
+/* Elements containing idioms - container marker with no visual change */
+
+/* ===== Rewriter API Features ===== */
+
+/* Tone Adjustment Container (for the dropdown select) */
+.cogniread-tone-adjustment {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  margin-bottom: 16px !important;
+}
+
+.cogniread-tone-adjustment .cogniread-slider-label {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: var(--text-primary) !important;
+}
+
+/* Tone Select Dropdown */
+.cogniread-tone-select {
+  width: 100% !important;
+  padding: 8px 12px !important;
+  border-radius: 6px !important;
+  background: var(--bg-input) !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-primary) !important;
+  font-size: 13px !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  outline: none !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%235F6368' d='M6 9L1 4h10z'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 12px center !important;
+  padding-right: 36px !important;
+}
+
+.cogniread-tone-select:hover {
+  border-color: var(--btn-primary-bg) !important;
+  background-color: var(--bg-surface) !important;
+}
+
+.cogniread-tone-select:focus {
+  border-color: var(--btn-primary-bg) !important;
+  box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.1) !important;
+}
+
+html.cogniread-theme-dark .cogniread-tone-select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23B8BDC3' d='M6 9L1 4h10z'/%3E%3C/svg%3E") !important;
+}
+
+/* Plain Language Select - Right Aligned */
+#cogniread-plain-language-select {
+  margin-left: auto !important;
+  text-align: right !important;
+}
+
+/* AI Button Styles - Design System Interactions */
+.cogniread-ai-button {
+  padding: 5px 14px !important;
+  border-radius: 6px !important;
+  background: linear-gradient(135deg, #4185F4 0%, #5C6BC0 100%) !important;
+  border: none !important;
+  color: white !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  cursor: pointer !important;
+  transition: all var(--timing-default) ease !important;
+  min-width: 65px !important;
+  box-shadow: 0 2px 4px rgba(65, 133, 244, 0.2) !important;
+}
+
+.cogniread-ai-button:hover {
+  transform: scale(1.05) !important;
+  box-shadow: 0 4px 8px rgba(65, 133, 244, 0.3) !important;
+  background: linear-gradient(135deg, #5C6BC0 0%, #4185F4 100%) !important;
+}
+
+.cogniread-ai-button:focus-visible {
+  outline: 2px solid var(--state-focus-outline) !important;
+  outline-offset: 2px !important;
+}
+
+.cogniread-ai-button:active {
+  transform: scale(0.98) !important;
+  box-shadow: 0 1px 2px rgba(65, 133, 244, 0.2) !important;
+}
+
+.cogniread-ai-button:disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+  pointer-events: none !important;
+}
+
+/* Tone Adjusted Text Indicator */
+.cogniread-tone-adjusted {
+  background: rgba(0, 188, 212, 0.05) !important;
+  border-left: 3px solid #00BCD4 !important;
+  padding-left: 12px !important;
+  position: relative !important;
+}
+
+.cogniread-tone-adjusted::before {
+  content: '🎵 Tone Adjusted' !important;
+  position: absolute !important;
+  top: -20px !important;
+  left: 0 !important;
+  font-size: 11px !important;
+  color: #00BCD4 !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+/* Active Voice Text Indicator */
+.cogniread-active-voice {
+  background: rgba(94, 53, 177, 0.05) !important;
+  border-left: 3px solid #5E35B1 !important;
+  padding-left: 12px !important;
+  position: relative !important;
+}
+
+.cogniread-active-voice::before {
+  content: '📣 Active Voice' !important;
+  position: absolute !important;
+  top: -20px !important;
+  left: 0 !important;
+  font-size: 11px !important;
+  color: #5E35B1 !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+/* Restructured Sentences Indicator */
+.cogniread-restructured {
+  background: rgba(255, 193, 7, 0.05) !important;
+  border-left: 3px solid #FFC107 !important;
+  padding-left: 12px !important;
+  position: relative !important;
+}
+
+.cogniread-restructured::before {
+  content: '✂️ Restructured' !important;
+  position: absolute !important;
+  top: -20px !important;
+  left: 0 !important;
+  font-size: 11px !important;
+  color: #FFC107 !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+/* Dark theme adjustments for Rewriter features */
+html.cogniread-theme-dark .cogniread-tone-adjusted {
+  background: rgba(0, 188, 212, 0.08) !important;
+}
+
+html.cogniread-theme-dark .cogniread-active-voice {
+  background: rgba(94, 53, 177, 0.08) !important;
+}
+
+html.cogniread-theme-dark .cogniread-restructured {
+  background: rgba(255, 193, 7, 0.08) !important;
+}
+
+/* ===== Collapsible Section Architecture ===== */
+
+/* Panel adjustments for new layout */
+.cogniread-panel {
+  width: 380px !important;
+  max-height: 75vh !important;
+}
+
+/* Panel content - scrollable area */
+.cogniread-panel-content {
+  overflow-y: auto !important;
+  max-height: calc(75vh - 60px - 68px) !important; /* Account for header (60px) and footer (68px) */
+  padding: 16px !important;
+}
+
+/* Custom scrollbar for content area */
+.cogniread-panel-content::-webkit-scrollbar {
+  width: 8px !important;
+}
+
+.cogniread-panel-content::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+.cogniread-panel-content::-webkit-scrollbar-thumb {
+  background: #4a4a4a !important;
+  border-radius: 4px !important;
+}
+
+html.cogniread-theme-dark .cogniread-panel-content::-webkit-scrollbar-thumb {
+  background: #4a4a4a !important;
+}
+
+/* Section container */
+.cogniread-section {
+  margin-bottom: var(--space-lg) !important;
+  background: var(--bg-card) !important;
+  border-radius: var(--radius-card) !important;
+  overflow: hidden !important;
+  border-left: 3px solid var(--border-color) !important;
+  padding: 0 !important;
+  box-shadow: var(--shadow-card) !important;
+  transition: all var(--timing-default) ease !important;
+}
+
+.cogniread-section:hover {
+  transform: scale(1.01) !important;
+  box-shadow: var(--shadow-hover) !important;
+}
+
+/* Section-specific border colors - Category Colors */
+.cogniread-section.reading-mode {
+  border-left-color: var(--category-reading) !important; /* Purple */
+}
+
+.cogniread-section.text-transform {
+  border-left-color: var(--category-transform) !important; /* Blue */
+}
+
+.cogniread-section.voice-features {
+  border-left-color: var(--category-voice) !important; /* Cyan */
+}
+
+.cogniread-section.focus-features {
+  border-left-color: var(--category-focus) !important; /* Pink */
+}
+
+.cogniread-section.accessibility {
+  border-left-color: var(--category-accessibility) !important; /* Green */
+}
+
+.cogniread-section.ai-features {
+  border-left-color: var(--category-ai) !important; /* Amber */
+}
+
+/* Section header */
+.cogniread-section-header {
+  padding: var(--space-md) var(--space-lg) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  cursor: pointer !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  transition: all var(--timing-default) ease !important;
+  background: transparent !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  margin: 0 !important;
+}
+
+.cogniread-section-header:hover {
+  background: rgba(255, 255, 255, 0.03) !important;
+}
+
+.cogniread-section-header:focus-visible {
+  outline: 2px solid var(--state-focus-outline) !important;
+  outline-offset: 2px !important;
+}
+
+.cogniread-section-header:active {
+  transform: scale(0.98) !important;
+}
+
+.cogniread-section-header-left {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
+
+.cogniread-section-header-right {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+
+.cogniread-section-icon {
+  font-size: 14px !important;
+}
+
+.cogniread-section-title {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  letter-spacing: 1.2px !important;
+  color: var(--text-secondary) !important;
+  text-transform: uppercase !important;
+}
+
+/* Chevron indicator */
+.cogniread-chevron {
+  color: var(--text-tertiary) !important;
+  font-size: 12px !important;
+  transition: transform var(--timing-slow) ease !important;
+}
+
+.cogniread-section.collapsed .cogniread-chevron {
+  transform: rotate(-90deg) !important;
+}
+
+/* Section content */
+.cogniread-section-content {
+  padding: var(--space-md) var(--space-lg) !important;
+  max-height: 500px !important;
+  overflow: hidden !important;
+  transition: max-height var(--timing-slow) ease-out, padding var(--timing-slow) ease !important;
+}
+
+.cogniread-section.collapsed .cogniread-section-content {
+  max-height: 0 !important;
+  padding: 0 var(--space-lg) !important;
+}
+
+/* Feature item */
+.cogniread-feature-item {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: var(--space-md) 0 !important;
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+.cogniread-feature-item:first-child {
+  padding-top: 0 !important;
+}
+
+.cogniread-feature-item:last-child {
+  border-bottom: none !important;
+  padding-bottom: 0 !important;
+}
+
+.cogniread-feature-left {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  flex: 1 !important;
+}
+
+.cogniread-feature-right {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  min-width: 150px !important;
+  max-width: 200px !important;
+}
+
+.cogniread-feature-icon {
+  font-size: 16px !important;
+  width: 22px !important;
+  text-align: center !important;
+  position: relative !important;
+  z-index: 2147483646 !important;
+}
+
+.cogniread-feature-label {
+  color: var(--text-primary) !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+}
+
+/* Toggle Switch Design - Compact 44px × 24px */
+.cogniread-toggle {
+  position: relative !important;
+  width: 40px !important;
+  height: 22px !important;
+  background: var(--toggle-inactive) !important;
+  border-radius: 12px !important;
+  cursor: pointer !important;
+  transition: all var(--timing-default) ease !important;
+  flex-shrink: 0 !important;
+  padding: 2px !important;
+}
+
+.cogniread-toggle:hover {
+  filter: brightness(1.1) !important;
+}
+
+.cogniread-toggle:focus-visible {
+  outline: 2px solid var(--state-focus-outline) !important;
+  outline-offset: 2px !important;
+}
+
+.cogniread-toggle:active {
+  transform: scale(0.98) !important;
+}
+
+.cogniread-toggle.active {
+  background: var(--toggle-active) !important;
+}
+
+/* Toggle Thumb - 20px × 20px (to fit 44x24px container) */
+.cogniread-toggle::after {
+  content: '' !important;
+  position: absolute !important;
+  top: 2px !important;
+  left: 2px !important;
+  width: 20px !important;
+  height: 20px !important;
+  background: var(--toggle-thumb) !important;
+  border-radius: 10px !important;
+  transition: transform var(--timing-default) ease !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+}
+
+.cogniread-toggle:hover::after {
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3) !important;
+}
+
+.cogniread-toggle.active::after {
+  transform: translateX(20px) !important;
+}
+
+/* Simplification Slider - Design System Implementation */
+.cogniread-slider-container {
+  padding: var(--space-lg) 0 !important;
+}
+
+.cogniread-slider-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-bottom: var(--space-md) !important;
+}
+
+.cogniread-slider-label {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
+
+.cogniread-slider-label-icon {
+  font-size: 18px !important;
+}
+
+.cogniread-slider-label-text {
+  color: var(--text-primary) !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+}
+
+.cogniread-slider-value {
+  color: var(--slider-thumb) !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  background: color-mix(in srgb, var(--slider-thumb) 15%, transparent) !important;
+  padding: 4px 10px !important;
+  border-radius: 6px !important;
+}
+
+/* Slider Track Container with Tick Marks */
+.cogniread-slider-track {
+  position: relative !important;
+  margin: var(--space-lg) 0 var(--space-sm) 0 !important;
+  padding: 8px 0 !important;
+}
+
+/* Tick marks at 0%, 25%, 50%, 75%, 100% */
+.cogniread-slider-track::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 8px !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 6px !important;
+  pointer-events: none !important;
+  background-image:
+    radial-gradient(circle at 0% center, var(--slider-tick) 3px, transparent 3px),
+    radial-gradient(circle at 25% center, var(--slider-tick) 3px, transparent 3px),
+    radial-gradient(circle at 50% center, var(--slider-tick) 3px, transparent 3px),
+    radial-gradient(circle at 75% center, var(--slider-tick) 3px, transparent 3px),
+    radial-gradient(circle at 100% center, var(--slider-tick) 3px, transparent 3px) !important;
+  background-size: 100% 100% !important;
+  background-repeat: no-repeat !important;
+  z-index: 1 !important;
+}
+
+/* Slider Input */
+input[type="range"].cogniread-slider {
+  position: relative !important;
+  width: 100% !important;
+  height: 6px !important;
+  border-radius: 3px !important;
+  background: var(--slider-track) !important;
+  outline: none !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  z-index: 2 !important;
+}
+
+/* Slider Thumb - Webkit */
+input[type="range"].cogniread-slider::-webkit-slider-thumb {
+  -webkit-appearance: none !important;
+  width: 18px !important;
+  height: 18px !important;
+  border-radius: 50% !important;
+  background: var(--slider-thumb) !important;
+  cursor: pointer !important;
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--slider-thumb) 40%, transparent) !important;
+  transition: transform var(--timing-fast) ease !important;
+  position: relative !important;
+  z-index: 3 !important;
+}
+
+input[type="range"].cogniread-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.1) !important;
+}
+
+/* Slider Thumb - Firefox */
+input[type="range"].cogniread-slider::-moz-range-thumb {
+  width: 18px !important;
+  height: 18px !important;
+  border-radius: 50% !important;
+  background: var(--slider-thumb) !important;
+  cursor: pointer !important;
+  border: none !important;
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--slider-thumb) 40%, transparent) !important;
+  transition: transform var(--timing-fast) ease !important;
+  z-index: 3 !important;
+}
+
+input[type="range"].cogniread-slider::-moz-range-thumb:hover {
+  transform: scale(1.1) !important;
+}
+
+/* Slider Labels */
+.cogniread-slider-labels {
+  display: flex !important;
+  justify-content: space-between !important;
+  margin-top: var(--space-sm) !important;
+  padding: 0 2px !important;
+}
+
+.cogniread-slider-label-item {
+  font-size: 10px !important;
+  color: var(--text-tertiary) !important;
+  text-align: center !important;
+  flex: 1 !important;
+  font-weight: 500 !important;
+  transition: color var(--timing-fast) ease !important;
+}
+
+.cogniread-slider-label-item:hover {
+  color: var(--slider-thumb) !important;
+}
+
+/* Dropdown styling - Design System Interactions */
+.cogniread-feature-item select {
+  width: 50% !important;
+  padding: 8px 30px 8px 10px !important;
+  background: var(--bg-surface) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 6px !important;
+  color: var(--text-primary) !important;
+  font-size: 13px !important;
+  cursor: pointer !important;
+  outline: none !important;
+  transition: all var(--timing-default) ease !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23999999' d='M6 9L1 4h10z'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 10px center !important;
+  background-size: 10px 10px !important;
+}
+
+.cogniread-feature-item select:hover {
+  border-color: var(--text-tertiary) !important;
+  transform: scale(1.02) !important;
+}
+
+.cogniread-feature-item select:focus {
+  border-color: var(--slider-thumb) !important;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--slider-thumb) 20%, transparent) !important;
+}
+
+.cogniread-feature-item select:active {
+  transform: scale(0.98) !important;
+}
+
+.cogniread-feature-item select:disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+}
+
+/* ===== End Collapsible Section Architecture ===== */
+
+/* ===== Accessibility Enhancements ===== */
+
+/* Note: Touch targets are already properly sized:
+   - Toggle switches: 52x28px (adequate for touch)
+   - Buttons: Properly padded
+   - Interactive elements have focus states defined above
+*/
+
+/* Enhanced focus indicators for keyboard navigation */
+*:focus-visible {
+  outline: 2px solid var(--state-focus-outline) !important;
+  outline-offset: 2px !important;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .cogniread-toggle,
+  .cogniread-ai-button,
+  .cogniread-feature-item select {
+    border: 2px solid currentColor !important;
+  }
+
+  .cogniread-section {
+    border-left-width: 4px !important;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Screen reader only content */
+.cogniread-sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Skip to content link for keyboard users */
+.cogniread-skip-link {
+  position: absolute !important;
+  top: -40px !important;
+  left: 0 !important;
+  background: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+  padding: 8px 16px !important;
+  text-decoration: none !important;
+  z-index: 999999 !important;
+  border: 2px solid var(--state-focus-outline) !important;
+}
+
+.cogniread-skip-link:focus {
+  top: 0 !important;
+}
+
+/* ===== End Accessibility Enhancements ===== */
+
+/* Loading indicator */
+.cogniread-loading {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  padding: 24px;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-lg);
+  z-index: 1000002;
+  text-align: center;
+}
+
+.cogniread-loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid var(--border-color);
+  border-top-color: var(--btn-primary-bg);
+  border-radius: 50%;
+  animation: cogniread-spin 0.8s linear infinite;
+  margin: 0 auto 12px;
+}
+
+@keyframes cogniread-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Keyboard shortcut hints */
+.cogniread-shortcut-hint {
+  font-size: 11px;
+  color: #9aa0a6;
+  margin-left: 8px;
+  font-family: 'Courier New', monospace;
+}
+
+/* Accessibility - High contrast mode support */
+@media (prefers-contrast: high) {
+  #cogniread-controls {
+    border: 2px solid #000;
+  }
+
+  .cogniread-focused {
+    border: 3px solid #000;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  #cogniread-controls {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+    min-width: auto;
+  }
+
+  .cogniread-focused {
+    padding: 20px !important;
+    margin: 10px !important;
+  }
+}
+
+/* ===== Theme System ===== */
+
+/* Explicit Light Theme */
+html.cogniread-theme-light {
+  --bg-primary: #FFFFFF;
+  --bg-header: #FFFFFF;
+  --bg-surface: #F8F9FA;
+  --bg-input: #F8F9FA;
+
+  --text-primary: #202124;
+  --text-secondary: #5F6368;
+
+  --border-color: #DADCE0;
+
+  --shadow-sm: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+  --shadow-md: 0 1px 3px 0 rgba(60, 64, 67, 0.3), 0 4px 8px 3px rgba(60, 64, 67, 0.15);
+  --shadow-lg: 0 2px 6px 2px rgba(60, 64, 67, 0.15), 0 8px 24px 4px rgba(60, 64, 67, 0.15);
+}
+
+/* Explicit Dark Theme with improved contrast */
+html.cogniread-theme-dark {
+  --bg-primary: #202124;
+  --bg-header: #292A2D;
+  --bg-surface: #292A2D;
+  --bg-input: #292A2D;
+
+  --text-primary: #F1F3F4;
+  --text-secondary: #B8BDC3;
+
+  --border-color: #3C4043;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3), 0 1px 3px 1px rgba(0, 0, 0, 0.15);
+  --shadow-md: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 4px 8px 3px rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 2px 6px 2px rgba(0, 0, 0, 0.3), 0 8px 24px 4px rgba(0, 0, 0, 0.15);
+}
+
+/* Dark theme panel styling with enhanced glassmorphism */
+html.cogniread-theme-dark .cogniread-panel {
+  background: linear-gradient(135deg,
+    rgba(32, 33, 36, 0.9) 0%,
+    rgba(32, 33, 36, 0.85) 50%,
+    rgba(40, 41, 44, 0.88) 100%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(200%) !important;
+  backdrop-filter: blur(24px) saturate(200%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.5),
+    0 2px 8px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.05) inset !important;
+}
+
+html.cogniread-theme-dark .cogniread-toggle-switch {
+  background: var(--btn-secondary-bg) !important;
+}
+
+/* Theme Selector Styles */
+.cogniread-theme-selector {
+  position: sticky !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  padding: 12px 16px !important;
+  border-top: 1px solid var(--border-color) !important;
+  background: var(--bg-primary) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  backdrop-filter: blur(10px) !important;
+  display: flex !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+  gap: 8px !important;
+  z-index: 10 !important;
+  min-height: 68px !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+}
+
+/* Group theme buttons on left, close button stays on right */
+.cogniread-theme-selector .cogniread-focus-mode-quick-toggle,
+.cogniread-theme-selector .cogniread-theme-toggle,
+.cogniread-theme-selector .cogniread-position-toggle,
+.cogniread-theme-selector .cogniread-escape-hatch {
+  margin-right: 0 !important;
+}
+
+/* Compact icon-only theme toggle button */
+.cogniread-theme-toggle {
+  width: 44px !important;
+  height: 44px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  background: var(--bg-surface) !important;
+  border: 2px solid var(--border-color) !important;
+  border-radius: 50% !important;
+  cursor: pointer !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  position: relative !important;
+}
+
+.cogniread-theme-toggle:hover {
+  background: var(--state-active-bg) !important;
+  border-color: #4185F4 !important;
+  transform: scale(1.05) !important;
+  box-shadow: 0 4px 12px rgba(65, 133, 244, 0.15) !important;
+}
+
+html.cogniread-theme-dark .cogniread-theme-toggle:hover {
+  border-color: rgb(156, 39, 176) !important;
+}
+
+.cogniread-theme-toggle:active {
+  transform: scale(0.95) !important;
+}
+
+.cogniread-theme-toggle:focus-visible {
+  outline: 2px solid var(--state-focus-outline) !important;
+  outline-offset: 2px !important;
+}
+
+/* Theme icon - combined sun/moon SVG */
+.cogniread-theme-icon {
+  width: 24px !important;
+  height: 24px !important;
+  flex-shrink: 0 !important;
+  color: var(--text-secondary) !important;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Sun rays - visible in light mode */
+.theme-sun {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transform-origin: center !important;
+}
+
+/* Moon - visible in dark mode */
+.theme-moon {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transform-origin: center !important;
+}
+
+/* Theme states */
+.cogniread-theme-toggle[data-theme="light"] .cogniread-theme-icon {
+  color: #FFA000 !important;
+  transform: rotate(0deg) !important;
+}
+
+.cogniread-theme-toggle[data-theme="light"] .theme-moon {
+  opacity: 0 !important;
+  transform: scale(0) rotate(-90deg) !important;
+}
+
+.cogniread-theme-toggle[data-theme="light"] .theme-sun {
+  opacity: 1 !important;
+  transform: scale(1) rotate(0deg) !important;
+}
+
+.cogniread-theme-toggle[data-theme="dark"] .cogniread-theme-icon {
+  color: #7C4DFF !important;
+  transform: rotate(180deg) !important;
+}
+
+.cogniread-theme-toggle[data-theme="dark"] .theme-sun {
+  opacity: 0 !important;
+  transform: scale(0) !important;
+}
+
+.cogniread-theme-toggle[data-theme="dark"] .theme-moon {
+  opacity: 1 !important;
+  transform: scale(1) rotate(0deg) !important;
+}
+
+/* Theme label text */
+.cogniread-theme-label-text {
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: var(--text-primary) !important;
+  letter-spacing: 0.02em !important;
+  transition: color 0.3s ease !important;
+}
+
+.cogniread-theme-toggle:hover .cogniread-theme-label-text {
+  color: #4185F4 !important;
+}
+
+/* Position Selector Styles */
+.cogniread-position-selector {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+/* Compact icon-only position toggle button */
+.cogniread-position-toggle {
+  width: 44px !important;
+  height: 44px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  background: var(--bg-surface) !important;
+  border: 2px solid var(--border-color) !important;
+  border-radius: 50% !important;
+  cursor: pointer !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  position: relative !important;
+}
+
+.cogniread-position-toggle:hover {
+  background: var(--state-active-bg) !important;
+  border-color: #4185F4 !important;
+  transform: scale(1.05) !important;
+  box-shadow: 0 4px 12px rgba(65, 133, 244, 0.15) !important;
+}
+
+.cogniread-position-toggle:active {
+  transform: scale(0.95) !important;
+}
+
+.cogniread-position-toggle:focus-visible {
+  outline: 2px solid var(--state-focus-outline) !important;
+  outline-offset: 2px !important;
+}
+
+/* Position icon */
+.cogniread-position-icon {
+  width: 24px !important;
+  height: 24px !important;
+  flex-shrink: 0 !important;
+  color: var(--text-secondary) !important;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Position indicator animates based on position */
+.position-indicator {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Position states - animate the indicator to different corners */
+.cogniread-position-toggle[data-position="top-right"] .position-indicator {
+  x: 14 !important;
+  y: 4 !important;
+}
+
+.cogniread-position-toggle[data-position="top-left"] .position-indicator {
+  x: 4 !important;
+  y: 4 !important;
+}
+
+.cogniread-position-toggle[data-position="bottom-right"] .position-indicator {
+  x: 14 !important;
+  y: 14 !important;
+}
+
+.cogniread-position-toggle[data-position="bottom-left"] .position-indicator {
+  x: 4 !important;
+  y: 14 !important;
+}
+
+/* Focus Mode Quick Toggle Styles */
+.cogniread-focus-mode-quick-toggle {
+  width: 44px !important;
+  height: 44px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  background: var(--bg-surface) !important;
+  border: 2px solid var(--border-color) !important;
+  border-radius: 50% !important;
+  cursor: pointer !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.cogniread-focus-mode-quick-toggle:hover {
+  background: var(--state-active-bg) !important;
+  border-color: #EC4899 !important;
+  transform: scale(1.05) !important;
+  box-shadow: 0 4px 12px rgba(236, 72, 153, 0.15) !important;
+}
+
+.cogniread-focus-mode-quick-toggle:active {
+  transform: scale(0.95) !important;
+}
+
+.cogniread-focus-mode-quick-toggle:focus-visible {
+  outline: 2px solid var(--state-focus-outline) !important;
+  outline-offset: 2px !important;
+}
+
+/* Focus mode icon */
+.cogniread-focus-mode-icon {
+  width: 24px !important;
+  height: 24px !important;
+  flex-shrink: 0 !important;
+  color: var(--text-secondary) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Active state - when Focus Mode is on */
+.cogniread-focus-mode-quick-toggle[data-active="true"] {
+  background: linear-gradient(135deg, #EC4899 0%, #F472B6 100%) !important;
+  border-color: #EC4899 !important;
+  box-shadow: 0 4px 16px rgba(236, 72, 153, 0.3) !important;
+}
+
+.cogniread-focus-mode-quick-toggle[data-active="true"] .cogniread-focus-mode-icon {
+  color: white !important;
+  transform: scale(1.1) !important;
+}
+
+.cogniread-focus-mode-quick-toggle[data-active="true"]:hover {
+  background: linear-gradient(135deg, #DB2777 0%, #EC4899 100%) !important;
+  box-shadow: 0 6px 20px rgba(236, 72, 153, 0.4) !important;
+}
+
+/* Inactive state - when Focus Mode is off */
+.cogniread-focus-mode-quick-toggle[data-active="false"] .cogniread-focus-mode-icon {
+  color: var(--text-secondary) !important;
+  opacity: 0.7 !important;
+}
+
+.cogniread-focus-mode-quick-toggle[data-active="false"]:hover .cogniread-focus-mode-icon {
+  color: #EC4899 !important;
+  opacity: 1 !important;
+}
+
+/* Escape Hatch (Reset All) Button Styles */
+.cogniread-escape-hatch {
+  width: 44px !important;
+  height: 44px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  background: var(--bg-surface) !important;
+  border: 2px solid var(--border-color) !important;
+  border-radius: 50% !important;
+  cursor: pointer !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.cogniread-escape-hatch:hover {
+  background: var(--state-active-bg) !important;
+  border-color: #EF4444 !important;
+  transform: scale(1.05) rotate(90deg) !important;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2) !important;
+}
+
+.cogniread-escape-hatch:active {
+  transform: scale(0.95) rotate(90deg) !important;
+}
+
+.cogniread-escape-hatch:focus-visible {
+  outline: 2px solid var(--state-focus-outline) !important;
+  outline-offset: 2px !important;
+}
+
+/* Escape hatch icon */
+.cogniread-escape-hatch-icon {
+  width: 24px !important;
+  height: 24px !important;
+  flex-shrink: 0 !important;
+  color: var(--text-secondary) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.cogniread-escape-hatch:hover .cogniread-escape-hatch-icon {
+  color: #EF4444 !important;
+  transform: rotate(90deg) !important;
+}
+
+/* Pulse animation when there are active features */
+.cogniread-escape-hatch.has-active-features {
+  animation: pulseRed 2s ease-in-out infinite !important;
+}
+
+@keyframes pulseRed {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(239, 68, 68, 0);
+  }
+}
+
+/* ===== Close Confirmation Modal ===== */
+
+/* Modal Overlay */
+.cogniread-modal-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: rgba(0, 0, 0, 0.5) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+  backdrop-filter: blur(4px) !important;
+  z-index: 2147483647 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  animation: cogniread-fadeIn 0.2s ease !important;
+  padding: 20px !important;
+}
+
+.cogniread-modal-overlay.fade-out {
+  animation: cogniread-fadeOut 0.2s ease !important;
+}
+
+@keyframes cogniread-fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes cogniread-fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* Modal Content */
+.cogniread-modal-content {
+  background: var(--bg-primary) !important;
+  border-radius: 12px !important;
+  padding: 32px !important;
+  max-width: 420px !important;
+  width: 100% !important;
+  box-shadow: var(--shadow-lg) !important;
+  animation: cogniread-scaleIn 0.2s ease !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+.cogniread-modal-content.dark {
+  background: #292A2D !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.cogniread-modal-content.light {
+  background: #FFFFFF !important;
+  border-color: #DADCE0 !important;
+}
+
+.fade-out .cogniread-modal-content {
+  animation: cogniread-scaleOut 0.2s ease !important;
+}
+
+@keyframes cogniread-scaleIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes cogniread-scaleOut {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+}
+
+/* Modal Icon */
+.cogniread-modal-icon {
+  width: 56px !important;
+  height: 56px !important;
+  margin: 0 auto 20px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: rgba(234, 67, 53, 0.1) !important;
+  border-radius: 50% !important;
+  color: #EA4335 !important;
+}
+
+.cogniread-modal-icon svg {
+  width: 32px !important;
+  height: 32px !important;
+}
+
+/* Modal Title */
+.cogniread-modal-title {
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  color: var(--text-primary) !important;
+  margin: 0 0 12px 0 !important;
+  text-align: center !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
+/* Modal Message */
+.cogniread-modal-message {
+  font-size: 14px !important;
+  line-height: 1.6 !important;
+  color: var(--text-secondary) !important;
+  margin: 0 0 24px 0 !important;
+  text-align: center !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
+/* Modal Buttons */
+.cogniread-modal-buttons {
+  display: flex !important;
+  gap: 12px !important;
+  justify-content: center !important;
+}
+
+.cogniread-modal-btn {
+  padding: 12px 24px !important;
+  border-radius: 6px !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  border: none !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  min-width: 100px !important;
+}
+
+.cogniread-modal-cancel {
+  background: var(--bg-surface) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+.cogniread-modal-cancel:hover {
+  background: var(--state-active-bg) !important;
+  border-color: #4185F4 !important;
+}
+
+.cogniread-modal-confirm {
+  background: #EA4335 !important;
+  color: white !important;
+}
+
+.cogniread-modal-confirm:hover {
+  background: #D33426 !important;
+  box-shadow: 0 2px 8px rgba(234, 67, 53, 0.3) !important;
+}
+
+.cogniread-modal-btn:active {
+  transform: scale(0.98) !important;
+}
+
+.cogniread-modal-btn:focus-visible {
+  outline: 2px solid #4185F4 !important;
+  outline-offset: 2px !important;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .cogniread-modal-content {
+    padding: 24px !important;
+  }
+
+  .cogniread-modal-buttons {
+    flex-direction: column !important;
+  }
+
+  .cogniread-modal-btn {
+    width: 100% !important;
+  }
+}
+
+/* ===== Alternative Phrasings Modal ===== */
+
+/* Alternative phrasings specific content */
+.cogniread-alternatives-content {
+  max-width: 600px !important;
+  max-height: 70vh !important;
+  overflow-y: auto !important;
+}
+
+/* Modal header for alternatives */
+.cogniread-modal-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-bottom: 20px !important;
+  padding-bottom: 16px !important;
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+.cogniread-modal-header h3 {
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  color: var(--text-primary) !important;
+  margin: 0 !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
+/* Original text section */
+.cogniread-alternatives-original {
+  background: var(--bg-surface) !important;
+  padding: 16px !important;
+  border-radius: 8px !important;
+  margin-bottom: 20px !important;
+  border-left: 3px solid var(--btn-primary-bg) !important;
+}
+
+.cogniread-alternatives-original strong {
+  display: block !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: var(--text-secondary) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  margin-bottom: 8px !important;
+}
+
+.cogniread-alternatives-original p {
+  font-size: 14px !important;
+  line-height: 1.6 !important;
+  color: var(--text-primary) !important;
+  margin: 0 !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
+/* Alternatives list */
+.cogniread-alternatives-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+}
+
+/* Individual alternative item */
+.cogniread-alternative-item {
+  background: var(--bg-surface) !important;
+  padding: 16px !important;
+  border-radius: 8px !important;
+  border: 1px solid var(--border-color) !important;
+  transition: all 0.2s ease !important;
+  cursor: pointer !important;
+}
+
+.cogniread-alternative-item:hover {
+  background: var(--state-active-bg) !important;
+  border-color: var(--btn-primary-bg) !important;
+  transform: translateX(4px) !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+
+/* Alternative number badge */
+.cogniread-alternative-number {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 24px !important;
+  height: 24px !important;
+  background: var(--btn-primary-bg) !important;
+  color: white !important;
+  border-radius: 50% !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  margin-right: 12px !important;
+  flex-shrink: 0 !important;
+}
+
+/* Alternative text */
+.cogniread-alternative-text {
+  flex: 1 !important;
+  font-size: 14px !important;
+  line-height: 1.6 !important;
+  color: var(--text-primary) !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
+/* Dark theme adjustments for alternatives */
+html.cogniread-theme-dark .cogniread-alternatives-original {
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+html.cogniread-theme-dark .cogniread-alternative-item {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+html.cogniread-theme-dark .cogniread-alternative-item:hover {
+  background: rgba(66, 133, 244, 0.15) !important;
+  border-color: var(--btn-primary-bg) !important;
+}
+
+/* ===== Inline Loading Spinner ===== */
+
+/* Inline loading spinner for alternatives modal */
+.cogniread-loading-inline {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 40px 20px !important;
+  gap: 16px !important;
+}
+
+.cogniread-loading-inline-spinner {
+  width: 32px !important;
+  height: 32px !important;
+  border: 3px solid var(--border-color) !important;
+  border-top-color: var(--btn-primary-bg) !important;
+  border-radius: 50% !important;
+  animation: cogniread-spin 0.8s linear infinite !important;
+}
+
+.cogniread-loading-inline-text {
+  font-size: 13px !important;
+  color: var(--text-secondary) !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
+/* ===== AI-Powered Features Styling ===== */
+
+/* AI Modal Base Styles */
+.cogniread-ai-modal {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: rgba(0, 0, 0, 0.7) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+  backdrop-filter: blur(4px) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 999999 !important;
+  padding: 20px !important;
+  animation: cogniread-modal-fade-in 0.2s ease !important;
+}
+
+@keyframes cogniread-modal-fade-in {
+  from {
+    opacity: 0 !important;
+  }
+  to {
+    opacity: 1 !important;
+  }
+}
+
+.cogniread-ai-modal-content {
+  background: var(--bg-primary) !important;
+  border-radius: 16px !important;
+  max-width: 600px !important;
+  width: 100% !important;
+  max-height: 80vh !important;
+  overflow: hidden !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  animation: cogniread-modal-slide-up 0.3s ease !important;
+}
+
+@keyframes cogniread-modal-slide-up {
+  from {
+    transform: translateY(20px) !important;
+    opacity: 0 !important;
+  }
+  to {
+    transform: translateY(0) !important;
+    opacity: 1 !important;
+  }
+}
+
+.cogniread-ai-modal-header {
+  padding: 20px 24px !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  background: var(--bg-surface) !important;
+}
+
+.cogniread-ai-modal-header h3 {
+  margin: 0 !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  color: var(--text-primary) !important;
+}
+
+.cogniread-ai-modal-close {
+  background: transparent !important;
+  border: 2px solid transparent !important;
+  color: #5F6368 !important;
+  width: 24px !important;
+  height: 24px !important;
+  min-width: 24px !important;
+  min-height: 24px !important;
+  max-width: 24px !important;
+  max-height: 24px !important;
+  border-radius: 50% !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.2s ease !important;
+  font-size: 18px !important;
+  line-height: 1 !important;
+  padding: 0 !important;
+  font-weight: 400 !important;
+  opacity: 0.7 !important;
+  flex-shrink: 0 !important;
+}
+
+.cogniread-ai-modal-close:hover {
+  border-color: var(--btn-destructive-bg) !important;
+  opacity: 1 !important;
+  color: var(--btn-destructive-bg) !important;
+  background: transparent !important;
+}
+
+.cogniread-ai-modal-close:focus-visible {
+  outline: 2px solid #4185F4 !important;
+  outline-offset: 2px !important;
+}
+
+.cogniread-ai-modal-close svg {
+  width: 14px !important;
+  height: 14px !important;
+}
+
+/* Dark theme modal close button */
+html.cogniread-theme-dark .cogniread-ai-modal-close {
+  color: white !important;
+}
+
+html.cogniread-theme-dark .cogniread-ai-modal-close:hover {
+  color: var(--btn-destructive-bg) !important;
+}
+
+.cogniread-ai-modal-body {
+  padding: 24px !important;
+  overflow-y: auto !important;
+  flex: 1 !important;
+}
+
+.cogniread-ai-modal-intro {
+  font-size: 14px !important;
+  color: var(--text-secondary) !important;
+  margin-bottom: 16px !important;
+}
+
+/* Prerequisites List */
+.cogniread-prerequisites-list {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.cogniread-prerequisite-item {
+  background: var(--bg-surface) !important;
+  border-left: 3px solid #4185F4 !important;
+  padding: 16px !important;
+  margin-bottom: 12px !important;
+  border-radius: 8px !important;
+}
+
+.cogniread-prerequisite-name {
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  color: var(--text-primary) !important;
+  margin-bottom: 8px !important;
+}
+
+.cogniread-prerequisite-why {
+  font-size: 13px !important;
+  color: var(--text-secondary) !important;
+  margin-bottom: 8px !important;
+  line-height: 1.5 !important;
+}
+
+.cogniread-prerequisite-level {
+  display: inline-block !important;
+  padding: 4px 10px !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  border-radius: 12px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+.cogniread-prerequisite-level {
+  background: #e3f2fd !important;
+  color: #1976d2 !important;
+}
+
+/* Reading Goals Modal */
+.cogniread-reading-meta {
+  display: flex !important;
+  gap: 12px !important;
+  margin-bottom: 20px !important;
+}
+
+.cogniread-difficulty-badge {
+  padding: 6px 14px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  border-radius: 16px !important;
+  text-transform: capitalize !important;
+}
+
+.cogniread-difficulty-easy {
+  background: #c8e6c9 !important;
+  color: #2e7d32 !important;
+}
+
+.cogniread-difficulty-medium {
+  background: #fff9c4 !important;
+  color: #f57f17 !important;
+}
+
+.cogniread-difficulty-hard {
+  background: #ffcdd2 !important;
+  color: #c62828 !important;
+}
+
+.cogniread-time-estimate {
+  padding: 6px 14px !important;
+  background: var(--bg-surface) !important;
+  border-radius: 16px !important;
+  font-size: 12px !important;
+  color: var(--text-secondary) !important;
+  font-weight: 500 !important;
+}
+
+.cogniread-goals-list {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 12px 0 20px 0 !important;
+}
+
+.cogniread-goals-list li {
+  padding: 10px 0 10px 28px !important;
+  position: relative !important;
+  font-size: 14px !important;
+  color: var(--text-primary) !important;
+  line-height: 1.6 !important;
+}
+
+.cogniread-goals-list li::before {
+  content: '✓' !important;
+  position: absolute !important;
+  left: 0 !important;
+  color: #34A853 !important;
+  font-weight: bold !important;
+  font-size: 16px !important;
+}
+
+.cogniread-topics-tags {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+  margin-top: 12px !important;
+}
+
+.cogniread-topic-tag {
+  padding: 6px 12px !important;
+  background: var(--bg-surface) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 16px !important;
+  font-size: 12px !important;
+  color: var(--text-primary) !important;
+  font-weight: 500 !important;
+}
+
+/* Concept Connections */
+.cogniread-concept-link {
+  position: relative !important;
+  background: rgba(65, 133, 244, 0.1) !important;
+  border-bottom: 2px dotted #4185F4 !important;
+  cursor: help !important;
+  transition: all 0.2s ease !important;
+}
+
+.cogniread-concept-link:hover {
+  background: rgba(65, 133, 244, 0.2) !important;
+}
+
+.cogniread-concept-marker {
+  font-size: 10px !important;
+  color: #4185F4 !important;
+  margin-left: 2px !important;
+}
+
+/* Plain Language Translation */
+.cogniread-plain-language {
+  background: rgba(156, 39, 176, 0.05) !important;
+  border-left: 3px solid #9C27B0 !important;
+  padding-left: 12px !important;
+  position: relative !important;
+}
+
+/* Analogy Modal Specific */
+.cogniread-analogy-original {
+  background: var(--bg-surface) !important;
+  padding: 16px !important;
+  border-radius: 8px !important;
+  margin-bottom: 16px !important;
+}
+
+.cogniread-analogy-original strong {
+  font-size: 12px !important;
+  color: var(--text-secondary) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  display: block !important;
+  margin-bottom: 8px !important;
+}
+
+.cogniread-analogy-original p {
+  font-size: 14px !important;
+  color: var(--text-primary) !important;
+  margin: 0 !important;
+  line-height: 1.6 !important;
+}
+
+.cogniread-analogy-result {
+  min-height: 100px !important;
+}
+
+.cogniread-analogy-text {
+  font-size: 15px !important;
+  color: var(--text-primary) !important;
+  line-height: 1.7 !important;
+  margin: 0 !important;
+  padding: 16px !important;
+  background: var(--bg-surface) !important;
+  border-left: 4px solid #00BCD4 !important;
+  border-radius: 8px !important;
+}
+
+.cogniread-error-text {
+  color: #d32f2f !important;
+  font-size: 14px !important;
+  padding: 16px !important;
+  background: rgba(211, 47, 47, 0.1) !important;
+  border-radius: 8px !important;
+  border-left: 4px solid #d32f2f !important;
+}
+
+/* Loading Spinner for Modals */
+.cogniread-loading-spinner {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 40px !important;
+  color: transparent !important;
+  font-size: 0 !important;
+  position: relative !important;
+}
+
+.cogniread-loading-spinner::before {
+  content: '' !important;
+  width: 40px !important;
+  height: 40px !important;
+  border: 4px solid var(--border-color) !important;
+  border-top-color: #4185F4 !important;
+  border-right-color: #4185F4 !important;
+  border-radius: 50% !important;
+  animation: cogniread-spin 0.8s linear infinite !important;
+  position: absolute !important;
+}
+
+.cogniread-loading-spinner::after {
+  content: '' !important;
+  width: 28px !important;
+  height: 28px !important;
+  border: 3px solid transparent !important;
+  border-bottom-color: rgba(156, 39, 176, 0.6) !important;
+  border-left-color: rgba(156, 39, 176, 0.6) !important;
+  border-radius: 50% !important;
+  animation: cogniread-spin-reverse 1.2s linear infinite !important;
+  position: absolute !important;
+}
+
+@keyframes cogniread-spin-reverse {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+/* Dark Theme for AI Features */
+html.cogniread-theme-dark .cogniread-ai-modal-content {
+  background: #1A1A1A !important;
+}
+
+html.cogniread-theme-dark .cogniread-ai-modal-header {
+  background: #2D2D2D !important;
+  border-bottom-color: #3A3A3A !important;
+}
+
+html.cogniread-theme-dark .cogniread-ai-modal-header h3 {
+  color: #FFFFFF !important;
+}
+
+html.cogniread-theme-dark .cogniread-ai-modal-body {
+  color: #FFFFFF !important;
+}
+
+html.cogniread-theme-dark .cogniread-ai-modal-intro {
+  color: #A0A0A0 !important;
+}
+
+html.cogniread-theme-dark .cogniread-prerequisite-item {
+  background: #2D2D2D !important;
+}
+
+html.cogniread-theme-dark .cogniread-prerequisite-name {
+  color: #FFFFFF !important;
+}
+
+html.cogniread-theme-dark .cogniread-prerequisite-why {
+  color: #A0A0A0 !important;
+}
+
+html.cogniread-theme-dark .cogniread-prerequisite-level {
+  background: #1565c0 !important;
+  color: #bbdefb !important;
+}
+
+html.cogniread-theme-dark .cogniread-difficulty-easy {
+  background: #2e7d32 !important;
+  color: #c8e6c9 !important;
+}
+
+html.cogniread-theme-dark .cogniread-difficulty-medium {
+  background: #f57f17 !important;
+  color: #fff9c4 !important;
+}
+
+html.cogniread-theme-dark .cogniread-difficulty-hard {
+  background: #c62828 !important;
+  color: #ffcdd2 !important;
+}
+
+html.cogniread-theme-dark .cogniread-time-estimate {
+  background: #2D2D2D !important;
+  color: #A0A0A0 !important;
+}
+
+html.cogniread-theme-dark .cogniread-goals-list li {
+  color: #FFFFFF !important;
+}
+
+html.cogniread-theme-dark .cogniread-topic-tag {
+  background: #2D2D2D !important;
+  border-color: #3A3A3A !important;
+  color: #FFFFFF !important;
+}
+
+html.cogniread-theme-dark .cogniread-section-title {
+  color: #FFFFFF !important;
+}
+
+/* Responsive Modal */
+@media (max-width: 768px) {
+  .cogniread-ai-modal-content {
+    max-width: 100% !important;
+    max-height: 90vh !important;
+    border-radius: 16px 16px 0 0 !important;
+    align-self: flex-end !important;
+  }
+
+  .cogniread-ai-modal-body {
+    padding: 16px !important;
+  }
+}
+
+/* ============================================ */
+/* DISTRACTION-FREE READING MODE               */
+/* ============================================ */
+
+.cogniread-distraction-free {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  background: #fafafa !important;
+  color: #1a1a1a !important;
+  overflow-y: auto !important;
+  z-index: 2147483647 !important;
+  font-family: Georgia, Charter, 'Times New Roman', serif !important;
+  line-height: 1.7 !important;
+  letter-spacing: 0.01em !important;
+  word-spacing: 0.05em !important;
+}
+
+/* Dark theme */
+.cogniread-distraction-free[data-theme="dark"] {
+  background: #1a1a1a !important;
+  color: #ffffff !important;
+}
+
+/* Sepia theme */
+.cogniread-distraction-free[data-theme="sepia"] {
+  background: #f4ecd8 !important;
+  color: #5b4636 !important;
+}
+
+/* High contrast theme */
+.cogniread-distraction-free[data-theme="high-contrast"] {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+/* Font family variants */
+.cogniread-distraction-free[data-font-family="serif"] {
+  font-family: Georgia, Charter, 'Times New Roman', serif !important;
+}
+
+.cogniread-distraction-free[data-font-family="sans"] {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
+}
+
+.cogniread-distraction-free[data-font-family="dyslexic"] {
+  font-family: OpenDyslexic, Arial, sans-serif !important;
+}
+
+/* Content wrapper */
+.cogniread-df-wrapper {
+  max-width: 100% !important;
+  padding: 2rem 1.5rem !important;
+  margin: 0 auto !important;
+}
+
+/* Content container */
+.cogniread-df-content {
+  margin: 0 auto !important;
+  padding: 2rem 1.5rem !important;
+}
+
+.cogniread-df-content p {
+  margin-bottom: 1.5em !important;
+  text-align: left !important;
+}
+
+.cogniread-df-content h1 {
+  font-size: 2.5rem !important;
+  line-height: 1.2 !important;
+  margin-bottom: 0.5rem !important;
+  font-weight: 700 !important;
+  color: inherit !important;
+}
+
+.cogniread-df-content h2 {
+  font-size: 1.75rem !important;
+  margin-top: 2.5rem !important;
+  margin-bottom: 1rem !important;
+  font-weight: 600 !important;
+  color: inherit !important;
+}
+
+.cogniread-df-content h3 {
+  font-size: 1.5rem !important;
+  margin-top: 2rem !important;
+  margin-bottom: 0.75rem !important;
+  font-weight: 600 !important;
+  color: inherit !important;
+}
+
+.cogniread-df-content h4,
+.cogniread-df-content h5,
+.cogniread-df-content h6 {
+  font-size: 1.25rem !important;
+  margin-top: 1.5rem !important;
+  margin-bottom: 0.5rem !important;
+  font-weight: 600 !important;
+  color: inherit !important;
+}
+
+.cogniread-df-content a {
+  color: #2563eb !important;
+  text-decoration: underline !important;
+  text-decoration-thickness: 1px !important;
+  text-underline-offset: 2px !important;
+}
+
+.cogniread-distraction-free[data-theme="dark"] .cogniread-df-content a {
+  color: #6ba3ff !important;
+}
+
+.cogniread-distraction-free[data-theme="high-contrast"] .cogniread-df-content a {
+  color: #ffff00 !important;
+  text-decoration-thickness: 2px !important;
+}
+
+.cogniread-df-content ul,
+.cogniread-df-content ol {
+  padding-left: 2em !important;
+  margin-bottom: 1.5em !important;
+}
+
+.cogniread-df-content li {
+  margin-bottom: 0.5em !important;
+}
+
+.cogniread-df-content blockquote {
+  border-left: 4px solid #ccc !important;
+  padding-left: 1.5rem !important;
+  margin: 1.5rem 0 !important;
+  font-style: italic !important;
+  color: #666 !important;
+}
+
+.cogniread-distraction-free[data-theme="dark"] .cogniread-df-content blockquote {
+  border-left-color: #555 !important;
+  color: #cccccc !important;
+}
+
+/* Article meta */
+.cogniread-df-article-meta {
+  text-align: center !important;
+  margin-bottom: 3rem !important;
+  padding-bottom: 2rem !important;
+  border-bottom: 1px solid #e0e0e0 !important;
+}
+
+.cogniread-distraction-free[data-theme="dark"] .cogniread-df-article-meta {
+  border-bottom-color: #333 !important;
+}
+
+.cogniread-df-meta-info {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.75rem !important;
+  font-size: 0.875rem !important;
+  color: #666 !important;
+}
+
+.cogniread-distraction-free[data-theme="dark"] .cogniread-df-meta-info {
+  color: #cccccc !important;
+}
+
+/* Image and video placeholders */
+.cogniread-df-image-placeholder,
+.cogniread-df-video-placeholder {
+  display: inline-block !important;
+  padding: 0.75rem 1.5rem !important;
+  margin: 1.5rem 0 !important;
+  background: #f0f0f0 !important;
+  border: 2px dashed #ccc !important;
+  border-radius: 8px !important;
+  color: #666 !important;
+  cursor: pointer !important;
+  font-size: 0.875rem !important;
+  transition: all 0.2s ease !important;
+}
+
+.cogniread-df-image-placeholder:hover,
+.cogniread-df-video-placeholder:hover {
+  background: #e5e5e5 !important;
+  border-color: #999 !important;
+  color: #333 !important;
+}
+
+.cogniread-distraction-free[data-theme="dark"] .cogniread-df-image-placeholder,
+.cogniread-distraction-free[data-theme="dark"] .cogniread-df-video-placeholder {
+  background: #2d2d2d !important;
+  border-color: #444 !important;
+  color: #999 !important;
+}
+
+.cogniread-distraction-free[data-theme="dark"] .cogniread-df-image-placeholder:hover,
+.cogniread-distraction-free[data-theme="dark"] .cogniread-df-video-placeholder:hover {
+  background: #3a3a3a !important;
+  border-color: #666 !important;
+  color: #ccc !important;
+}
+
+/* Controls (exit button, font controls, theme toggle) */
+.cogniread-df-controls {
+  position: fixed !important;
+  top: 1rem !important;
+  right: 1rem !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 1rem !important;
+  z-index: 2147483648 !important;
+}
+
+.cogniread-df-exit {
+  padding: 0.5rem 1rem !important;
+  background: rgba(0, 0, 0, 0.8) !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  font-size: 0.875rem !important;
+  transition: background 0.2s ease !important;
+}
+
+.cogniread-df-exit:hover {
+  background: rgba(0, 0, 0, 0.95) !important;
+}
+
+.cogniread-df-settings {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  background: rgba(0, 0, 0, 0.8) !important;
+  padding: 0.5rem !important;
+  border-radius: 6px !important;
+}
+
+.cogniread-df-font-decrease,
+.cogniread-df-font-increase,
+.cogniread-df-theme-toggle {
+  padding: 0.5rem 0.75rem !important;
+  background: transparent !important;
+  color: white !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+  font-size: 0.875rem !important;
+  transition: all 0.2s ease !important;
+}
+
+.cogniread-df-font-decrease:hover,
+.cogniread-df-font-increase:hover,
+.cogniread-df-theme-toggle:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Reading progress bar */
+.cogniread-df-progress {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 4px !important;
+  background: rgba(0, 0, 0, 0.1) !important;
+  z-index: 2147483648 !important;
+}
+
+.cogniread-df-progress-bar {
+  height: 100% !important;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%) !important;
+  transition: width 0.2s ease !important;
+  width: 0% !important;
+}
+
+.cogniread-df-progress-text {
+  position: fixed !important;
+  top: 1rem !important;
+  left: 1rem !important;
+  padding: 0.5rem 1rem !important;
+  background: rgba(0, 0, 0, 0.8) !important;
+  color: white !important;
+  border-radius: 6px !important;
+  font-size: 0.875rem !important;
+  z-index: 2147483648 !important;
+}
+
+/* Image modal */
+.cogniread-df-image-modal {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  background: rgba(0, 0, 0, 0.9) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 2147483649 !important;
+  padding: 2rem !important;
+}
+
+.cogniread-df-image-modal-content {
+  position: relative !important;
+  max-width: 90% !important;
+  max-height: 90% !important;
+  background: white !important;
+  border-radius: 8px !important;
+  padding: 2rem !important;
+}
+
+.cogniread-df-image-modal-content img {
+  max-width: 100% !important;
+  max-height: 70vh !important;
+  display: block !important;
+  margin: 0 auto !important;
+}
+
+.cogniread-df-image-modal-close {
+  position: absolute !important;
+  top: 1rem !important;
+  right: 1rem !important;
+  background: rgba(0, 0, 0, 0.8) !important;
+  color: white !important;
+  border: none !important;
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 50% !important;
+  font-size: 1.5rem !important;
+  line-height: 1 !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.cogniread-df-image-modal-close:hover {
+  background: rgba(0, 0, 0, 0.95) !important;
+}
+
+.cogniread-df-image-caption {
+  margin-top: 1rem !important;
+  text-align: center !important;
+  color: #666 !important;
+  font-size: 0.875rem !important;
+}

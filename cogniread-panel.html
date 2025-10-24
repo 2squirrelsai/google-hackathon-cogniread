@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CogniRead Panel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        /* Container for demo purposes */
+        .demo-container {
+            position: relative;
+            height: 400px;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        /* Minimized State - Corner Pill */
+        .cogniread-mini {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #667eea 0%, #313F2C 100%);
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10000;
+        }
+
+        .cogniread-mini:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 16px rgba(102, 126, 234, 0.5);
+        }
+
+        .cogniread-mini .icon {
+            font-size: 24px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+
+        .cogniread-mini .badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: #ff4757;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        /* Mini tooltip on hover */
+        .cogniread-mini .mini-tooltip {
+            position: absolute;
+            right: 70px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .cogniread-mini:hover .mini-tooltip {
+            opacity: 1;
+        }
+
+        .mini-tooltip::after {
+            content: '';
+            position: absolute;
+            right: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-left: 6px solid rgba(0, 0, 0, 0.9);
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+        }
+
+        /* Expanded State - Full Panel */
+        .cogniread-panel {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 240px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            z-index: 10000;
+            display: none;
+        }
+
+        .cogniread-panel.expanded {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Header */
+        .panel-header {
+            background: linear-gradient(135deg, #667eea 0%, #313F2C 100%);
+            color: white;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .panel-header .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .panel-header .minimize-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+            font-size: 18px;
+            line-height: 1;
+        }
+
+        .panel-header .minimize-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Panel Content */
+        .panel-content {
+            padding: 16px;
+        }
+
+        /* Reading Level Slider */
+        .slider-section {
+            margin-bottom: 16px;
+        }
+
+        .slider-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .slider-value {
+            font-size: 12px;
+            color: #667eea;
+            font-weight: 500;
+            margin-top: 6px;
+            display: block;
+        }
+
+        .slider {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: #e0e0e0;
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .slider::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        /* Divider */
+        .divider {
+            height: 1px;
+            background: #e0e0e0;
+            margin: 12px 0;
+        }
+
+        /* Toggle Items */
+        .toggle-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .toggle-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 6px 0;
+            position: relative;
+        }
+
+        .toggle-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #333;
+            cursor: help;
+            flex: 1;
+        }
+
+        .toggle-label .info-icon {
+            color: #999;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .toggle-label:hover .info-icon {
+            color: #667eea;
+        }
+
+        /* Custom Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            width: 40px;
+            height: 22px;
+            background: #e0e0e0;
+            border-radius: 11px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 16px;
+            height: 16px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .toggle-item input[type="checkbox"] {
+            display: none;
+        }
+
+        .toggle-item input[type="checkbox"]:checked + .toggle-switch {
+            background: #667eea;
+        }
+
+        .toggle-item input[type="checkbox"]:checked + .toggle-switch::after {
+            transform: translateX(18px);
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: absolute;
+            left: 0;
+            bottom: 100%;
+            margin-bottom: 8px;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 8px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            line-height: 1.4;
+            width: 200px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+            z-index: 1000;
+        }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            left: 20px;
+            bottom: -5px;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid rgba(0, 0, 0, 0.9);
+        }
+
+        .toggle-label:hover .tooltip {
+            opacity: 1;
+        }
+
+        /* Keyboard Shortcut Badge */
+        .shortcut-badge {
+            background: #f0f0f0;
+            color: #666;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-family: monospace;
+            margin-left: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h2>CogniRead Extension Demo</h2>
+        <p>The control panel will appear in the top-right corner. Click it to expand/minimize.</p>
+    </div>
+
+    <!-- Minimized State -->
+    <div class="cogniread-mini" id="miniPanel">
+        <span class="icon">📖</span>
+        <span class="badge" id="activeBadge">3</span>
+        <div class="mini-tooltip">
+            <strong>CogniRead Active</strong><br>
+            Click to configure
+        </div>
+    </div>
+
+    <!-- Expanded State -->
+    <div class="cogniread-panel" id="expandedPanel">
+        <div class="panel-header">
+            <div class="logo">
+                <span>📖</span>
+                <span>CogniRead</span>
+            </div>
+            <button class="minimize-btn" id="minimizeBtn">─</button>
+        </div>
+        
+        <div class="panel-content">
+            <!-- Reading Level Slider -->
+            <div class="slider-section">
+                <label class="slider-label">Reading Level</label>
+                <input type="range" min="1" max="5" value="3" class="slider" id="readingLevel">
+                <span class="slider-value" id="levelText">College Freshman</span>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Toggle Features -->
+            <div class="toggle-list">
+                <!-- Focus Mode -->
+                <div class="toggle-item">
+                    <label class="toggle-label">
+                        <span>Focus Mode</span>
+                        <span class="info-icon">ⓘ</span>
+                        <div class="tooltip">
+                            Highlights the current sentence and dims surrounding text to improve concentration
+                        </div>
+                    </label>
+                    <input type="checkbox" id="focusMode" checked>
+                    <label for="focusMode" class="toggle-switch"></label>
+                </div>
+
+                <!-- TL;DR Mode -->
+                <div class="toggle-item">
+                    <label class="toggle-label">
+                        <span>TL;DR Mode</span>
+                        <span class="info-icon">ⓘ</span>
+                        <div class="tooltip">
+                            Generates concise summaries of lengthy paragraphs for quick comprehension
+                        </div>
+                    </label>
+                    <input type="checkbox" id="tldrMode">
+                    <label for="tldrMode" class="toggle-switch"></label>
+                </div>
+
+                <!-- Dyslexia-Friendly -->
+                <div class="toggle-item">
+                    <label class="toggle-label">
+                        <span>Dyslexia-Friendly</span>
+                        <span class="info-icon">ⓘ</span>
+                        <div class="tooltip">
+                            Applies OpenDyslexic font and increased spacing to enhance readability for dyslexic users
+                        </div>
+                    </label>
+                    <input type="checkbox" id="dyslexiaMode">
+                    <label for="dyslexiaMode" class="toggle-switch"></label>
+                </div>
+
+                <!-- Show Definitions -->
+                <div class="toggle-item">
+                    <label class="toggle-label">
+                        <span>Show Definitions</span>
+                        <span class="info-icon">ⓘ</span>
+                        <div class="tooltip">
+                            Displays instant definitions when you hover over complex words
+                        </div>
+                    </label>
+                    <input type="checkbox" id="definitionsMode">
+                    <label for="definitionsMode" class="toggle-switch"></label>
+                </div>
+
+                <!-- Literal Language -->
+                <div class="toggle-item">
+                    <label class="toggle-label">
+                        <span>Literal Language</span>
+                        <span class="info-icon">ⓘ</span>
+                        <div class="tooltip">
+                            Explains idioms, metaphors, and figurative language in plain terms
+                        </div>
+                    </label>
+                    <input type="checkbox" id="literalMode" checked>
+                    <label for="literalMode" class="toggle-switch"></label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Elements
+        const miniPanel = document.getElementById('miniPanel');
+        const expandedPanel = document.getElementById('expandedPanel');
+        const minimizeBtn = document.getElementById('minimizeBtn');
+        const activeBadge = document.getElementById('activeBadge');
+        const readingLevel = document.getElementById('readingLevel');
+        const levelText = document.getElementById('levelText');
+
+        // Reading level labels
+        const levelLabels = {
+            1: 'Elementary School',
+            2: 'Middle School',
+            3: 'High School',
+            4: 'College Freshman',
+            5: 'Graduate Level'
+        };
+
+        // Toggle panel
+        miniPanel.addEventListener('click', () => {
+            miniPanel.style.display = 'none';
+            expandedPanel.classList.add('expanded');
+        });
+
+        minimizeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            expandedPanel.classList.remove('expanded');
+            setTimeout(() => {
+                expandedPanel.style.display = 'none';
+                miniPanel.style.display = 'flex';
+            }, 300);
+        });
+
+        // Update reading level text
+        readingLevel.addEventListener('input', (e) => {
+            levelText.textContent = levelLabels[e.target.value];
+        });
+
+        // Update active features badge
+        function updateBadge() {
+            const checkboxes = document.querySelectorAll('.toggle-item input[type="checkbox"]');
+            const activeCount = Array.from(checkboxes).filter(cb => cb.checked).length;
+            activeBadge.textContent = activeCount;
+            activeBadge.style.display = activeCount > 0 ? 'flex' : 'none';
+        }
+
+        // Listen to all checkbox changes
+        document.querySelectorAll('.toggle-item input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', updateBadge);
+        });
+
+        // Initialize badge
+        updateBadge();
+
+        // Prevent panel from closing when clicking inside
+        expandedPanel.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    </script>
+</body>
+</html>
