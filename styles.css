@@ -2954,6 +2954,15 @@ html.cogniread-theme-dark .cogniread-theme-selector button[data-tooltip]::after 
   border-top-color: rgba(255, 255, 255, 0.95) !important;
 }
 
+/* Counter-rotate escape hatch tooltip to keep it stationary while button rotates */
+.cogniread-escape-hatch:hover::before {
+  transform: translateX(-50%) translateY(0) rotate(-90deg) !important;
+}
+
+.cogniread-escape-hatch:hover::after {
+  transform: translateX(-50%) translateY(0) rotate(-90deg) !important;
+}
+
 /* ===== Close Confirmation Modal ===== */
 
 /* Modal Overlay */
