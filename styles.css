@@ -633,7 +633,7 @@ html.cogniread-theme-dark .cogniread-mini:hover {
   width: 18px !important;
   height: 18px !important;
   border-radius: 50% !important;
-  display: flex !important;
+  display: none !important;
   align-items: center !important;
   justify-content: center !important;
   font-size: 8px !important;
