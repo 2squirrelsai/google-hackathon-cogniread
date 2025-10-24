@@ -3526,7 +3526,12 @@ class CogniRead {
   // Update theme selector to show starred features as quick access buttons
   updateThemeSelectorStarredFeatures() {
     const themeSelector = document.querySelector('.cogniread-theme-selector');
-    if (!themeSelector) return;
+    if (!themeSelector) {
+      console.warn('Theme selector not found, cannot update starred features');
+      return;
+    }
+
+    console.log('Updating starred features in theme selector:', this.state.starredFeatures);
 
     // Remove existing starred feature buttons (except theme and position toggles)
     const existingStarredBtns = themeSelector.querySelectorAll('[data-starred-feature]');
@@ -3550,7 +3555,10 @@ class CogniRead {
     // Add quick access buttons for each starred feature
     this.state.starredFeatures.forEach(featureName => {
       const metadata = featureMetadata[featureName];
-      if (!metadata) return;
+      if (!metadata) {
+        console.warn(`No metadata found for starred feature: ${featureName}`);
+        return;
+      }
 
       const quickToggle = document.createElement('button');
       quickToggle.className = 'cogniread-theme-quick-toggle';
@@ -3561,15 +3569,24 @@ class CogniRead {
 
       // Check if feature is currently active
       const mainToggle = document.getElementById(metadata.toggleId);
-      if (mainToggle && mainToggle.classList.contains('active')) {
+      if (!mainToggle) {
+        console.warn(`Main toggle not found for feature ${featureName} with ID: ${metadata.toggleId}`);
+      } else if (mainToggle.classList.contains('active')) {
         quickToggle.setAttribute('data-active', 'true');
       }
 
       // Add click handler to toggle the feature
       quickToggle.addEventListener('click', () => {
+        console.log(`Quick toggle clicked for feature: ${featureName}`);
+        console.log(`Looking for toggle with ID: ${metadata.toggleId}`);
+        console.log(`mainToggle element:`, mainToggle);
+
         if (mainToggle) {
+          console.log(`Clicking main toggle for ${featureName}`);
           mainToggle.click();
           // Quick toggle state will be updated automatically by updateQuickToggleStates()
+        } else {
+          console.error(`No main toggle found for feature: ${featureName}, ID: ${metadata.toggleId}`);
         }
       });
 
