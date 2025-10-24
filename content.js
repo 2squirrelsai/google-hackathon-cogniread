@@ -493,12 +493,7 @@ class CogniRead {
 
       <!-- Theme Selector Footer (Outside scrollable area) -->
       <div class="cogniread-theme-selector">
-        <button class="cogniread-focus-mode-quick-toggle" id="cogniread-focus-mode-quick-toggle" data-active="false" title="Toggle Focus Mode">
-          <svg class="cogniread-focus-mode-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" fill="currentColor"/>
-          </svg>
-        </button>
-        <button class="cogniread-theme-quick-toggle" id="cogniread-distraction-free-quick-toggle" data-active="false" title="Toggle Distraction-Free Mode">📖</button>
+        <!-- Starred feature buttons will be dynamically inserted here -->
         <button class="cogniread-theme-toggle" id="cogniread-theme-toggle" data-theme="light" title="Toggle theme">
           <svg class="cogniread-theme-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <g class="theme-sun">
@@ -518,7 +513,7 @@ class CogniRead {
             <rect x="14" y="14" width="6" height="6" fill="currentColor" opacity="0.3" rx="1"/>
           </svg>
         </button>
-        <button class="cogniread-escape-hatch" id="cogniread-escape-hatch" title="Reset All Features">
+        <button class="cogniread-escape-hatch" id="cogniread-escape-hatch" title="Reset All Features" style="display: none;">
           <svg class="cogniread-escape-hatch-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" fill="currentColor"/>
             <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2" opacity="0.3"/>
@@ -1013,56 +1008,6 @@ class CogniRead {
       heatmapToggle.addEventListener('click', () => {
         const isActive = heatmapToggle.classList.toggle('active');
         this.toggleCognitiveHeatmap(isActive);
-        this.updateActiveBadge();
-      });
-    }
-
-    // Focus Mode quick toggle button
-    const focusModeQuickToggle = document.getElementById('cogniread-focus-mode-quick-toggle');
-    if (focusModeQuickToggle) {
-      focusModeQuickToggle.addEventListener('click', async () => {
-        const isActive = !this.state.focusMode;
-        const focusModeToggle = document.getElementById('cogniread-focus-mode-toggle');
-
-        // Sync with the main toggle
-        if (focusModeToggle) {
-          if (isActive) {
-            focusModeToggle.classList.add('active');
-          } else {
-            focusModeToggle.classList.remove('active');
-          }
-        }
-
-        // Update quick toggle state
-        focusModeQuickToggle.setAttribute('data-active', isActive.toString());
-
-        // Toggle focus mode
-        await this.toggleFocusMode(isActive);
-        this.updateActiveBadge();
-      });
-    }
-
-    // Distraction-Free Mode quick toggle button
-    const distractionFreeQuickToggle = document.getElementById('cogniread-distraction-free-quick-toggle');
-    if (distractionFreeQuickToggle) {
-      distractionFreeQuickToggle.addEventListener('click', async () => {
-        const isActive = !this.state.distractionFree;
-        const distractionFreeToggle = document.getElementById('cogniread-distraction-free-toggle');
-
-        // Sync with the main toggle
-        if (distractionFreeToggle) {
-          if (isActive) {
-            distractionFreeToggle.classList.add('active');
-          } else {
-            distractionFreeToggle.classList.remove('active');
-          }
-        }
-
-        // Update quick toggle state
-        distractionFreeQuickToggle.setAttribute('data-active', isActive.toString());
-
-        // Toggle distraction-free mode
-        await this.toggleDistractionFreeMode(isActive);
         this.updateActiveBadge();
       });
     }
@@ -2959,14 +2904,16 @@ class CogniRead {
       headerCount.style.display = activeCount > 0 ? 'inline' : 'none';
     }
 
-    // Update escape hatch button state
+    // Update escape hatch button state and visibility
     const escapeHatch = document.getElementById('cogniread-escape-hatch');
     if (escapeHatch) {
       if (activeCount > 0) {
         escapeHatch.classList.add('has-active-features');
+        escapeHatch.style.display = '';  // Show button
         escapeHatch.title = `Reset All Features (${activeCount} active)`;
       } else {
         escapeHatch.classList.remove('has-active-features');
+        escapeHatch.style.display = 'none';  // Hide button
         escapeHatch.title = 'Reset All Features';
       }
     }
@@ -3608,19 +3555,7 @@ class CogniRead {
 
   // Update all quick toggle button states to match their feature states
   updateQuickToggleStates() {
-    // Update focus-mode-quick-toggle (original built-in toggle)
-    const focusModeQuickToggle = document.getElementById('cogniread-focus-mode-quick-toggle');
-    if (focusModeQuickToggle) {
-      focusModeQuickToggle.setAttribute('data-active', this.state.focusMode.toString());
-    }
-
-    // Update distraction-free-quick-toggle (built-in toggle)
-    const distractionFreeQuickToggle = document.getElementById('cogniread-distraction-free-quick-toggle');
-    if (distractionFreeQuickToggle) {
-      distractionFreeQuickToggle.setAttribute('data-active', this.state.distractionFree.toString());
-    }
-
-    // Update all starred feature quick toggles
+    // Update all starred feature quick toggles (dynamically generated)
     const starredQuickToggles = document.querySelectorAll('[data-starred-feature]');
     const featureStateMap = {
       'focus-mode': this.state.focusMode,
