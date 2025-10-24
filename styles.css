@@ -2518,7 +2518,7 @@ html.cogniread-theme-dark .cogniread-toggle-switch {
   z-index: 10 !important;
   min-height: 68px !important;
   box-sizing: border-box !important;
-  position: relative !important;
+  flex-wrap: wrap !important;
 }
 
 /* Group theme buttons on left, close button stays on right */
