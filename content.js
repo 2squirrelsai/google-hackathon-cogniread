@@ -288,21 +288,6 @@ class CogniRead {
             </div>
           </div>
           <div class="cogniread-section-content">
-            <!-- Concept Connections -->
-            <div class="cogniread-feature-item">
-              <div class="cogniread-feature-left">
-                <span class="cogniread-feature-icon" data-tooltip="Links related concepts together for better understanding">🔗</span>
-                <span class="cogniread-feature-label">Concept Connections</span>
-              </div>
-              <div class="cogniread-feature-right">
-                <button class="cogniread-star-btn" data-feature="concept-connections" data-starred="false" title="Pin to quick access">
-                  <svg class="star-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="currentColor"/>
-                  </svg>
-                </button>
-                <div class="cogniread-toggle" id="cogniread-concept-toggle"></div>
-              </div>
-            </div>
             <!-- Plain Language Translation -->
             <div class="cogniread-feature-item">
               <div class="cogniread-feature-left">
@@ -978,16 +963,6 @@ class CogniRead {
     }
 
     // ===== AI-Powered Features Event Listeners =====
-
-    // Concept Connections toggle
-    const conceptToggle = document.getElementById('cogniread-concept-toggle');
-    if (conceptToggle) {
-      conceptToggle.addEventListener('click', () => {
-        const isActive = conceptToggle.classList.toggle('active');
-        this.toggleConceptConnections(isActive);
-        this.updateActiveBadge();
-      });
-    }
 
     // Plain Language select
     const plainLanguageSelect = document.getElementById('cogniread-plain-language-select');
@@ -3205,11 +3180,6 @@ class CogniRead {
       await this.toggleSentenceRestructuring(false);
     }
 
-    // Turn off Concept Connections
-    if (this.state.conceptConnections) {
-      this.toggleConceptConnections(false);
-    }
-
     // Turn off Cognitive Heatmap
     if (this.state.cognitiveHeatmap) {
       this.toggleCognitiveHeatmap(false);
@@ -3610,107 +3580,7 @@ class CogniRead {
 
   // ===== AI-Powered Features Implementation =====
 
-  // Feature 1: Concept Connections
-  async toggleConceptConnections(enabled) {
-    console.log('🔗 Concept Connections toggle:', enabled);
-    this.state.conceptConnections = enabled;
-    this.updateQuickToggleStates();
-
-    if (enabled) {
-      await this.enableConceptConnections();
-    } else {
-      this.disableConceptConnections();
-    }
-
-    await this.savePreferences();
-  }
-
-  async enableConceptConnections() {
-    console.log('🔗 Enabling Concept Connections...');
-
-    try {
-      await window.ensurePromptAPIReady();
-    } catch (error) {
-      alert(error.message);
-      return;
-    }
-
-    const loading = this.showLoading('Analyzing concepts...');
-
-    try {
-      // Get all paragraphs
-      const paragraphs = Array.from(document.querySelectorAll('p, h1, h2, h3, h4, h5, h6'))
-        .filter(p => p.textContent.trim().length > 50);
-
-      this.conceptMap = new Map();
-
-      // Analyze paragraphs in batches
-      for (let i = 0; i < Math.min(paragraphs.length, 15); i++) {
-        const para = paragraphs[i];
-        const text = para.textContent.substring(0, 500);
-        const existingConcepts = Array.from(this.conceptMap.keys());
-
-        const result = await window.cognireadPromptAPI.findConceptConnections(text, existingConcepts);
-
-        // Store concepts
-        result.concepts.forEach(concept => {
-          if (!this.conceptMap.has(concept.name)) {
-            this.conceptMap.set(concept.name, {
-              paragraphIndex: i,
-              element: para,
-              connectedTo: concept.connectedTo || []
-            });
-          }
-        });
-
-        // Add visual connections to existing concepts
-        result.concepts.forEach(concept => {
-          if (concept.connectedTo && concept.connectedTo.length > 0) {
-            this.addConceptLinks(para, concept.connectedTo);
-          }
-        });
-      }
-
-      console.log(`🔗 Found ${this.conceptMap.size} concepts with connections`);
-    } catch (error) {
-      console.error('Error enabling concept connections:', error);
-      alert('Failed to analyze concepts. Please try again.');
-    } finally {
-      this.hideLoading(loading);
-    }
-  }
-
-  addConceptLinks(element, connectedConcepts) {
-    // Add subtle indicators for connected concepts
-    connectedConcepts.forEach(conceptName => {
-      const conceptInfo = this.conceptMap.get(conceptName);
-      if (conceptInfo) {
-        const regex = new RegExp(`\\b${conceptName}\\b`, 'gi');
-        const text = element.textContent;
-        if (regex.test(text)) {
-          element.innerHTML = element.innerHTML.replace(regex, (match) => {
-            return `<span class="cogniread-concept-link" data-concept="${conceptName}" title="Related to earlier concept: ${conceptName}">
-              ${match}
-              <sup class="cogniread-concept-marker">🔗</sup>
-            </span>`;
-          });
-        }
-      }
-    });
-  }
-
-  disableConceptConnections() {
-    console.log('🔗 Disabling Concept Connections...');
-
-    // Remove all concept links
-    document.querySelectorAll('.cogniread-concept-link').forEach(link => {
-      link.outerHTML = link.textContent.replace(' 🔗', '');
-    });
-
-    this.conceptMap = new Map();
-  }
-
-  // Feature 2: Plain Language Translation
+  // Feature 1: Plain Language Translation
   async applyPlainLanguageTranslation(domain) {
     console.log('🌐 Plain Language Translation:', domain);
 
